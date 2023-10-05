@@ -5,8 +5,8 @@ const multer=require('multer') //require multer middleware module
 
 
 // multer middleware
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  const storage = multer.diskStorage({
+     destination: (req, file, cb) => {
     cb(null, 'Public/uploads/'); // Specify the destination folder
   },
   filename: (req, file, cb) => {
@@ -14,9 +14,9 @@ const storage = multer.diskStorage({
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     cb(null, uniqueSuffix + '-' + file.originalname); //file path
   },
-});
+  });
+  const upload = multer({ storage: storage }); // stored image detail
 
-const upload = multer({ storage: storage }); //multer 
 
 router.get("/adminlogin",admincontroller.adminlogin)
 router.get("/adminhome",admincontroller.adminhome)
@@ -26,10 +26,10 @@ router.post("/adminlogin",admincontroller.adminloginpost)
 
 router.get("/prodectdetails",admincontroller.prodectdetails)
 router.get("/addprodects",admincontroller.addprodects)
-router.post("/addprodects",upload.single('Image'),admincontroller.prodectdata) // passing multered image details
+router.post("/addprodects",upload.single('Image'),admincontroller.prodectdata) // passing multered prodect image details
 router.get("/categorydetails",admincontroller.categorydetails)
 router.get("/addcategorys",admincontroller.addcategorys)
-router.post("/addcategorys",admincontroller.categorydata)
+router.post("/addcategorys",upload.single('cImage'),admincontroller.categorydata)// passing multered category image details
 router.get("/prodectsearch",admincontroller.prodectsearch)
 router.get("/categorysearch",admincontroller.categorysearch)
 router.post("/deletecategory/:categoryId",admincontroller.deletecategory)

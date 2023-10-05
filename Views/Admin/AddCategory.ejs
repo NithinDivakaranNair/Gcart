@@ -197,7 +197,7 @@
         <div class="container mt-4">
             <h1>Add Category </h1>
        
-                <form action="/addcategorys" method="post">
+                <form action="/addcategorys"   method="post"   enctype="multipart/form-data" > <!--multer funtionality working (enctype="multipart/form-data") this code is adding for post methode-->
               
                 <div class="mb-3">
                     <label for="Category" class="form-label text-white">Category</label>
@@ -205,7 +205,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="Image" class="form-label text-white">Image</label>
-                    <textarea class="form-control text-white" id="Image" name="Image"></textarea>
+                    <input type="file" class="form-control" id="Image" name="cImage"><!--image choose button add-->
+
                 </div>
                 <div class="mb-3">
                     <label for="Description" class="form-label text-white">Description</label>

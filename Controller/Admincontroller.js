@@ -10,22 +10,28 @@ const Categorycollection=require("../Model/CategorySchema")
      return res.render("Admin/AddCategory")
     }
 
-//Categorydata add to mongodb
-       const categorydata=async(req,res)=>{
-       try{
-        const{Category,Image,Description}=req.body;
-        const newCategory=new Categorycollection({
-            Category,
-            Image,
-            Description
-        })
-        await newCategory.save(); // New category save in Category databasw
-        return res.redirect("/categorydetails");
 
-    }catch(error){
-        return res.status(500).send("Error during category data insertion ")
-    }
+
+//Categorydata add to mongodb
+const categorydata=async(req,res)=>{
+  try{
+   const{Category,Description}=req.body;
+  const Image=req.file.filename;// category image path assign in 'Image'variable
+  const newCategory=new Categorycollection({
+       Category,
+       Image,
+       Description
+   })
+   console.log(newCategory)
+
+   await newCategory.save(); // New category save in Category databasw
+   return res.redirect("/categorydetails");
+
+}catch(error){
+   return res.status(500).send("Error during category data insertion ")
 }
+}
+
 
 
 //Display categorydetails

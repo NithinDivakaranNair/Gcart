@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+    
+    <link rel="stylesheet" href="assets1/vendors/mdi/css/materialdesignicons.min.css"> 
+ 
 </head>
 
 <body>
@@ -95,26 +98,40 @@
                    </div>
 <!--END CATEGORY ADDING SPACE-->
 
-                <div class="col-lg-3">
-                    <div class="header__right">
-                        <div class="header__right__auth">
-                            <!-- <a href="/login">Login</a>
-                            <a href="/signup">SignUp</a> -->
-                            <a href="/logout">Logout</a>
 
-
-                        </div>
-                        <ul class="header__right__widget">
-                            <li><span class="icon_search search-switch"></span></li>
-                            <li><a href="#"><span class="icon_heart_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
-                        </ul>
+<!--top side bar start-->
+<div class="col-lg-3">
+    <div class="header__right">
+        <ul class="header__right__widget">
+            <li><span class="icon_search search-switch"></span></li>
+            <li><a href="#"><span class="icon_heart_alt"></span>
+                <!-- <div class="tip">2</div>
+            </a></li> -->
+            <li><a href="#"><span class="icon_bag_alt"></span>
+                <!-- <div class="tip">2</div> -->
+            </a></li>
+            <li>
+                <div x-data="{ open: false }" class="profile-pic" style="width: 30px; height: 30px;">
+                    <div class="count-indicator" x-on:click="open = !open">
+                        <img class="img-xs rounded-circle" src="assets1/images/faces/face15.jpg" alt="">
+                        <span class="count bg-success"></span>
+                    </div>
+                    <div class="profile-name" x-show="open">
+                        <h6 class="mb-0 font-weight-normal">USER</h6>
                     </div>
                 </div>
+            </li>
+            <li>
+                <div class="header__right__auth">
+                    <a href="/logout">Logout</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--top side bar end-->
+                    
+               
             </div>
             <div class="canvas__open">
                 <i class="fa fa-bars"></i>
@@ -135,7 +152,7 @@
                         <!-- <h1>Women’s fashion</h1>
                         <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
                         edolore magna aliquapendisse ultrices gravida.</p> -->
-                        <a href="#">Shop now</a>
+                        <!-- <a href="#">Shop now</a> -->
                     </div>
                 </div>
             </div>
@@ -146,7 +163,7 @@
                             <div class="categories__text">
                                 <!-- <h4>Men’s fashion</h4>
                                 <p>358 items</p> -->
-                                <a href="#">Shop now</a>
+                                <!-- <a href="#">Shop now</a> -->
                             </div>
                         </div>
                     </div>
@@ -155,7 +172,7 @@
                             <div class="categories__text">
                                 <!-- <h4>Kid’s fashion</h4>
                                 <p>273 items</p> -->
-                                <a href="#">Shop now</a>
+                                <!-- <a href="#">Shop now</a> -->
                             </div>
                         </div>
                     </div>
@@ -164,16 +181,16 @@
                             <div class="categories__text">
                                 <!-- <h4>Cosmetics</h4>
                                 <p>159 items</p> -->
-                                <a href="#">Shop now</a>
+                                <!-- <a href="#">Shop now</a> -->
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
                         <div class="categories__item set-bg" data-setbg="img/categories/pic5.jpg">
                             <div class="categories__text">
-                                <h4>Accessories</h4>
-                                <p>792 items</p>
-                                <a href="#">Shop now</a>
+                                <!-- <h4>Accessories</h4>
+                                <p>792 items</p> -->
+                                <!-- <a href="#">Shop now</a> -->
                             </div>
                         </div>
                     </div>
@@ -187,7 +204,7 @@
 
         
     </div> 
-       <!-- Product Section start -->
+<!-- Product Section start -->
         <section class="product spad">
             <div class="container">
                 <div class="row">
@@ -835,6 +852,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
+
 </body>
 
 </html> 

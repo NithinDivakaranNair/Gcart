@@ -200,7 +200,7 @@
         <div class="container mt-4">
             <h1>Add Products</h1>
     
-            <form action="/addprodects" method="post">
+            <form action="/addprodects" method="post" enctype="multipart/form-data">
                
                  <div class="mb-3">
                  <label for="Category" class="form-label">Category</label>
@@ -225,9 +225,10 @@
                     <textarea class="form-control text-white" id="Model" name="Model"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="Image" class="form-label text-white">Image</label>
-                    <textarea class="form-control text-white" id="Image" name="Image"></textarea>
+                  <label for="Image" class="form-label text-white">Image</label>
+                  <input type="file" class="form-control" id="Image" name="Image">
                 </div>
+                  
                 <div class="mb-3">
                     <label for="Description" class="form-label text-white">Description</label>
                     <textarea class="form-control text-white" id="Description" name="Description"></textarea>

@@ -213,13 +213,16 @@
             <div class="col-lg-3 col-md-4 col-sm-6 mix women">
                                  
                  <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="img/product/item1.jpg">
-                        <div class="label new">New</div>
+                    
+                    <div class="product__item__pic set-bg"  data-setbg="uploads/<%= data.Image %>"> <!--image adding for after multering process-->
+                         <div class="label new">New</div>
                         <ul class="product__hover">
-                            <li><a href="img/product/item1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                            <% console.log('imagedata',data.Image); %>
+                            <li><a href="#" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
+                    
                     </div>
                     <div class="product__item__text">
                         <h6><a href="#"><%= data.Brand %></a></h6>

@@ -1,6 +1,22 @@
 const express=require("express")
 const router=express.Router()
 const admincontroller=require("../Controller/Admincontroller")
+const multer=require('multer') //require multer middleware module
+
+
+// multer middleware
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'Public/uploads/'); // Specify the destination folder
+  },
+  filename: (req, file, cb) => {
+    // Generate a unique file name (you can use Date.now() or any other method)
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + '-' + file.originalname); //file path
+  },
+});
+
+const upload = multer({ storage: storage }); //multer 
 
 router.get("/adminlogin",admincontroller.adminlogin)
 router.get("/adminhome",admincontroller.adminhome)
@@ -10,9 +26,9 @@ router.post("/adminlogin",admincontroller.adminloginpost)
 
 router.get("/prodectdetails",admincontroller.prodectdetails)
 router.get("/addprodects",admincontroller.addprodects)
+router.post("/addprodects",upload.single('Image'),admincontroller.prodectdata) // passing multered image details
 router.get("/categorydetails",admincontroller.categorydetails)
 router.get("/addcategorys",admincontroller.addcategorys)
-router.post("/addprodects",admincontroller.prodectdata)
 router.post("/addcategorys",admincontroller.categorydata)
 router.get("/prodectsearch",admincontroller.prodectsearch)
 router.get("/categorysearch",admincontroller.categorysearch)

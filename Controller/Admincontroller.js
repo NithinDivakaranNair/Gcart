@@ -5,7 +5,6 @@ const Prodectcollection=require("../Model/ProdectSchema")
 const Categorycollection=require("../Model/CategorySchema")
 
 
-
 //AddCategory rout
      const addcategorys=(req,res)=>{
      return res.render("Admin/AddCategory")
@@ -14,7 +13,7 @@ const Categorycollection=require("../Model/CategorySchema")
 //Categorydata add to mongodb
        const categorydata=async(req,res)=>{
        try{
-        const{CategoryId,Category,Image,Description}=req.body;
+        const{Category,Image,Description}=req.body;
         const newCategory=new Categorycollection({
             Category,
             Image,
@@ -106,31 +105,35 @@ const Categorycollection=require("../Model/CategorySchema")
 
 
 
-//Prodectdata add to mongodb
-     const prodectdata = async (req, res) => {
-        try {
-        console.log(req.body);
-      const { Category, Brand, Model, Image, Description, Quantity, Price } = req.body; // req.body data destructered process
-      
-      const newProdects = new Prodectcollection({
-        Category,
-        Brand,
-        Model,
-        Image,
-        Description,
-        Quantity,
-        Price,
-      });
-  
-      await newProdects.save();  // store the prodect deatils in  prodect databse
-      return res.redirect("/prodectdetails");
-    
-    } catch (error) {
-      console.error(error);
-      return res.status(500).send("Error during product data insertion");
-    }
-  };
 
+
+
+
+
+//Prodectdata add to mongodb
+const prodectdata =  async (req, res) => {
+  try {
+    console.log(req.body);
+    const { Category, Brand, Model, Description, Quantity, Price } = req.body; // req.body data destructured process
+    const Image = req.file.filename; // multered image stored path assign 'Image' variable
+
+    const newProdects = new Prodectcollection({
+      Category,
+      Brand,
+      Model,
+      Image,  
+      Description,
+      Quantity,
+      Price,
+    });
+
+    await newProdects.save(); // Store the product details in the product database
+    return res.redirect("/prodectdetails");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Error during product data insertion");
+  }
+};
 
   
 

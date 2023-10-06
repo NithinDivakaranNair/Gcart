@@ -20,7 +20,10 @@ const nodemailer = require("nodemailer");    //Email sending module
         return res.render("User/loginpage", { msg: "Invalid username " })
     } else if (req.session.passwordMatch) {
         return res.render("User/loginpage", { msg: "Invalid password" })
-    } else {
+    } else if (req.session.verifyval) {
+        return res.render("User/loginpage", { msg: "user is not valid" })
+    } 
+     else {
         res.render("User/loginpage")
     }
 }
@@ -122,15 +125,21 @@ const nodemailer = require("nodemailer");    //Email sending module
              const newUser = new signupcollection({ //Create a new document and save it to the database
                 username,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                verify:false
             })
+            console.log('User:',newUser)
+            req.session.Signuserverification=newUser;
               await newUser.save() // Saving in database
+           
         }
     }
     catch (error) {
         return res.status(500).send("error during user registration");
     }
-    return res.redirect("/login")
+    // return res.redirect("/login")
+   
+    return res.redirect("/EmailEnteringPage")
 }
 
 
@@ -138,10 +147,14 @@ const nodemailer = require("nodemailer");    //Email sending module
 //Login validation(Login Post methode)
   const loginpost = async (req, res) => {
     try {
-        const { lusername, lpassword } = req.body; //decoding the data in body and destructing
+        const { lusername, lpassword, } = req.body; //decoding the data in body and destructing
         const user = await signupcollection.findOne({ username: lusername }) //checking  username in  current user database
         console.log("loginpost:", user)
+        req.session.VERIFYuser=user;
 
+        const VERIFYuser = user.verify;
+        console.log('VERIFYuser:',VERIFYuser)
+        
         if (!user) { // user name validation
             req.session.user = true;
             return res.redirect("/login")
@@ -153,10 +166,16 @@ const nodemailer = require("nodemailer");    //Email sending module
             return res.redirect("/login")
 
         }
-        
+        if(VERIFYuser===false){
+            req.session.verifyval = true;
+           
+            return res.redirect("/login")
+           
+        }
         //create session for  current User //
-        req.session.userId = user;
-        return res.redirect("/home");
+       req.session.userId=user
+       return res.redirect("/login")
+
     }
     catch (error) {
         console.error("error during login:", error)
@@ -256,7 +275,14 @@ const nodemailer = require("nodemailer");    //Email sending module
     try{
         const otpValue=req.body.otp;
         const OTPvalue=await signupcollection.findOne({OTP:otpValue}) //finding OTP  in current User
-        if(OTPvalue){ 
+
+        if(req.session.Signuserverification){
+            const userval=req.session.Signuserverification;
+            console.log('userval:',userval)
+            const uservalupdate=await signupcollection.updateOne({email:userval.email},{$set:{verify:true}})
+          res.redirect("/login")
+        }
+       else if(OTPvalue){ 
          res.redirect('/Newpassword')
         }else{
             req.session.otpId=true;

@@ -17,6 +17,6 @@ router.post("/OTPPost",usercontroller.OTPPost)
 router.get("/Newpassword",usercontroller.Newpassword)
 router.post("/NewpasswordPost",usercontroller.NewpasswordPost)
 
-router.get("/smartphonespage",usercontroller.smartphonespage)
+router.get("/categorybasedrender/:CategoryId",usercontroller.categorybasedrender) //category based rendering route
 
 module.exports = router 

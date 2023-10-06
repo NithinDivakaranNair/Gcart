@@ -2,8 +2,13 @@ const mongoose=require('mongoose')
 
 //Define Schema
 const CategorySchema=new mongoose.Schema({
-     Category:String,
-     Image:String,
+     Category:{
+        type:String,
+        unique:true,
+        require:true,
+        isLowercase :false
+     },
+     Image:String,  
      Description:String,
     })
     

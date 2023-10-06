@@ -310,10 +310,22 @@ const nodemailer = require("nodemailer");    //Email sending module
 
 
 
-//smart phone page
-    const smartphonespage=(req,res)=>{
-    res.render("User/smartphonespage")
-               }
+//category based rendering field
+    const categorybasedrender=async(req,res)=>{
+       const Id=req.params.CategoryId;
+       console.log('Id:',Id)
+       const categoryId=await Categorycollection.findOne({_id:Id})
+       console.log('categoryId:',categoryId)
+        try {
+            const prodectinfo = await Prodectcollection.find({Category:categoryId.Category});  //prodect colleection
+            console.log('prodectinfo:',prodectinfo)
+          return res.render("User/CategoryRenderingCommonPage", { prodectinfo });  //Updating Prodect and Category collection
+        } 
+        catch (error) {
+            console.error(error);
+            return res.status(500).send("Error fetching product information.");
+        }}
+               
 
 
  module.exports = {
@@ -332,7 +344,7 @@ const nodemailer = require("nodemailer");    //Email sending module
     Newpassword,
     NewpasswordPost,
 
-    smartphonespage,
+    categorybasedrender,
 
   
 }

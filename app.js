@@ -6,11 +6,10 @@ const session=require("express-session")
 const{v4:uuidv4}=require("uuid");
 const nocache=require("nocache");
 const userrouter=require("./Router/User") ;
-const adminrouter=require("./Router/Admin")
+const adminrouter=require("./Router/Admin") 
 const mongoose=require("mongoose");
 
-app.use(express.urlencoded({ extended: true }));
-
+app.use(express.urlencoded({ extended: true }));  
 
 
 app.use(nocache());

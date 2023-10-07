@@ -13,29 +13,72 @@ const Categorycollection=require("../Model/CategorySchema")
 
 
 //Categorydata add to mongodb
-const categorydata=async(req,res)=>{
-  try{
-   const{Category,Description}=req.body;
-  const Image=req.file.filename;// category image path assign in 'Image'variable
-  const newCategory=new Categorycollection({
-       Category,
-       Image,
-       Description
-   })
-   console.log(newCategory)
+// const categorydata=async(req,res)=>{
 
-   await newCategory.save(); // New category save in Category databasw
-   return res.redirect("/categorydetails");
 
-}catch(error){
-   return res.status(500).send("Error during category data insertion ")
-}
-}
+//   try{
+//    const{Category,Description}=req.body;
+// const categoryval=await Categorycollection.findOne({Category:Category})
+
+// console.log(categoryval)
+//   const Image=req.file.filename;// category image path assign in 'Image'variable
+//   const newCategory=new Categorycollection({
+//        Category,
+//        Image,
+//        Description
+//    })
+//    console.log(newCategory)
+
+//    await newCategory.save(); // New category save in Category databasw
+//    return res.redirect("/categorydetails");
+
+// }catch(error){
+//    return res.status(500).send("Error during category data insertion ")
+// }
+// }
+
+const categorydata = async (req, res) => {
+  try {
+    // Destructure request body
+    const { Category, Description } = req.body;
+
+    // Check if the category already exists in the database
+    const categoryVal = await Categorycollection.findOne({ Category: Category });
+console.log(categoryVal)
+    if (categoryVal) {
+      // Handle the case where the category already exists (you may want to redirect or send an error response)
+     return  res.render("Admin/AddCategory",{msg:"Category already added"});
+    }
+
+    // Assuming req.file.filename contains the image filename
+    const Image = req.file.filename; // category image path assigned to 'Image' variable
+
+    // Create a new category document
+    const newCategory = new Categorycollection({
+      Category,
+      Image,
+      Description,
+    });
+
+    // Save the new category to the database
+    await newCategory.save();
+
+    // Redirect to a success page or send a success response
+    return res.redirect("/categorydetails");
+  } catch (error) {
+    // Handle errors gracefully by sending an error response and logging the error
+    console.error("Error during category data insertion:", error);
+    return res.status(500).send("Error during category data insertion");
+  }
+};
+
+
+
 
 
 
 //Display categorydetails
-      const categorydetails = async (req, res)=> {
+     const categorydetails = async (req, res)=> {
     try {
         const categoryinfo = await Categorycollection.find({}); //All categorys are  store in "categoryinfo" variable
         return res.render("Admin/Admincategorymanag", { iteam: categoryinfo }); //Thet stored data render through the categery detail page

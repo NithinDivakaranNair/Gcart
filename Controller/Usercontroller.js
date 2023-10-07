@@ -149,7 +149,8 @@ const nodemailer = require("nodemailer");    //Email sending module
     try {
         const { lusername, lpassword, } = req.body; //decoding the data in body and destructing
         const user = await signupcollection.findOne({ username: lusername }) //checking  username in  current user database
-        console.log("loginpost:", user)
+        console.log("loginpost:", user._id)
+        const userId=user._id
         req.session.VERIFYuser=user;
 
         const VERIFYuser = user.verify;
@@ -168,7 +169,7 @@ const nodemailer = require("nodemailer");    //Email sending module
         }
         if(VERIFYuser===false){
             req.session.verifyval = true;
-           
+            const DeleteProdect=await signupcollection.findByIdAndRemove(userId) 
             return res.redirect("/login")
            
         }

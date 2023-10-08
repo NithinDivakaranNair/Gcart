@@ -3,6 +3,7 @@ const Admincollection=require("../Model/AdminSchema")
 
 const Prodectcollection=require("../Model/ProdectSchema")
 const Categorycollection=require("../Model/CategorySchema")
+const prodectcollection = require("../Model/ProdectSchema")
 
 
 //AddCategory rout
@@ -131,7 +132,7 @@ console.log(categoryVal)
       if(!deleteCategory){
         return res.status(404).send("category not found")
       }
-      res.redirect('/categorydetails')
+      return res.redirect('/categorydetails')
      }
      catch(error){
       return res.status(500).send('internal server error')
@@ -143,6 +144,7 @@ console.log(categoryVal)
     const addprodects=async(req,res)=>{
       try{
     const Cdetails= await Categorycollection.find(); //All category stored in  'Cdetails' variable
+
     console.log(Cdetails)
      return res.render("Admin/Addprodects",{Cdetails}) //then render the add prodect page
 
@@ -155,17 +157,14 @@ console.log(categoryVal)
 
 
 
-
-
-
-
 //Prodectdata add to mongodb
 const prodectdata =  async (req, res) => {
   try {
     console.log(req.body);
     const { Category, Brand, Model, Description, Quantity, Price } = req.body; // req.body data destructured process
-    const Image = req.file.filename; // multered image stored path assign 'Image' variable
-
+    // const Image = req.file.filename; // multered image stored path assign 'Image' variable
+    const Image = req.files.map((file) => file.filename); 
+    console.log('Image:',Image)
     const newProdects = new Prodectcollection({
       Category,
       Brand,
@@ -175,7 +174,7 @@ const prodectdata =  async (req, res) => {
       Quantity,
       Price,
     });
-
+    console.log('newProdects:',newProdects)
     await newProdects.save(); // Store the product details in the product database
     return res.redirect("/prodectdetails");
   } catch (error) {
@@ -219,7 +218,7 @@ const prodectdata =  async (req, res) => {
             ]
       });
   
-     res.render("Admin/AdminProdectManage", { iteam:ProDetails });    // Render the search results in Prodect list
+      return res.render("Admin/AdminProdectManage", { iteam:ProDetails });    // Render the search results in Prodect list
     } catch (error) {
        console.error(error);
       res.status(500).send("Data searching error");
@@ -237,7 +236,7 @@ const prodectdata =  async (req, res) => {
       if(!DeleteProdect){
         return res.status(404).send("prodect not found")
       }
-      res.redirect('/prodectdetails')
+      return res.redirect('/prodectdetails')
   }catch(error){
     return res.status(500).send('internal server error')
   }
@@ -275,7 +274,7 @@ return res.redirect("/adminlogin")
 const adminlogout=(req,res)=>{
     console.log("adminlogout");
     req.session.destroy();
-    res.redirect("/adminlogin")
+    return res.redirect("/adminlogin")
 }
 
 //Admin post
@@ -295,14 +294,11 @@ const adminlogout=(req,res)=>{
 
         if(!adminpass){
             // return res.render("Admin/Adminlogin",{msg:"invalide password"})
-            
-            req.session.adminpassword=true;
+             req.session.adminpassword=true;
             return res.redirect("/adminlogin")
         }
         req.session.AdminId=adminname
-
-    }
-    catch(error){
+   } catch(error){
         console.error("error during login:",error)
         return res.status(500).send("Error during login")
     }
@@ -311,8 +307,50 @@ const adminlogout=(req,res)=>{
 
 
 
+//update prodect detail page for admin
+const updateprodectdetails=async(req,res)=>{
+  const prodectId=req.params.prodectId;
+  console.log('prodectId;',prodectId)
+  try{
+    const prodect=await Prodectcollection.findOne({_id:prodectId})
+    const Cdetails= await Categorycollection.find(); //All category stored in  'Cdetails' variable
+    
+    console.log(Cdetails)
+
+    console.log('prodect:',prodect) 
+    if(!prodect){
+      return res.status(404).send("prodect not found");
+  }
+  return res.render("Admin/AdminUpdateProdectDetail",{prodect,Cdetails})
+}catch(error){
+  console.error("Error rendering edit user form:",error);
+  res.status(500).send("Internal server Error");
+}
+}
 
 
+
+//update prodect detail data
+const updateprodectdata=  async(req,res)=>{
+  const ProdectId=req.params.prodectId;
+  console .log("updated data:",ProdectId)
+  console.log("body:",req.body)
+  const{ Category,Brand,Model,Image, Description,Quantity,Price}=req.body;
+  console.log( Category, Brand,Model,Image, Description,Quantity,Price)
+  try{
+    const updateddata=await Prodectcollection.findByIdAndUpdate(ProdectId,{Category,Brand,Model,Image, Description,Quantity,Price},{new:true})
+    if(!updateddata){
+      return res.status(404).send("user not found")
+  }
+  return res.redirect("/prodectdetails")
+}
+catch(error){
+  console.error("Error updating user:",error);
+  res.status(500).send("Internal server Error");
+
+}
+
+  }
 
 
 
@@ -333,7 +371,8 @@ module.exports={
     addcategorys,
     categorydata,
     categorysearch,
-    deletecategory
+    deletecategory,
 
-
+    updateprodectdetails,
+    updateprodectdata
 }

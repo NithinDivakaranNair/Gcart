@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,14 +6,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  
-    <link rel="stylesheet" href="assets1/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="assets1/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="assets1/vendors/jvectormap/jquery-jvectormap.css">
-    <link rel="stylesheet" href="assets1/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="assets1/vendors/owl-carousel-2/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets1/vendors/owl-carousel-2/owl.theme.default.min.css">
-     <link rel="stylesheet" href="assets1/css/style.css">
-     <link rel="shortcut icon" href="assets1/images/favicon.png" />
+    <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/assets1/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/assets1/vendors/jvectormap/jquery-jvectormap.css">
+    <link rel="stylesheet" href="/assets1/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="/assets1/vendors/owl-carousel-2/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets1/vendors/owl-carousel-2/owl.theme.default.min.css">
+     <link rel="stylesheet" href="/assets1/css/style.css">
+     <link rel="shortcut icon" href="/assets1/images/favicon.png" />
   </head>
   
   <body>
@@ -21,8 +22,8 @@
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" href="index.html"><img src="assets1/images/logo-no-background.png" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets1/images/logo-no-background.png" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo" href="index.html"><img src="/assets1/images/logo-no-background.png" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="/assets1/images/logo-no-background.png" alt="logo" /></a>
         </div>
 
       <!--dashboard details Start-->
@@ -31,7 +32,7 @@
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src="assets1/images/faces/face15.jpg" alt="">
+                  <img class="img-xs rounded-circle " src="/assets1/images/faces/face15.jpg" alt="">
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
@@ -128,7 +129,7 @@
    
         <nav class="navbar p-0 fixed-top d-flex flex-row">
           <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets1/images/logo-mini.svg" alt="logo" /></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="/assets1/images/logo-mini.svg" alt="logo" /></a>
           </div>
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -154,7 +155,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
-                      <img src="assets/images/faces/face4.jpg" alt="image" class="rounded-circle profile-pic">
+                      <img src="/assets/images/faces/face4.jpg" alt="image" class="rounded-circle profile-pic">
                     </div>
                     <div class="preview-item-content">
                       <p class="preview-subject ellipsis mb-1">Mark send you a message</p>
@@ -164,14 +165,14 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
-                      <img src="assets1/images/faces/face2.jpg" alt="image" class="rounded-circle profile-pic">
+                      <img src="/assets1/images/faces/face2.jpg" alt="image" class="rounded-circle profile-pic">
                     </div>
               
                   </a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
-                      <img src="assets1/images/faces/face3.jpg" alt="image" class="rounded-circle profile-pic">
+                      <img src="/assets1/images/faces/face3.jpg" alt="image" class="rounded-circle profile-pic">
                     </div>
                   
                   </a>
@@ -184,7 +185,7 @@
                <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
+                    <img class="img-xs rounded-circle" src="/assets/images/faces/face15.jpg" alt="">
                     <p class="mb-0 d-none d-sm-block navbar-profile-name">Admin</p>
                     <!-- <i class="mdi mdi-menu-down d-none d-sm-block"></i> -->
                   </div>
@@ -197,55 +198,60 @@
         </nav>
         
 <!--Prodect add Form  start-->
+<div class="container mt-4">
+    <div class="my-5"> <!-- Add margin top -->
+        <h1>Edit Product Details</h1>
+    </div>
+    <form action="/updateprodectdata/<%=prodect._id%>" method="post" enctype="multipart/form-data"><!-- Corrected the form action attribute -->
        
-            <div class="container mt-4">
-              <div class="my-5"> <!-- Add margin top -->
-                  <h1>Add Products</h1>
-              </div>
-            <form action="/addprodects"  method="post"  enctype="multipart/form-data" ><!--multer funtionality working (enctype="multipart/form-data") this code is adding for post methode-->
-               
-                 <div class="mb-3">
+      <div class="mb-3">
                  
-                  <label for="Category" class="form-label">Category</label>
-                 <select class="form-select" id="Category" name="Category">
-                  <option selected>Select a Category</option>
-              <% Cdetails.forEach((element) => { %>
-                      <option value="<%= element.Category %>" style="color: rgb(28, 4, 4); background-color: yellow;">
-                        <%= element.Category %>
-                      </option>
-                  <% }); %>
-                </select>
-                </div>
-            
-               <div class="mb-3">
-               <label for="Brand" class="form-label text-white">Brand</label>
-               <textarea class="form-control text-white" id="Brand" name="Brand"></textarea>
-               </div>
-        
-                <div class="mb-3">
-                    <label for="Model" class="form-label text-white">Model</label>
-                    <textarea class="form-control text-white" id="Model" name="Model"></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="Image" class="form-label text-white">Image</label>
-                  <input type="file" class="form-control" id="Image" name="Image" multiple /><!--image choose button add-->
-                </div>
-                  
-                <div class="mb-3">
-                    <label for="Description" class="form-label text-white">Description</label>
-                    <textarea class="form-control text-white" id="Description" name="Description"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="Quantity" class="form-label text-white">Quantity</label>
-                    <textarea class="form-control text-white" id="Description" name="Quantity"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="Price" class="form-label text-white">Price</label>
-                    <textarea class="form-control text-white" id="Price" name="Price"></textarea>
-                </div>
-                <button type="submit" class="btn btn-success">Add Prodects</button>
-            </form>
+        <label for="Category" class="form-label">Category</label>
+       <select class="form-select" id="Category" name="Category">
+        <option selected>Select a Category</option>
+    <% Cdetails.forEach((element) => { %>
+            <option value="<%= element.Category %>" style="color: rgb(28, 4, 4); background-color: yellow;">
+              <%= element.Category %>
+            </option>
+        <% }); %>
+      </select>
+      </div>
+      
+      <div class="mb-3">
+            <label for="Brand" class="form-label text-white">Brand</label>
+            <textarea class="form-control text-white" id="Brand" name="Brand" ><%=prodect.Brand%>
+            </textarea>
         </div>
+
+        <div class="mb-3">
+            <label for="Model" class="form-label text-white">Model</label>
+            <textarea class="form-control text-white" id="Model" name="Model"><%=prodect.Model%></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="Image" class="form-label text-white">Image</label>
+            <input type="file" class="form-control" id="Image" name="Image"  value="<%=prodect.Image%>" multiple ><!-- Removed unnecessary / from the input tag -->
+        </div>
+
+        <div class="mb-3">
+            <label for="Description" class="form-label text-white">Description</label>
+            <textarea class="form-control text-white" id="Description" name="Description"><%=prodect.Description%></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="Quantity" class="form-label text-white">Quantity</label>
+            <input type="text" class="form-control text-white" id="Quantity" name="Quantity" value="<%=prodect.Quantity%>"><!-- Changed textarea to input for Quantity -->
+        </div>
+
+        <div class="mb-3">
+            <label for="Price" class="form-label text-white">Price</label>
+            <input type="text" class="form-control text-white" id="Price" name="Price" value="<%=prodect.Price%>"><!-- Changed textarea to input for Price -->
+        </div>
+
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
+
       </div>
 <!--Prodect add Form  end--> 
       </div>

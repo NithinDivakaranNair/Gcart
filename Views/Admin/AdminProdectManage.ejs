@@ -243,9 +243,11 @@
        
 <!-- Prodect details start-->
         
-        <div class="container mt-4">
-            <h1>ProductManagement</h1>
-            
+    
+            <div class="container mt-4">
+              <div class="my-5"> <!-- Add margin top -->
+                  <h1>ProductManagement</h1>
+              </div>
             <table class="table">
                 <thead>
                 <tr >
@@ -260,7 +262,7 @@
                     </tr>
                 </thead>
                 
-                <tbody>
+                <tbod y>
                   <%iteam.forEach(data=>{ %>
                      <tr class="text-white">
                         <td><%= data.Category %></td>
@@ -271,7 +273,7 @@
                         <td><%= data.Quantity %></td>
                         <td><%= data.Price %></td>
                         <td>
-                            <button class="btn btn-primary">Edit</button>
+                          <form action="/updateprodectdetails/<%=data._id %>"  method="post"><button class="btn btn-primary">Edit</button></form>
                             <form action="/deleteprodect/<%=data._id %>" method="post"><button class="btn btn-danger">Delete</button></form>
                         </td>
                     </tr>

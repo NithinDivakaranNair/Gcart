@@ -1,0 +1,77 @@
+<!--Header Section Begin -->
+<header class="header">
+    <div class="container-fluid">
+        <div class="row">
+            
+            <div class="col-xl-2 col-lg-2">
+                <div class="header__logo">
+                    <a href="../mainhomepage"><img src="img/download.png" alt=""></a>
+                </div>
+            </div>
+            
+             
+<!--STAR CATEGORY ADDING SPACE-->
+             <div class="col-xl-6 col-lg-7">
+               <nav class="header__menu">
+                <ul>
+                        <% categoryinfo.forEach((data) => { %>
+                        <!-- <li class="active"><a href="./index.html">Home</a></li>
+                        <li><a href="#">HOME APPLIANCES</a></li>
+                        <li><a href="#">SMART PHONES </a></li>
+                        <li><a href="./shop.html">LAPTOP</a></li> -->
+                        <li><a href="/categorybasedrender/<%= data._id %>"><%= data.Category %></a>
+                            <!-- <ul class="dropdown">
+                                <li><a href="./product-details.html">brands</a></li> -->
+                                <!-- <li><a href="./shop-cart.html">Shop Cart</a></li>
+                                <li><a href="./checkout.html">Checkout</a></li>
+                                <li><a href="./blog-details.html">Blog Details</a></li> -->
+                            <!-- </ul> -->
+                        </li>
+                        <!-- <li><a href="./contact.html">Contact</a></li> -->
+                        <% }) %> 
+                    </ul>
+                 </nav>
+               </div>
+<!--END CATEGORY ADDING SPACE-->
+
+
+<!--top side bar start-->
+<div class="col-lg-3">
+<div class="header__right">
+      <ul class="header__right__widget">
+        <li><span class="icon_search search-switch"></span></li>
+        <li><a href="#"><span class="icon_heart_alt"></span>
+            <!-- <div class="tip">2</div>
+        </a></li> -->
+        <li><a href="#"><span class="icon_bag_alt"></span>
+            <!-- <div class="tip">2</div> -->
+        </a></li>
+        <li>
+            <div x-data="{ open: false }" class="profile-pic" style="width: 30px; height: 30px;">
+                <div class="count-indicator" x-on:click="open = !open">
+                    <img class="img-xs rounded-circle" src="assets1/images/faces/face15.jpg" alt="">
+                    <span class="count bg-success"></span>
+                </div>
+                <div class="profile-name" x-show="open">
+                    <h6 class="mb-0 font-weight-normal">USER</h6>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="header__right__auth">
+                <a href="/logout">Logout</a>
+            </div>
+        </li>
+    </ul>
+</div>
+</div>
+<!--top side bar end-->
+                
+           
+        </div>
+        <div class="canvas__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+<!-- Header Section End

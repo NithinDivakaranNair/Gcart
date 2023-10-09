@@ -29,13 +29,13 @@ const nodemailer = require("nodemailer");    //Email sending module
 }
 
 
-
+let   categoryinfo ;
 //user homepage
    const home = async (req, res) => {
     if (req.session.userId) {
         try {
             const prodectinfo = await Prodectcollection.find({});  //prodect colleection
-            const categoryinfo = await Categorycollection.find({});  //category collection
+             categoryinfo = await Categorycollection.find({});  //category collection
             return res.render("User/homepage", { prodectinfo, categoryinfo });  //Updating Prodect and Category collection
         } 
         catch (error) {
@@ -167,6 +167,9 @@ const nodemailer = require("nodemailer");    //Email sending module
             return res.redirect("/login")
 
         }
+        if(user.block===true){
+            return res.redirect("/login")
+          }
         if(VERIFYuser===false){
             req.session.verifyval = true;
             const DeleteProdect=await signupcollection.findByIdAndRemove(userId) 
@@ -354,6 +357,14 @@ const nodemailer = require("nodemailer");    //Email sending module
         }}
                
 
+//one prodect details//
+const oneprodectdetails=async(req,res)=>{
+    categoryinfo = await Categorycollection.find({});  //category collection
+   return  res.render("User/ProdectDetails",{categoryinfo })
+}
+
+
+
 
  module.exports = {
     mainhomepage,
@@ -372,6 +383,7 @@ const nodemailer = require("nodemailer");    //Email sending module
     NewpasswordPost,
 
     categorybasedrender,
+    oneprodectdetails
 
   
 }

@@ -38,6 +38,10 @@ router.post("/deletecategory/:categoryId",admincontroller.deletecategory)
 router.post("/deleteprodect/:prodectId",admincontroller.deleteprodect)
 
 router.post("/updateprodectdetails/:prodectId",admincontroller.updateprodectdetails)
-router.post("/updateprodectdata/:prodectId",admincontroller.updateprodectdata)
+router.post("/updateprodectdata/:prodectId",upload.array('Image'),admincontroller.updateprodectdata)
+
+router.get("/AdminUserpage",admincontroller.AdminUserpage)
+router.post("/AdminUserpage/userblock/:userId",admincontroller.userblock)
+router.post("/AdminUserpage/userunblock/:userId",admincontroller.userunblock)
 
 module.exports=router

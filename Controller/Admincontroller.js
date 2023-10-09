@@ -1,9 +1,10 @@
 const Admincollection=require("../Model/AdminSchema")
+const signupcollection = require("../Model/UserSchema")
 
 
 const Prodectcollection=require("../Model/ProdectSchema")
 const Categorycollection=require("../Model/CategorySchema")
-const prodectcollection = require("../Model/ProdectSchema")
+// const prodectcollection = require("../Model/ProdectSchema")
 
 
 //AddCategory rout
@@ -335,7 +336,8 @@ const updateprodectdata=  async(req,res)=>{
   const ProdectId=req.params.prodectId;
   console .log("updated data:",ProdectId)
   console.log("body:",req.body)
-  const{ Category,Brand,Model,Image, Description,Quantity,Price}=req.body;
+  const{ Category,Brand,Model, Description,Quantity,Price}=req.body;
+  const Image = req.files.map((file) => file.filename); 
   console.log( Category, Brand,Model,Image, Description,Quantity,Price)
   try{
     const updateddata=await Prodectcollection.findByIdAndUpdate(ProdectId,{Category,Brand,Model,Image, Description,Quantity,Price},{new:true})
@@ -349,11 +351,56 @@ catch(error){
   res.status(500).send("Internal server Error");
 
 }
+ }
 
+
+  //AdminUserpage
+  const AdminUserpage=async(req,res)=>{
+    const userdetails=await signupcollection.find({})
+    return res.render("Admin/UserMangement",{userdetails})
   }
 
+//user block
+const userblock=async(req,res)=>{
+  const userid=req.params.userId
+  console.log('userid:',userid)
+  try{
+const userdata = await signupcollection.findOne({ _id: userid })
+  console.log('userdata:',userdata)
+ if(!userdata){
+  return res.status(404).send("user is not found")
+ }
+ userdata.block=true;
+ await userdata.save();
+ console.log('userdata:',userdata)
+ return res.redirect("/AdminUserpage")
+}
+catch(error){
+  console.log("error due to use blocking time:",error)
+ return res .status(404).send("internal server error")
+}
+}
 
 
+//user unblock
+const userunblock=async (req,res)=>{
+  try{
+  const userid=req.params.userId;
+  const userdata = await signupcollection.findOne({ _id: userid })
+  console.log('userdata:',userdata)
+  if(!userdata){
+    return res.status(404).send("user is not found")
+   }
+   userdata.block=false;
+   await userdata.save();
+   console.log('userdata:',userdata)
+   return res.redirect("/AdminUserpage")
+}
+catch(error){
+  console.log("error due to user unblocking time:",error)
+  return res.status(404).send("internal error")
+}
+}
  
 module.exports={
     adminlogin,
@@ -374,5 +421,9 @@ module.exports={
     deletecategory,
 
     updateprodectdetails,
-    updateprodectdata
+    updateprodectdata,
+
+    AdminUserpage,
+    userblock,
+    userunblock
 }

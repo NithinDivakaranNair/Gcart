@@ -32,85 +32,12 @@
 </head>
 
 <body>
-      <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container-fluid">
-            <div class="row">
-                
-                <div class="col-xl-2 col-lg-2">
-                    <div class="header__logo">
-                        <a href="../mainhomepage"><img src="img/download.png" alt=""></a>
-                    </div>
-                </div>
-                
-                 
-<!--STAR CATEGORY ADDING SPACE-->
-                 <div class="col-xl-6 col-lg-7">
-                   <nav class="header__menu">
-                    <ul>
-                            <% categoryinfo.forEach(data => { %>
-                            <!-- <li class="active"><a href="./index.html">Home</a></li>
-                            <li><a href="#">HOME APPLIANCES</a></li>
-                            <li><a href="#">SMART PHONES </a></li>
-                            <li><a href="./shop.html">LAPTOP</a></li> -->
-                            <li><a href="/categorybasedrender/<%= data._id %>"><%= data.Category %></a>
-                                <!-- <ul class="dropdown">
-                                    <li><a href="./product-details.html">brands</a></li> -->
-                                    <!-- <li><a href="./shop-cart.html">Shop Cart</a></li>
-                                    <li><a href="./checkout.html">Checkout</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li> -->
-                                <!-- </ul> -->
-                            </li>
-                            <!-- <li><a href="./contact.html">Contact</a></li> -->
-                            <% }) %> 
-                        </ul>
-                     </nav>
-                   </div>
-<!--END CATEGORY ADDING SPACE-->
-
-
-<!--top side bar start-->
-<div class="col-lg-3">
-   <div class="header__right">
-          <ul class="header__right__widget">
-            <li><span class="icon_search search-switch"></span></li>
-            <li><a href="#"><span class="icon_heart_alt"></span>
-                <!-- <div class="tip">2</div>
-            </a></li> -->
-            <li><a href="#"><span class="icon_bag_alt"></span>
-                <!-- <div class="tip">2</div> -->
-            </a></li>
-            <li>
-                <div x-data="{ open: false }" class="profile-pic" style="width: 30px; height: 30px;">
-                    <div class="count-indicator" x-on:click="open = !open">
-                        <img class="img-xs rounded-circle" src="assets1/images/faces/face15.jpg" alt="">
-                        <span class="count bg-success"></span>
-                    </div>
-                    <div class="profile-name" x-show="open">
-                        <h6 class="mb-0 font-weight-normal">USER</h6>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="header__right__auth">
-                    <a href="/logout">Logout</a>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-<!--top side bar end-->
-                    
-               
-            </div>
-            <div class="canvas__open">
-                <i class="fa fa-bars"></i>
-            </div>
-        </div>
-    </header>
-    <!-- Header Section End -->
-   
-    <!-- Categories Section Begin -->
+  
+<!--header-->
+    <%- include('./partials/header.ejs') %>
+<!--header-->  
+    
+<!-- Categories Section Begin -->
     <section class="categories">
         <div class="container-fluid">
            
@@ -336,71 +263,10 @@
 </section>
 <!-- Services Section End -->
 
+<!--footer-->
+<%- include('./partials/footer.ejs') %>
+<!--footer-->
 
-
-<!-- Footer Section Begin -->
-<footer class="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-2 col-md-6 col-sm-7">
-                <div class="footer__about">
-                    <div class="footer__logo">
-                        <a href="./index.html"><img src="img/download.png" alt=""></a>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                    cilisis.</p>
-                    <div class="footer__payment">
-                        <a href="#"><img src="img/payment/payment-1.png" alt=""></a>
-                        <a href="#"><img src="img/payment/payment-2.png" alt=""></a>
-                        <a href="#"><img src="img/payment/payment-3.png" alt=""></a>
-                        <a href="#"><img src="img/payment/payment-4.png" alt=""></a>
-                        <a href="#"><img src="img/payment/payment-5.png" alt=""></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-5">
-                <div class="footer__widget">
-                    <h6>Quick links</h6>
-                    <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Blogs</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-4">
-                <div class="footer__widget">
-                    <h6>Account</h6>
-                    <ul>
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">Orders Tracking</a></li>
-                        <li><a href="#">Checkout</a></li>
-                        <li><a href="#">Wishlist</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-8 col-sm-8">
-                <div class="footer__newslatter">
-                    <h6>NEWSLETTER</h6>
-                    <form action="#">
-                        <input type="text" placeholder="Email">
-                        <button type="submit" class="site-btn">Subscribe</button>
-                    </form>
-                    <div class="footer__social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-      
-    </div>
-</footer>
-<!-- Footer Section End -->
 
 <!-- Search Begin -->
 <div class="search-model">

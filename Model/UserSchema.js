@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   password: String,
   OTP:String,
   verify:{type:Boolean,default:true},
+  block:{type:Boolean,default:false}
   
 });
 

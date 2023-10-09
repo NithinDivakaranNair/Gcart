@@ -9,7 +9,7 @@ router.get("/login",usercontroller.login)
 router.post("/login",usercontroller.loginpost)
 router.get("/home",usercontroller.home)
 router.get("/logout",usercontroller.logout)
-
+ 
 router.get("/EmailEnteringPage",usercontroller.EmailEnteringPage)
 router.post("/EmailPost",usercontroller.EmailPost)
 router.get("/otp",usercontroller.otp)
@@ -19,5 +19,5 @@ router.post("/NewpasswordPost",usercontroller.NewpasswordPost)
 
 router.get("/categorybasedrender/:CategoryId",usercontroller.categorybasedrender) //category based rendering route
 
-router.get("/oneprodectdetails",usercontroller.oneprodectdetails)
+router.get("/oneprodectdetails/:prodectId",usercontroller.oneprodectdetails)
 module.exports = router 

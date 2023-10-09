@@ -359,8 +359,19 @@ let   categoryinfo ;
 
 //one prodect details//
 const oneprodectdetails=async(req,res)=>{
+    const prodectId=req.params.prodectId;
+    console.log('prodectId:',prodectId)
+    try{
+    const prodectdata=await Prodectcollection.findOne({_id:prodectId})
+    console.log('prodectdata:',prodectdata)
     categoryinfo = await Categorycollection.find({});  //category collection
-   return  res.render("User/ProdectDetails",{categoryinfo })
+   return  res.render("User/ProdectDetails",{categoryinfo,prodectdata })
+}
+catch(error){
+    console.log("Error due to one prodect detailing time:",error)
+    return res.status(500).send("Error fetching product information.");
+
+}
 }
 
 

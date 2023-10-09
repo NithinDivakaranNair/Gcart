@@ -7,7 +7,7 @@
     <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ashion | Template</title>
+    <title></title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
@@ -15,18 +15,18 @@
     rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     
-    <link rel="stylesheet" href="assets1/vendors/mdi/css/materialdesignicons.min.css"> 
+    <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css"> 
  
 </head>
 
@@ -39,26 +39,27 @@
   <!-- content -->
   <section class="py-5">
     <div class="container">
+      
       <div class="row gx-5">
 <!--image addind section-->
     <aside class="col-lg-6">
       <div class="border rounded-4 mb-3 d-flex justify-content-center">
           <a data-fslightbox="mygallery" class="rounded-4" target="_blank" data-type="image" href="">
-              <img id="mainImage" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp" />
+              <img id="mainImage" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/uploads/<%= prodectdata.Image[0] %>" />
           </a>
       </div>
 
       <div class="d-flex justify-content-center mb-3">
           
- <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big1.webp" onclick="changeMainImage('https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big1.webp')" />
+ <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[0] %>"  onclick="changeMainImage('/uploads/<%= prodectdata.Image[0] %>')" />
        
- <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp" onclick="changeMainImage('https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp')" />
+ <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[1] %>"  onclick="changeMainImage('/uploads/<%= prodectdata.Image[1] %>')" />
         
- <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp" onclick="changeMainImage('https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp')" />
+ <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[2] %>" onclick="changeMainImage('/uploads/<%= prodectdata.Image[2] %>')" />
 
- <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp" onclick="changeMainImage('https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp')" />
+ <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[3] %>"  onclick="changeMainImage('/uploads/<%= prodectdata.Image[3] %>')" />
      
- <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp" onclick="changeMainImage('https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp')" />
+ <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[4] %>" onclick="changeMainImage('/uploads/<%= prodectdata.Image[4] %>')" />
         
       </div>
     </aside>
@@ -66,11 +67,11 @@
     
         <main class="col-lg-6">
           <div class="ps-lg-3">
-            <h4 class="title text-dark">
-              <!-- Quality Men's Hoodie for Winter, Men's Fashion <br />
-              Casual Hoodie -->
-              PRODECT nam
-            </h4>
+            
+            <h3 class="title text-dark font-weight-bold">
+              <%= prodectdata.Model %>
+            </h3>
+            
             <!-- <div class="d-flex flex-row my-3">
               <div class="text-warning mb-1 me-2">
                 <i class="fa fa-star"></i>
@@ -87,27 +88,27 @@
             </div> -->
   
             <div class="mb-3">
-              <span class="h5">$75.00</span>
-              <span class="text-muted">/per box</span>
+              <span class="text-muted">Rs-</span>
+              <span class="h5"><%= prodectdata.Price %>/-</span>
+              
             </div>
   
-            <p>
-              Modern look and quality demo item is a streetwear-inspired collection that continues to break away from the conventions of mainstream fashion. Made in Italy, these black and brown clothing low-top shirts for
-              men.
-            </p>
+            <!-- <p>
+           
+            </p> -->
   
             <div class="row">
-              <dt class="col-3">Type:</dt>
-              <dd class="col-9">Regular</dd>
-  
+              <dt class="col-3">Spec:</dt>
+              <dd class="col-9"><%= prodectdata.Description %></dd>
+<!--   
               <dt class="col-3">Color</dt>
               <dd class="col-9">Brown</dd>
   
               <dt class="col-3">Material</dt>
-              <dd class="col-9">Cotton, Jeans</dd>
+              <dd class="col-9">Cotton, Jeans</dd> -->
   
               <dt class="col-3">Brand</dt>
-              <dd class="col-9">Reebook</dd>
+              <dd class="col-9">   <%= prodectdata.Brand %></dd>
             </div>
   
             <hr />
@@ -141,6 +142,7 @@
           </div>
         </main>
       </div>
+   
     </div>
   </section>
   <!-- content -->

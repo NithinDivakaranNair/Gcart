@@ -20,4 +20,6 @@ router.post("/NewpasswordPost",usercontroller.NewpasswordPost)
 router.get("/categorybasedrender/:CategoryId",usercontroller.categorybasedrender) //category based rendering route
 
 router.get("/oneprodectdetails/:prodectId",usercontroller.oneprodectdetails)
+
+router.get("/cartpage",usercontroller.cartpage)
 module.exports = router 

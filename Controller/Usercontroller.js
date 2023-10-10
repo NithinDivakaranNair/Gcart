@@ -349,7 +349,7 @@ let   categoryinfo ;
         try {
             const prodectinfo = await Prodectcollection.find({Category:categoryId.Category});  //prodect colleection
             console.log('prodectinfo:',prodectinfo)
-          return res.render("User/CategoryRenderingCommonPage", { prodectinfo });  //Updating Prodect and Category collection
+          return res.render("User/CategoryRenderingCommonPage", {categoryinfo, prodectinfo });  //Updating Prodect and Category collection
         } 
         catch (error) {
             console.error(error);
@@ -374,7 +374,10 @@ catch(error){
 }
 }
 
-
+//cartpage
+const cartpage=(req,res)=>{
+    return res.render("User/Shoppingcartpage")
+}
 
 
  module.exports = {
@@ -394,7 +397,7 @@ catch(error){
     NewpasswordPost,
 
     categorybasedrender,
-    oneprodectdetails
+    oneprodectdetails,
 
-  
+    cartpage
 }

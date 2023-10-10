@@ -28,15 +28,18 @@ const nodemailer = require("nodemailer");    //Email sending module
     }
 }
 
+let categoryinfo;
+let Userlogin;
 
-let   categoryinfo ;
 //user homepage
    const home = async (req, res) => {
+   
     if (req.session.userId) {
         try {
+            Userlogin=true;
             const prodectinfo = await Prodectcollection.find({});  //prodect colleection
              categoryinfo = await Categorycollection.find({});  //category collection
-            return res.render("User/homepage", { prodectinfo, categoryinfo });  //Updating Prodect and Category collection
+            return res.render("User/homepage", { prodectinfo, categoryinfo ,Userlogin});  //Updating Prodect and Category collection
         } 
         catch (error) {
             console.error(error);
@@ -54,11 +57,12 @@ let   categoryinfo ;
     if (req.session.userId){
         return res.redirect("/home")
     }else{
+        Userlogin=false;
          try {
         const prodectinfo = await Prodectcollection.find({});  // updateing prodect and category in MainhomePage side
         const categoryinfo = await Categorycollection.find({});
 
-        return res.render("User/Mainhomepage", { prodectinfo, categoryinfo }); // that deatils are render in Mainhome Page
+        return res.render("User/Mainhomepage", { prodectinfo, categoryinfo,Userlogin}); // that deatils are render in Mainhome Page
     } catch (error) {
         console.error(error);
         return res.status(500).send("Error fetching product information.");
@@ -71,6 +75,7 @@ let   categoryinfo ;
 
 //Logout
  const logout = (req, res) => {
+    Userlogin=false;
     console.log("destroy");
     req.session.destroy();  //Destroying Session
     return res.redirect("/login")
@@ -349,7 +354,8 @@ let   categoryinfo ;
         try {
             const prodectinfo = await Prodectcollection.find({Category:categoryId.Category});  //prodect colleection
             console.log('prodectinfo:',prodectinfo)
-          return res.render("User/CategoryRenderingCommonPage", {categoryinfo, prodectinfo });  //Updating Prodect and Category collection
+            categoryinfo = await Categorycollection.find({});  //category collection
+          return res.render("User/CategoryRenderingCommonPage", {categoryinfo, prodectinfo, Userlogin });  //Updating Prodect and Category collection
         } 
         catch (error) {
             console.error(error);
@@ -365,7 +371,7 @@ const oneprodectdetails=async(req,res)=>{
     const prodectdata=await Prodectcollection.findOne({_id:prodectId})
     console.log('prodectdata:',prodectdata)
     categoryinfo = await Categorycollection.find({});  //category collection
-   return  res.render("User/ProdectDetails",{categoryinfo,prodectdata })
+   return  res.render("User/ProdectDetails",{categoryinfo,prodectdata, Userlogin })
 }
 catch(error){
     console.log("Error due to one prodect detailing time:",error)
@@ -374,9 +380,17 @@ catch(error){
 }
 }
 
-//cartpage
-const cartpage=(req,res)=>{
-    return res.render("User/Shoppingcartpage")
+//cartpagepage
+const cartpage=async(req,res)=>{
+    categoryinfo = await Categorycollection.find({});
+    return res.render("User/Shoppingcartpage",{categoryinfo,Userlogin})
+}
+
+
+//checkoutpage
+const checkoutpage=async(req,res)=>{
+    categoryinfo = await Categorycollection.find({});
+    return res.render("User/checkoutpage",{categoryinfo,Userlogin})
 }
 
 
@@ -399,5 +413,6 @@ const cartpage=(req,res)=>{
     categorybasedrender,
     oneprodectdetails,
 
-    cartpage
+    cartpage,
+    checkoutpage
 }

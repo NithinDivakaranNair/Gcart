@@ -22,4 +22,7 @@ router.get("/categorybasedrender/:CategoryId",usercontroller.categorybasedrender
 router.get("/oneprodectdetails/:prodectId",usercontroller.oneprodectdetails)
 
 router.get("/cartpage",usercontroller.cartpage)
+
+router.get("/checkoutpage",usercontroller.checkoutpage)
+
 module.exports = router 

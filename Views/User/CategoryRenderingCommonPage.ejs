@@ -7,7 +7,7 @@
     <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ashion | Template</title>
+    <title>Gcart</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
@@ -29,11 +29,10 @@
 
 <body>
  <!-- Header Section Begin -->
-  <%- include('./partials/header.ejs',{categoryinfo}) %>
+  <%- include('./partials/header.ejs') %>
 
       <!-- Heading -->
-     
-      <div class="bg-secondary mb-4">
+     <div class="bg-secondary mb-4">
        
         <div class="container py-4">
       <!-- <nav class="d-flex mb-2">
@@ -88,6 +87,8 @@
         </div>
       </div>
     </section>
+    
+    
     <!--footer-->
 <%- include('./partials/footer.ejs') %>
 <!--footer-->
@@ -109,7 +110,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- redirect to product-->
-    <script>
+    <!-- <script>
       const items=document.querySelectorAll('.prodItem')
       items.forEach((item)=>{
           console.log(item);
@@ -120,7 +121,7 @@
           })
       })
    
-  </script>
+  </script> -->
 
 
 </body>

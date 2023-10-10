@@ -1,6 +1,24 @@
 const express=require("express")
 const router=express.Router()
 const usercontroller=require("../Controller/Usercontroller")
+const multer=require('multer') //require multer middleware module
+
+
+// multer middleware
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+   cb(null, 'Public/uploads/'); // Specify the destination folder
+ },
+ filename: (req, file, cb) => {
+   // Generate a unique file name (you can use Date.now() or any other method)
+   const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+   cb(null, uniqueSuffix + '-' + file.originalname); //file path
+   // cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop());
+ },
+ });
+ const upload = multer({ storage: storage }); // stored image detail
+
+ 
 
 router.get("/mainhomepage",usercontroller.mainhomepage)
 router.get("/signup",usercontroller.signup)
@@ -21,8 +39,10 @@ router.get("/categorybasedrender/:CategoryId",usercontroller.categorybasedrender
 
 router.get("/oneprodectdetails/:prodectId",usercontroller.oneprodectdetails)
 
-router.get("/cartpage",usercontroller.cartpage)
+router.get("/cartpage/:prodectId",usercontroller.cartpage)
+router.get("/cartpagedetails",usercontroller.cartpagedetails)
 
 router.get("/checkoutpage",usercontroller.checkoutpage)
-
+router.get("/IteamRemoveCart/:iteam",usercontroller.IteamRemoveCart)
+router.get("/userprofile",usercontroller.userprofile)
 module.exports = router 

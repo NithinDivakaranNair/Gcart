@@ -7,6 +7,8 @@ const bcrypt = require("bcrypt")     //Password encrypting module
 const Prodectcollection = require("../Model/ProdectSchema")
 const Categorycollection = require("../Model/CategorySchema")
 
+const CartCollection=require("../Model/CartSchema")// cart schema require
+
 const nodemailer = require("nodemailer");    //Email sending module
 
 
@@ -363,8 +365,9 @@ let Userlogin;
         }}
                
 
-//one prodect details//
-const oneprodectdetails=async(req,res)=>{
+
+ //one prodect details//
+   const oneprodectdetails=async(req,res)=>{
     const prodectId=req.params.prodectId;
     console.log('prodectId:',prodectId)
     try{
@@ -372,27 +375,85 @@ const oneprodectdetails=async(req,res)=>{
     console.log('prodectdata:',prodectdata)
     categoryinfo = await Categorycollection.find({});  //category collection
    return  res.render("User/ProdectDetails",{categoryinfo,prodectdata, Userlogin })
-}
-catch(error){
+   }
+   catch(error){
     console.log("Error due to one prodect detailing time:",error)
     return res.status(500).send("Error fetching product information.");
 
 }
 }
 
-//cartpagepage
-const cartpage=async(req,res)=>{
-    categoryinfo = await Categorycollection.find({});
-    return res.render("User/Shoppingcartpage",{categoryinfo,Userlogin})
+
+
+//cartpagepageGET methode
+  const cartpagedetails=async(req,res)=>{
+    
+    try{
+         categoryinfo = await Categorycollection.find({});
+        const cartinfo=await CartCollection.find({})
+        return res. render("User/Shoppingcartpage",{Userlogin,categoryinfo,cartinfo})
+    }catch(error){
+        console.log("Error due to cart detail displaying time:",error)
+        return res.status(500).send("Error due to cart detail displaying time")
+    }
+}
+
+
+//cartpagepagepost methode
+  const cartpage=async(req,res)=>{
+  
+    const ProdectId=req.params.prodectId;
+    console.log("cart/prodectID:",ProdectId)
+    try{
+        const prodectdetails=await  Prodectcollection.findOne({_id:ProdectId})
+        console.log('cart/prodectdetails:',prodectdetails)
+        const categoryinfo = await Categorycollection.findOne({Category:prodectdetails.Category});
+        const CategoryId=categoryinfo._id;
+        const {Category,Price,Brand,Model,Description,Image}=prodectdetails;
+   
+        const NewCartProdect= new CartCollection({
+            ProdectId,CategoryId,Category,Price,Description,Model,Brand,Image
+        })
+        console.log('NewCartProdect:',NewCartProdect)
+        await NewCartProdect.save();
+    //   if(Category==SMARTPHONE){
+     
+    // }
+        return  res.redirect("/home")
+    }catch(error){
+        console.log("Error due to  prodect add in cart time");
+        return res.status(500).send("Error due to  prodect add in cart time");
+    }
+    }
+
+//remove  prodect the cart 
+   const IteamRemoveCart=async(req,res)=>{
+    const prodectid=req.params.iteam;
+    console.log('prodectid:',prodectid)
+    try{
+    
+    const DeleteCartiteam=await CartCollection.findOneAndRemove({ProdectId:prodectid})
+    return res. redirect("/cartpagedetails")
+
+    }catch(error){
+        console.log('Error due to cart iteam delete time',error);
+        return res.status(500).send("Error due to cart iteam delete time")
+    }
 }
 
 
 //checkoutpage
 const checkoutpage=async(req,res)=>{
+  
     categoryinfo = await Categorycollection.find({});
     return res.render("User/checkoutpage",{categoryinfo,Userlogin})
 }
 
+const userprofile=async(req,res)=>{
+  
+    categoryinfo = await Categorycollection.find({});
+    return res.render("User/Userfulldetails",{categoryinfo,Userlogin})
+}
 
  module.exports = {
     mainhomepage,
@@ -414,5 +475,9 @@ const checkoutpage=async(req,res)=>{
     oneprodectdetails,
 
     cartpage,
-    checkoutpage
+    cartpagedetails,
+    checkoutpage,
+
+    IteamRemoveCart,
+    userprofile
 }

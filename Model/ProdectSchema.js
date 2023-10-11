@@ -7,8 +7,8 @@ const ProdectSchema=new mongoose.Schema({
     Model:String,
     Image:Array,
     Description:String,
-    Quantity:Number,
-    Price:Number
+    // Quantity:Number,
+    Price:Number,
 })
 
 const prodectcollection=mongoose.model("Prodects",ProdectSchema)

@@ -84,15 +84,24 @@
               <h6 class="text-dark"><%= data.Price %>/-</h6>
             </td>
             <td>
-              <select style="width: 100px;" class="form-select">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-              </select>
-            </td>
-            <td>
-              <h5 class="text-dark"><%= data.Price %>/-</h5>
+          <!-- + & - button  working place-->
+              <div class="count-container">
+                <% if(data.Count === 1){ %>
+                  <button style="background-color: #ff0000; color: #ffffff;">-</button>
+                <%}else{ %>
+                  <a href="/CartMinusebutton/<%=data.ProdectId%>">
+                    <button style="background-color: #ff0000; color: #ffffff;">-</button>
+                  </a>
+                <% } %>
+                <span class="count" style="font-size: 16px; color: #333;"> <%= data.Count %></span>
+                <a href="/CartPluseButton/<%=data.ProdectId%>">
+                  <button style="background-color: #00ff00; color: #ffffff;">+</button>
+                </a>
+              </div>
+              
+          </td>
+            <td>  
+              <h5 class="text-dark"><%= data.Price*data.Count %>/-</h5>
             </td>
             <td>
               <a href="/IteamRemoveCart/<%= data.ProdectId %>" class="btn btn-primary">Remove</a>
@@ -136,25 +145,27 @@
                     <div class="card-body" style="color: green;">
                       <div class="d-flex justify-content-between">
                         <p class="mb-2">Total price:</p>
-                        <p class="mb-2" style="color: black; font-weight: bold;">$329.00</p>
+                        <p class="mb-2" style="color: black; font-weight: bold;"><%= totalprice.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })%></p>
                       </div>
                       <div class="d-flex justify-content-between">
                         <p class="mb-2">Discount:</p>
-                        <p class="mb-2 text-success" style="color: black; font-weight: bold;">-$60.00</p>
+                        <p class="mb-2 text-success" style="color: black; font-weight: bold;"><%= (20).toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %>
+                        </p>
                       </div>
                       <div class="d-flex justify-content-between">
                         <p class="mb-2">TAX:</p>
-                        <p class="mb-2" style="color: black; font-weight: bold;">$14.00</p>
+                        <p class="mb-2" style="color: black; font-weight: bold;"><%= (500).toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %></p>
                       </div>
                       <hr />
                       <div class="d-flex justify-content-between">
                         <p class="mb-2">Total price:</p>
-                        <p class="mb-2 fw-bold" style="color: black; font-weight: bold;">$283.00</p>
+                        <p class="mb-2 fw-bold" style="color: black; font-weight: bold;"><%= (totalprice+20+500).toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %>
+                        </p>
                       </div>
                       
                       <div class="mt-3">
-                        <a href="#" class="btn btn-success w-100 shadow-0 mb-2">Make Purchase</a>
-                        <a href="#" class="btn btn-light w-100 border mt-2">Back to shop</a>
+                        <a href="/checkoutpage" class="btn btn-success w-100 shadow-0 mb-2">CheckOut</a>
+                        <!-- <a href="#" class="btn btn-light w-100 border mt-2">Back to shop</a> -->
                       </div>
                     </div>
                   </div>
@@ -168,7 +179,12 @@
             </div>
           </section>
           
-          <!-- cart + summary -->
+        
+          <!--this code is used to +&- working
+             <button class="increase">+</button>
+            
+          <span class="count">1</span
+          <button class="decrease">-</button> -->
           <!-- <section>
             <div class="container my-5">
               <header class="mb-4">
@@ -209,7 +225,8 @@
         -
            
             
-          
+      
+  
            
       
    
@@ -236,6 +253,39 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
+            <!-- <script>
+              // Get references to the HTML elements using querySelectorAll
+              const decreaseButtons = document.querySelectorAll('.decrease');
+          
+              const increaseButtons = document.querySelectorAll('.increase');
+        
+              const countElements = document.querySelectorAll('.count');
+
+// Event listener for the decrease button
+              decreaseButtons.forEach((button,i)=> {
+                  button.addEventListener('click', function() {
+                    let value = countElements[i].textContent
+                    let count=Number(value);
+                   if (count > 1) {
+                          count--;
+                          countElements[i].textContent = count;
+                     }  
+                  });
+              });
+      
+// Event listener for the increase button
+              increaseButtons.forEach((button,i)=>{
+                  button.addEventListener('click', function() {
+                    let value = countElements[i].textContent
+                  let count=Number(value);
+                      count++;
+                      countElements[i].textContent = count;
+                      });
+              });
+      
+              
+          </script> -->
 </body>
 
 </html>

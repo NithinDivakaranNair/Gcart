@@ -8,7 +8,11 @@ const CartSchema=new mongoose.Schema({
      Price:Number,
      Description:String,
      Model:String,
-     Brand:String
+     Brand:String,  
+     Count: {
+          type: Number,
+          default: 1, // Set the default value to 1
+        },
 })
 const Cartcollection=mongoose.model("Cart",CartSchema)
 module.exports=Cartcollection;

@@ -41,6 +41,8 @@ router.get("/oneprodectdetails/:prodectId",usercontroller.oneprodectdetails)
 
 router.get("/cartpage/:prodectId",usercontroller.cartpage)
 router.get("/cartpagedetails",usercontroller.cartpagedetails)
+router.get("/CartPluseButton/:prodectId",usercontroller.CartPluseButton)
+router.get("/CartMinusebutton/:prodectId",usercontroller.CartMinusebutton)
 
 router.get("/checkoutpage",usercontroller.checkoutpage)
 router.get("/IteamRemoveCart/:iteam",usercontroller.IteamRemoveCart)

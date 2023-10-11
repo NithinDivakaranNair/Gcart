@@ -142,24 +142,23 @@
                   </div>
                  
                   <div class="card shadow-0 border" style="background-color: lightyellow;">
+                  
                     <div class="card-body" style="color: green;">
+                      <h6 class="mb-3">Price Details</h6>
                       <div class="d-flex justify-content-between">
-                        <p class="mb-2">Total price:</p>
+                        <p class="mb-2" style="color: rgb(0, 0, 0);">Total price(<%=num %>iteams):</p>
                         <p class="mb-2" style="color: black; font-weight: bold;"><%= totalprice.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })%></p>
                       </div>
                       <div class="d-flex justify-content-between">
-                        <p class="mb-2">Discount:</p>
+                        <p class="mb-2" style="color: black;">Discount:</p>
                         <p class="mb-2 text-success" style="color: black; font-weight: bold;"><%= (20).toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %>
                         </p>
                       </div>
-                      <div class="d-flex justify-content-between">
-                        <p class="mb-2">TAX:</p>
-                        <p class="mb-2" style="color: black; font-weight: bold;"><%= (500).toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %></p>
-                      </div>
+                    
                       <hr />
                       <div class="d-flex justify-content-between">
-                        <p class="mb-2">Total price:</p>
-                        <p class="mb-2 fw-bold" style="color: black; font-weight: bold;"><%= (totalprice+20+500).toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %>
+                        <p class="mb-2" style="color: black;">Total Amount:</p>
+                        <p class="mb-2 fw-bold" style="color: black"; font-weight: bold;"><%= (totalprice-20).toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %>
                         </p>
                       </div>
                       

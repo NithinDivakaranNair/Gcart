@@ -46,5 +46,7 @@ router.get("/CartMinusebutton/:prodectId",usercontroller.CartMinusebutton)
 
 router.get("/checkoutpage",usercontroller.checkoutpage)
 router.get("/IteamRemoveCart/:iteam",usercontroller.IteamRemoveCart)
+
 router.get("/userprofile",usercontroller.userprofile)
+
 module.exports = router 

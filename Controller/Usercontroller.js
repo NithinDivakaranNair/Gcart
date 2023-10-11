@@ -395,14 +395,16 @@ const cartpagedetails = async (req, res) => {
         categoryinfo = await Categorycollection.find({});
         const cartinfo = await CartCollection.find({})
         let totalprice = 0
+        let num=0;
         cartinfo.forEach((cartiteam)=>{
-            totalprice +=cartiteam.Price * cartiteam.Count
+            totalprice +=cartiteam.Price * cartiteam.Count;
+            num++;
         })
-        return res.render("User/Shoppingcartpage", { Userlogin, categoryinfo, cartinfo ,totalprice})
+        return res.render("User/Shoppingcartpage", { Userlogin, categoryinfo, cartinfo ,totalprice,num})
     } catch (error) {
         console.log("Error due to cart detail displaying time:", error)
         return res.status(500).send("Error due to cart detail displaying time")
-    }``
+    }
 }
 
 
@@ -513,9 +515,14 @@ const IteamRemoveCart = async (req, res) => {
 
 //checkoutpage
 const checkoutpage = async (req, res) => {
-
-    categoryinfo = await Categorycollection.find({});
-    return res.render("User/checkoutpage", { categoryinfo, Userlogin })
+    const cartinfo = await CartCollection.find({})
+    let totalprice = 0
+    let num=0;
+    cartinfo.forEach((cartiteam,index)=>{
+        totalprice +=cartiteam.Price * cartiteam.Count
+         num++;
+    })
+    return res.render("User/checkoutpage", { Userlogin, categoryinfo ,totalprice,num})
 }
 
 

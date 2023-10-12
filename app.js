@@ -8,9 +8,10 @@ const nocache=require("nocache");
 const userrouter=require("./Router/User") ;
 const adminrouter=require("./Router/Admin") 
 const mongoose=require("mongoose");
+const bodyParser = require('body-parser');
 
 app.use(express.urlencoded({ extended: true }));  
-
+app.use(bodyParser.json());
 
 app.use(nocache());
 

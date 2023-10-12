@@ -10,7 +10,7 @@ const Categorycollection = require("../Model/CategorySchema")
 const CartCollection = require("../Model/CartSchema")// cart schema require
 
 const AddressCollection=require("../Model/AddressSchema")
-
+const Ordercollection=require("../Model/OrderSchema")
 const nodemailer = require("nodemailer");    //Email sending module
 
 
@@ -563,9 +563,11 @@ catch(error){
 // profile detail page
 const userprofile = async (req, res) => {
 try{
+    const userdetails=await signupcollection.find({})
     const AllAddress= await AddressCollection.find({})
     categoryinfo = await Categorycollection.find({});
-    return res.render("User/Userfulldetails", { categoryinfo, Userlogin,AllAddress })
+    console.log(userdetails)
+    return res.render("User/Userfulldetails", { categoryinfo, Userlogin,AllAddress,userdetails })
 }catch(error){
     console.log("Error due to user profile page rendering error:", error)
     res.status(500).send("Error due to sucessful page rendering error");
@@ -576,6 +578,7 @@ try{
 
 //order sucessful page
 const ordersucessful= async (req, res) => {
+    console.log('ordersucessful')
     try{
   
     categoryinfo = await Categorycollection.find({});
@@ -587,6 +590,27 @@ const ordersucessful= async (req, res) => {
 }
 
 
+//order sucessfulpage post methode
+const ordersuccessfulPOST = async (req, res) => {
+    const totalAmount = req.body.totalAmount;
+    console.log("totalAmount:", totalAmount);
+    try {
+      const userdetails= req.session.userId
+      const userId=userdetails._id;
+
+        // Save the order with the total amount to your database using the Order model
+        const newOrder = new Ordercollection({
+            customerId: userId,
+            totalAmount: totalAmount,
+            
+        });
+        await newOrder.save();
+  return res.redirect("/ordersucessful");
+    } catch (error) {
+        console.log("Error due to successful page rendering error:", error);
+        res.status(500).send("Error due to successful page rendering error");
+    }
+};
 
 
 
@@ -622,5 +646,6 @@ module.exports = {
 
     AddAddress,
 
-    ordersucessful
+    ordersucessful,
+    ordersuccessfulPOST
 }

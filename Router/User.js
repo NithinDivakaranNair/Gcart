@@ -3,6 +3,10 @@ const router=express.Router()
 const usercontroller=require("../Controller/Usercontroller")
 const multer=require('multer') //require multer middleware module
 
+const bodyParser = require('body-parser');
+
+const app = express();
+app.use(bodyParser.json());
 
 // multer middleware
 const storage = multer.diskStorage({
@@ -52,4 +56,6 @@ router.get("/userprofile",usercontroller.userprofile)
 router.post("/AddAddress",usercontroller.AddAddress)
 
 router.get("/ordersucessful",usercontroller.ordersucessful)
+
+router.post("/ordersuccessfulPOST",usercontroller.ordersuccessfulPOST)
 module.exports = router 

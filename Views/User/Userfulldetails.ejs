@@ -72,7 +72,7 @@
                       </label> &nbsp;
                       <button type="button" class="btn btn-default md-btn-flat">Reset</button>
     
-                      <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div>
+                      <!-- <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div> -->
                     </div>
                   </div>
                   <hr class="border-light m-0">
@@ -80,24 +80,18 @@
                   <div class="card-body">
                     <div class="form-group">
                       <label class="form-label">Username</label>
-                      <input type="text" class="form-control mb-1" value="nmaxwell">
-                    </div>
-                    <div class="form-group">
+                      <input type="text" class="form-control mb-1" value="<%=userdetails.username%>" >
+                  </div>
+                    <!-- <div class="form-group">
                       <label class="form-label">Name</label>
                       <input type="text" class="form-control" value="Nelle Maxwell">
-                    </div>
+                    </div> -->
                     <div class="form-group">
-                      <label class="form-label">E-mail</label>
-                      <input type="text" class="form-control mb-1" value="nmaxwell@mail.com">
-                      <div class="alert alert-warning mt-3">
-                        Your email is not confirmed. Please check your inbox.<br>
-                        <a href="javascript:void(0)">Resend confirmation</a>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label">Company</label>
-                      <input type="text" class="form-control" value="Company Ltd.">
-                    </div>
+                      <label class="form-label">Email</label>
+                      <input type="text" class="form-control mb-1" value="<%=userdetails.email%>" >
+                      <input type="text" class="form-control text-white" id="Price" name="Price" value="<%=userdetails.email%>">
+                  </div>
+                  
                   </div>
     
                 </div>

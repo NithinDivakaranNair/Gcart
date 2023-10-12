@@ -47,20 +47,24 @@
           <div class="row no-gutters row-bordered row-border-light">
             <div class="col-md-3 pt-0">
               <div class="list-group list-group-flush account-settings-links">
-                <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">General</a>
+                <a class="list-group-item list-group-item-action active" data-toggle="list" href="#infro">Info</a>
                 <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change password</a>
-                <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a>
-                <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">Social links</a>
-                <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-connections">Connections</a>
-                <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications">Notifications</a>
+                <a class="list-group-item list-group-item-action" data-toggle="list" href="#Address">Address</a>
+                <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a> -->
+                <a class="list-group-item list-group-item-action" data-toggle="list" href="#Order">Orders</a>
+                <a class="list-group-item list-group-item-action" data-toggle="list" href="#Wallets">Wallets</a>
+              
               </div>
             </div>
+        
+       
             <div class="col-md-9">
               <div class="tab-content">
-                <div class="tab-pane fade active show" id="account-general">
-    
+
+ <!--info-->          
+                <div class="tab-pane fade active show" id="infro">
                   <div class="card-body media align-items-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-80">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxYA4yTn5sczM4j6psN48F0zJk8zELz2nT4A&usqp=CAU " alt="" class="d-block ui-w-80">
                     <div class="media-body ml-4">
                       <label class="btn btn-outline-primary">
                         Upload new photo
@@ -97,7 +101,9 @@
                   </div>
     
                 </div>
-                <div class="tab-pane fade" id="account-change-password">
+  
+<!--change password-->              
+                 <div class="tab-pane fade" id="account-change-password">
                   <div class="card-body pb-2">
     
                     <div class="form-group">
@@ -117,7 +123,9 @@
     
                   </div>
                 </div>
-                <div class="tab-pane fade" id="account-info">
+                
+ <!--account info-->               
+                <!-- <div class="tab-pane fade" id="account-info">
                   <div class="card-body pb-2">
     
                     <div class="form-group">
@@ -156,9 +164,11 @@
     
                   </div>
           
-                </div>
-                <div class="tab-pane fade" id="account-social-links">
-                  <div class="card-body pb-2">
+                </div> -->
+
+<!--Orders-->
+             <div class="tab-pane fade" id="Order">
+                  <!-- <div class="card-body pb-2">
     
                     <div class="form-group">
                       <label class="form-label">Twitter</label>
@@ -181,10 +191,12 @@
                       <input type="text" class="form-control" value="https://www.instagram.com/user">
                     </div>
     
-                  </div>
-                </div>
-                <div class="tab-pane fade" id="account-connections">
-                  <div class="card-body">
+                  </div> -->
+                </div> 
+
+  <!--Wallet-->               
+                <div class="tab-pane fade" id="Wallets">
+                  <!-- <div class="card-body">
                     <button type="button" class="btn btn-twitter">Connect to <strong>Twitter</strong></button>
                   </div>
                   <hr class="border-light m-0">
@@ -203,82 +215,115 @@
                   <hr class="border-light m-0">
                   <div class="card-body">
                     <button type="button" class="btn btn-instagram">Connect to <strong>Instagram</strong></button>
-                  </div>
+                  </div> -->
                 </div>
-                <div class="tab-pane fade" id="account-notifications">
-                  <div class="card-body pb-2">
-    
-                    <h6 class="mb-4">Activity</h6>
-    
-                    <div class="form-group">
-                      <label class="switcher">
-                        <input type="checkbox" class="switcher-input" checked="">
-                        <span class="switcher-indicator">
-                          <span class="switcher-yes"></span>
-                          <span class="switcher-no"></span>
-                        </span>
-                        <span class="switcher-label">Email me when someone comments on my article</span>
-                      </label>
-                    </div>
-                    <div class="form-group">
-                      <label class="switcher">
-                        <input type="checkbox" class="switcher-input" checked="">
-                        <span class="switcher-indicator">
-                          <span class="switcher-yes"></span>
-                          <span class="switcher-no"></span>
-                        </span>
-                        <span class="switcher-label">Email me when someone answers on my forum thread</span>
-                      </label>
-                    </div>
-                    <div class="form-group">
-                      <label class="switcher">
-                        <input type="checkbox" class="switcher-input">
-                        <span class="switcher-indicator">
-                          <span class="switcher-yes"></span>
-                          <span class="switcher-no"></span>
-                        </span>
-                        <span class="switcher-label">Email me when someone follows me</span>
-                      </label>
+               
+  <!--adress-->             
+                <div class="tab-pane fade" id="Address">
+                  <div class="container">
+                    <h4>Address</h4>
+                    <form>
+                      <% AllAddress.forEach((data)=>{%>
+                        <div class="form-check">
+                          
+                          <label class="form-check-label" for="address1" style="font-weight: bold; color: black;"><%= data.Name %></label>
+
+                      </div>
+                      <div class="form-check">
+                          <label class="form-check-label" for="address1"><%= data.MobileNumber%>,<%=  data.Address%>, <%= data.Landmark%>,<%=  data.AternateNumber%>, <%= data.City%>,<%=  data.Pincode %></label>
+                      </div>
+                      <hr />
+                      <% })%>
+                      <div>
+                        </div>
+  
+                     
+   <!--add new address-->                  
+                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAddressModal">
+                        Add New Address
+                      </button>
+                    </form>
+                  </div>
+  
+                  <!-- Modal for adding a new address -->
+                  <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog"
+                    aria-labelledby="addAddressModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="addAddressModalLabel">Add New Address</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+  
+                          <!-- new address adding field -->
+  
+                          <form action="/AddAddress" method="post">
+                            <!-- 2 column grid layout with text inputs for the first and last names -->
+                            <div class="row mb-4">
+                              <div class="col">
+                                <div class="form-outline">
+                                  <input type="text" id="form7Example1" class="form-control" name="name" />
+                                  <label class="form-label" for="form7Example1">Name</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-outline mb-4">
+                              <input type="number" id="form7Example3" class="form-control" name="mobilenumber" />
+                              <label class="form-label" for="form7Example3">Mobile Number</label>
+                            </div>
+  
+  
+                            <div class="form-outline mb-4">
+                              <textarea class="form-control" id="form7Example7" rows="4" name="address"></textarea>
+                              <label class="form-label" for="form7Example7">Address</label>
+                            </div>
+  
+  
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                              <input type="text" id="form7Example5" class="form-control" name="landmark" />
+                              <label class="form-label" for="form7Example5">LandMark</label>
+                            </div>
+  
+                            <!-- Number input -->
+                            <div class="form-outline mb-4">
+                              <input type="number" id="form7Example6" class="form-control" name="alternatenumber" />
+                              <label class="form-label" for="form7Example6">Alternate number</label>
+                            </div>
+  
+                            <!-- Text input -->
+                            <div class="form-outline mb-4">
+                              <input type="text" id="form7Example4" class="form-control" name="city" />
+                              <label class="form-label" for="form7Example4">City</label>
+                            </div>
+  
+                            <div class="col">
+                              <div class="form-outline">
+                                <input type="number" id="form7Example1" class="form-control" name="pincode" />
+                                <label class="form-label" for="form7Example1">Pincode</label>
+                              </div>
+                            </div>
+  
+                            <div class="modal-footer">
+                              <!-- <button  class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                              <button type="submit" class="btn btn-primary">Save Address</button>
+                            </div>
+  
+                          </form>
+                          <!--End  new address adding field -->
+  
+  
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <hr class="border-light m-0">
-                  <div class="card-body pb-2">
-    
-                    <h6 class="mb-4">Application</h6>
-    
-                    <div class="form-group">
-                      <label class="switcher">
-                        <input type="checkbox" class="switcher-input" checked="">
-                        <span class="switcher-indicator">
-                          <span class="switcher-yes"></span>
-                          <span class="switcher-no"></span>
-                        </span>
-                        <span class="switcher-label">News and announcements</span>
-                      </label>
-                    </div>
-                    <div class="form-group">
-                      <label class="switcher">
-                        <input type="checkbox" class="switcher-input">
-                        <span class="switcher-indicator">
-                          <span class="switcher-yes"></span>
-                          <span class="switcher-no"></span>
-                        </span>
-                        <span class="switcher-label">Weekly product updates</span>
-                      </label>
-                    </div>
-                    <div class="form-group">
-                      <label class="switcher">
-                        <input type="checkbox" class="switcher-input" checked="">
-                        <span class="switcher-indicator">
-                          <span class="switcher-yes"></span>
-                          <span class="switcher-no"></span>
-                        </span>
-                        <span class="switcher-label">Weekly blog digest</span>
-                      </label>
-                    </div>
-    
-                  </div>
+
                 </div>
+             
+             
               </div>
             </div>
           </div>

@@ -49,4 +49,7 @@ router.get("/IteamRemoveCart/:iteam",usercontroller.IteamRemoveCart)
 
 router.get("/userprofile",usercontroller.userprofile)
 
+router.post("/AddAddress",usercontroller.AddAddress)
+
+router.get("/ordersucessful",usercontroller.ordersucessful)
 module.exports = router 

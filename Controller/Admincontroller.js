@@ -6,6 +6,8 @@ const Prodectcollection=require("../Model/ProdectSchema")
 const Categorycollection=require("../Model/CategorySchema")
 // const prodectcollection = require("../Model/ProdectSchema")
 
+const Ordercollection = require("../Model/OrderSchema")
+
 
 //AddCategory rout
      const addcategorys=(req,res)=>{
@@ -360,7 +362,8 @@ catch(error){
     return res.render("Admin/UserMangement",{userdetails})
   }
 
-//user block
+
+  //user block
 const userblock=async(req,res)=>{
   const userid=req.params.userId
   console.log('userid:',userid)
@@ -401,6 +404,15 @@ catch(error){
   return res.status(404).send("internal error")
 }
 }
+
+
+
+//admin ordermanagement
+const OrderManagPage=async(req,res)=>{
+  const orderdetails=await Ordercollection.find({});
+
+  return res.render("Admin/OrderManagement",{orderdetails})
+}
  
 module.exports={
     adminlogin,
@@ -425,5 +437,8 @@ module.exports={
 
     AdminUserpage,
     userblock,
-    userunblock
+    userunblock,
+
+
+    OrderManagPage
 }

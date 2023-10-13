@@ -44,4 +44,7 @@ router.get("/AdminUserpage",admincontroller.AdminUserpage)
 router.post("/AdminUserpage/userblock/:userId",admincontroller.userblock)
 router.post("/AdminUserpage/userunblock/:userId",admincontroller.userunblock)
 
+
+router.get("/OrderManagPage",admincontroller.OrderManagPage)
+
 module.exports=router

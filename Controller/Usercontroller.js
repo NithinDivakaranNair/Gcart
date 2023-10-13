@@ -9,9 +9,10 @@ const Categorycollection = require("../Model/CategorySchema")
 
 const CartCollection = require("../Model/CartSchema")// cart schema require
 
-const AddressCollection=require("../Model/AddressSchema")
-const Ordercollection=require("../Model/OrderSchema")
+const AddressCollection = require("../Model/AddressSchema")
+const Ordercollection = require("../Model/OrderSchema")
 const nodemailer = require("nodemailer");    //Email sending module
+const { json } = require('body-parser')
 
 
 
@@ -397,13 +398,14 @@ const cartpagedetails = async (req, res) => {
     try {
         categoryinfo = await Categorycollection.find({});
         const cartinfo = await CartCollection.find({})
+
         let totalprice = 0
-        let num=0;
-        cartinfo.forEach((cartiteam)=>{
-            totalprice +=cartiteam.Price * cartiteam.Count;
+        let num = 0;
+        cartinfo.forEach((cartiteam) => {
+            totalprice += cartiteam.Price * cartiteam.Count;
             num++;
         })
-        return res.render("User/Shoppingcartpage", { Userlogin, categoryinfo, cartinfo ,totalprice,num})
+        return res.render("User/Shoppingcartpage", { Userlogin, categoryinfo, cartinfo, totalprice, num })
     } catch (error) {
         console.log("Error due to cart detail displaying time:", error)
         return res.status(500).send("Error due to cart detail displaying time")
@@ -417,6 +419,9 @@ const cartpage = async (req, res) => {
     try {
         const ProdectId = req.params.prodectId;
         const prodectdetails = await Prodectcollection.findOne({ _id: ProdectId })
+
+        const userdetails = req.session.userId
+        const UserId = userdetails._id;
 
         const categoryinfo = await Categorycollection.findOne({ Category: prodectdetails.Category });
         const CategoryId = categoryinfo._id;
@@ -432,6 +437,7 @@ const cartpage = async (req, res) => {
         }
 
         const NewCartProdect = new CartCollection({
+            UserId,
             ProdectId,
             CategoryId,
             Category,
@@ -511,7 +517,7 @@ const IteamRemoveCart = async (req, res) => {
 }
 
 
-   
+
 
 
 
@@ -519,98 +525,122 @@ const IteamRemoveCart = async (req, res) => {
 //checkoutpage
 const checkoutpage = async (req, res) => {
     const cartinfo = await CartCollection.find({})
-    const AllAddress= await AddressCollection.find({})
+    const AllAddress = await AddressCollection.find({})
     let totalprice = 0
-    let num=0;
-    cartinfo.forEach((cartiteam,index)=>{
-        totalprice +=cartiteam.Price * cartiteam.Count
-         num++;
+    let num = 0;
+    cartinfo.forEach((cartiteam, index) => {
+        totalprice += cartiteam.Price * cartiteam.Count
+        num++;
     })
-    return res.render("User/checkoutpage", { Userlogin, categoryinfo ,totalprice,num,AllAddress,cartinfo})
+    return res.render("User/checkoutpage", { Userlogin, categoryinfo, totalprice, num, AllAddress, cartinfo })
 }
 
 
-      
+
 //Address 
- const AddAddress=async(req,res)=>{
-    const addressdetails=req.body
-    try{
-    console.log("addressdetails:",req.body)
-    const{name,mobilenumber,address,landmark,alternatenumber,city,pincode}=addressdetails;
-    const newaddressdetails=new AddressCollection({
-        Name:name,
-        MobileNumber:mobilenumber,
-        Address:address,
-        Landmark:landmark,
-        AternateNumber:alternatenumber,
-        City:city,
-        PincodeL:pincode
-    })
-    console.log(newaddressdetails)
-    await newaddressdetails.save()
-    res.redirect("/checkoutpage")
-}
-catch(error){
-    console.log("Error due to address details add time:",error);
-    res.status(500).sned("Error due to address details add time")
-}
+const AddAddress = async (req, res) => {
+    const addressdetails = req.body
+    try {
+        console.log("addressdetails:", req.body)
+        const { name, mobilenumber, address, landmark, alternatenumber, city, pincode } = addressdetails;
+        const userdetails = req.session.userId
+        const userId = userdetails._id;
+        const newaddressdetails = new AddressCollection({
+            UserId: userId,
+            Name: name,
+            MobileNumber: mobilenumber,
+            Address: address,
+            Landmark: landmark,
+            AternateNumber: alternatenumber,
+            City: city,
+            PincodeL: pincode
+        })
+        console.log(newaddressdetails)
+        await newaddressdetails.save()
+        res.redirect("/checkoutpage")
+    }
+    catch (error) {
+        console.log("Error due to address details add time:", error);
+        res.status(500).sned("Error due to address details add time")
+    }
 
- }
+}
 
 
 
 
 // profile detail page
 const userprofile = async (req, res) => {
-try{
-    const userdetails=await signupcollection.find({})
-    const AllAddress= await AddressCollection.find({})
-    categoryinfo = await Categorycollection.find({});
-    console.log(userdetails)
-    return res.render("User/Userfulldetails", { categoryinfo, Userlogin,AllAddress,userdetails })
-}catch(error){
-    console.log("Error due to user profile page rendering error:", error)
-    res.status(500).send("Error due to sucessful page rendering error");
+    try {
+        const userdetail = req.session.userId;
+        console.log('userprofile',userdetail);   
+        // const customerId = userdetail._id;
+        // console.log("customerId:",customerId)
+        const userdetails = await signupcollection.findById({_id:userdetail._id})
+        const AllAddress = await AddressCollection.find({UserId:userdetail._id})
+        const Allorders=await Ordercollection.find({customerId:userdetail._id})
+        // console.log("AllAddress:",AllAddress)
+        categoryinfo = await Categorycollection.find({});
+        console.log('adresssss',AllAddress)
+        console.log('Allorders',Allorders)
+        return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails,Allorders })
+    } catch (error) {
+        console.log("Error due to user profile page rendering error:", error)
+        res.status(500).send("Error due to sucessful page rendering error");
 
-}
+    }
 }
 
 
 //order sucessful page
-const ordersucessful= async (req, res) => {
+const ordersucessful = async (req, res) => {
     console.log('ordersucessful')
-    try{
-  
-    categoryinfo = await Categorycollection.find({});
-    return res.render("User/ORDERSUCESSFUL", { categoryinfo, Userlogin })
-}catch(error){
-    console.log("Error due to sucessful page rendering error:", error)
-    res.status(500).send("Error due to sucessful page rendering error");
-}
+    try {
+
+        categoryinfo = await Categorycollection.find({});
+        return res.render("User/ORDERSUCESSFUL", { categoryinfo, Userlogin })
+    } catch (error) {
+        console.log("Error due to sucessful page rendering error:", error)
+        res.status(500).send("Error due to sucessful page rendering error");
+    }
 }
 
 
 //order sucessfulpage post methode
 const ordersuccessfulPOST = async (req, res) => {
-    const totalAmount = req.body.totalAmount;
-    console.log("totalAmount:", totalAmount);
-    try {
-      const userdetails= req.session.userId
-      const userId=userdetails._id;
+    console.log("datas:", req.body)
 
+    const addressId =  req.body.address;
+    const address=await AddressCollection.findById(addressId)
+    
+    const userdetails = req.session.userId;
+    const customerId = userdetails._id;
+    const CustomerName = userdetails.username;
+    const paymentmode = req.body.paymentMethod;
+    const totalAmount = req.body.totalAmount;
+
+    try {
+        const cartinf = await CartCollection.find({ UserId: customerId })
         // Save the order with the total amount to your database using the Order model
         const newOrder = new Ordercollection({
-            customerId: userId,
+            customerId,
+            CustomerName,
             totalAmount: totalAmount,
-            
+            address,
+            iteams: cartinf,
+            paymentmode
         });
         await newOrder.save();
-  return res.redirect("/ordersucessful");
+
+        res.redirect("/ordersucessful");
+        await CartCollection.deleteMany({ UserId: customerId });
     } catch (error) {
         console.log("Error due to successful page rendering error:", error);
         res.status(500).send("Error due to successful page rendering error");
     }
 };
+
+
 
 
 
@@ -646,6 +676,7 @@ module.exports = {
 
     AddAddress,
 
+
     ordersucessful,
-    ordersuccessfulPOST
+    ordersuccessfulPOST,
 }

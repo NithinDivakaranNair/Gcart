@@ -49,36 +49,6 @@
             <div class="card shadow-0 border">
               <div class="p-4">
 
-                <!--select adress-->
-                `` <div class="container">
-                  <h4>Select Address</h4>
-                  <form>
-                    <% AllAddress.forEach((data)=>{%>
-                      <div class="form-check">
-                        <input type="radio" class="form-check-input" id="address1" name="address">
-                        <label class="form-check-label" for="address1" style="font-weight: bold; color: black;">
-                          <%= data.Name %>
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <label class="form-check-label" for="address1">
-                          <%= data.MobileNumber%>,<%= data.Address%>, <%= data.Landmark%>,<%= data.AternateNumber%>, <%=
-                                    data.City%>,<%= data.Pincode %>
-                        </label>
-                      </div>
-                      <hr />
-                      <% })%>
-                        <div>
-                        </div>
-
-
-                        <!--add new address-->
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                          data-target="#addAddressModal">
-                          Add New Address
-                        </button>
-                  </form>
-                </div>
 
                 <!-- Modal for adding a new address -->
                 <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog"
@@ -156,44 +126,77 @@
                   </div>
                 </div>
 
+                <form action="/ordersuccessfulPOST" method="post">
 
-                <!--payment options-->
-                <h4>Select Payment Method</h4>
-                <form>
+                  <!--select adress-->
+                  <div class="container">
+                    <h4>Select Address</h4>
+
+                    <% AllAddress.forEach((data)=>{%>
+                      <div class="form-check">
+
+                        <input type="radio" checked class="form-check-input" id="address1" value='<%=data._id%>'
+                          name="address"><!--radio button click time value assigned data is transfer to 'ordersucessful'-->
+
+                        <label class="form-check-label" for="address1" style="font-weight: bold; color: black;">
+                          <%= data.Name %>
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <label class="form-check-label" for="address1">
+                          <%= data.MobileNumber%>,<%= data.Address%>, <%= data.Landmark%>,<%= data.AternateNumber%>, <%=
+                                    data.City%>,<%= data.Pincode %>
+                        </label>
+                      </div>
+                      <hr />
+                      <% })%>
+
+
+
+                        <!--add new address-->
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                          data-target="#addAddressModal">
+                          Add New Address
+                        </button>
+
+                  </div>
+
+                  <!--payment options-->
+                  <h4>Select Payment Method</h4>
+
                   <div class="form-check">
-                    <input type="radio" class="form-check-input" id="cashOnDelivery" name="paymentMethod">
+                    <input type="radio" checked class="form-check-input" id="cashOnDelivery" value="Cash on Delivery"
+                      name="paymentMethod">
                     <label class="form-check-label" for="cashOnDelivery">Cash on Delivery</label>
                   </div>
                   <div class="form-check">
-                    <input type="radio" class="form-check-input" id="creditCard" name="paymentMethod">
+                    <input type="radio" class="form-check-input" id="creditCard" value="Credit Card
+                    " name="paymentMethod">
                     <label class="form-check-label" for="creditCard">Credit Card</label>
                   </div>
                   <div class="form-check">
-                    <input type="radio" class="form-check-input" id="debitCard" name="paymentMethod">
+                    <input type="radio" class="form-check-input" id="debitCard" value="Debit Card" name="paymentMethod">
                     <label class="form-check-label" for="debitCard">Debit Card</label>
                   </div>
                   <div class="form-check">
-                    <input type="radio" class="form-check-input" id="upi" name="paymentMethod">
+                    <input type="radio" class="form-check-input" id="upi" value="UPI" name="paymentMethod">
                     <label class="form-check-label" for="upi">UPI</label>
                   </div>
                   <div class="form-check">
-                    <input type="radio" class="form-check-input" id="emi" name="paymentMethod">
+                    <input type="radio" class="form-check-input" id="emi" value="EMI" name="paymentMethod">
                     <label class="form-check-label" for="emi">EMI</label>
                   </div>
-                </form>
 
 
 
-                <hr class="my-4" />
+
+                  <hr class="my-4" />
               </div>
             </div>
             <!-- Checkout -->
 
 
-            <!--payment info-->
-            <div class="container">
 
-            </div>
             <!-- <div class="float-end">
               <button class="btn btn-light border">Cancel</button>
               <a href="#" class="btn btn-success shadow-0 border">Continue</a>
@@ -233,14 +236,13 @@
               </div>
 
               <div class="mt-3">
-                <form action="/ordersuccessfulPOST" method="post">
-                  <!-- Other form fields -->
-                  <input type="hidden" name="totalAmount" value="<%= (totalprice-20+50) %>">
-                  <button type="submit">Confirm Order</button>
+                <!-- Other form fields -->
+                <input type="hidden" name="totalAmount" value="<%= (totalprice-20+50) %>">
+                <button type="submit">Confirm Order</button>
+
+
               </form>
-
               </div>
-
 
               <hr />
               <h6 class="text-dark my-4">Items in cart</h6>
@@ -306,27 +308,27 @@
       <script>
         // Calculate the total amount on the client-side
         const totalAmount = (totalprice - 20 + 50);
-    
+
         // Send a POST request to your server with the total amount
         fetch('/ordersucessfulPOST', {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ totalAmount }),
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ totalAmount }),
         })
-        .then(response => response.json())
-        .then(data => {
+          .then(response => response.json())
+          .then(data => {
             // Handle the response from the server (if needed)
             console.log(data);
-        })
-        .catch(error => {
+          })
+          .catch(error => {
             console.error(error);
-        });
-    </script>
-    
+          });
+      </script>
 
 
-    </body>
+
+</body>
 
 </html>

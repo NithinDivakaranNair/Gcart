@@ -1,6 +1,7 @@
 const mongoose=require("mongoose")
 //Defin schema
 const CartSchema=new mongoose.Schema({
+     UserId:String,
      ProdectId:String,
      CategoryId:String,
      Image:Array,

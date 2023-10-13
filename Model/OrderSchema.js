@@ -1,21 +1,21 @@
-const mongoose=require('mongoose')
+const mongoose = require('mongoose')
 
 //Define Schema
-const OrderSchema=new mongoose.Schema({
+const OrderSchema = new mongoose.Schema({
     date: {
-          type: Date,
-           default: Date.now
-            },
-    customerId:String,
-    CustomerName:String,
-    address:Object,
-    iteams:Array,
-    totalAmount:Number,
-    paymentmode:String,
-    })
+        type: Date,
+        default: Date.now
+    },
+    customerId: String,
+    CustomerName: String,
+    address: Object,
+    iteams: Array,
+    totalAmount: Number,
+    paymentmode: String,
+})
 
 
-    // const { Schema } = mongoose;
+// const { Schema } = mongoose;
 
 //Define Schema
 // const OrderSchema = new mongoose.Schema({
@@ -36,7 +36,7 @@ const OrderSchema=new mongoose.Schema({
 //     status: String
 
 // })
-    
-const Ordercollection=mongoose.model("orderdetails",OrderSchema)
 
-module.exports=Ordercollection
+const Ordercollection = mongoose.model("orderdetails", OrderSchema)
+
+module.exports = Ordercollection

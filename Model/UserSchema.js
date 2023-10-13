@@ -6,10 +6,10 @@ const userSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
-  OTP:String,
-  verify:{type:Boolean,default:true},
-  block:{type:Boolean,default:false},
- 
+  OTP: String,
+  verify: { type: Boolean, default: true },
+  block: { type: Boolean, default: false },
+
 
 });
 

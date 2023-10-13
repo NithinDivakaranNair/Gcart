@@ -12,7 +12,7 @@ const CartCollection = require("../Model/CartSchema")// cart schema require
 const AddressCollection = require("../Model/AddressSchema")
 const Ordercollection = require("../Model/OrderSchema")
 const nodemailer = require("nodemailer");    //Email sending module
-const { json } = require('body-parser')
+
 
 
 
@@ -36,16 +36,19 @@ const login = (req, res) => {
 
 let categoryinfo;
 let Userlogin;
-
+let num = 0;
+let username;
 //user homepage
 const home = async (req, res) => {
 
     if (req.session.userId) {
         try {
             Userlogin = true;
+            const userdetail = req.session.userId;
+            const username = userdetail.username;
             const prodectinfo = await Prodectcollection.find({});  //prodect colleection
             categoryinfo = await Categorycollection.find({});  //category collection
-            return res.render("User/homepage", { prodectinfo, categoryinfo, Userlogin });  //Updating Prodect and Category collection
+            return res.render("User/homepage", { prodectinfo, categoryinfo, Userlogin, username });  //Updating Prodect and Category collection
         }
         catch (error) {
             console.error(error);
@@ -69,7 +72,7 @@ const mainhomepage = async (req, res) => {
             const prodectinfo = await Prodectcollection.find({});  // updateing prodect and category in MainhomePage side
             const categoryinfo = await Categorycollection.find({});
 
-            return res.render("User/Mainhomepage", { prodectinfo, categoryinfo, Userlogin }); // that deatils are render in Mainhome Page
+            return res.render("User/Mainhomepage", { prodectinfo, categoryinfo, Userlogin, username }); // that deatils are render in Mainhome Page
         } catch (error) {
             console.error(error);
             return res.status(500).send("Error fetching product information.");
@@ -140,7 +143,7 @@ const signupdata = async (req, res) => {
                 password: hashedPassword,
                 verify: false
             })
-            console.log('User:', newUser)
+
             req.session.Signuserverification = newUser;
             await newUser.save() // Saving in database
 
@@ -149,7 +152,7 @@ const signupdata = async (req, res) => {
     catch (error) {
         return res.status(500).send("error during user registration");
     }
-    // return res.redirect("/login")
+
 
     return res.redirect("/EmailEnteringPage")
 }
@@ -162,10 +165,10 @@ const loginpost = async (req, res) => {
         const { lusername, lpassword, } = req.body; //decoding the data in body and destructing
         const user = await signupcollection.findOne({ username: lusername }) //checking  username in  current user database
         console.log("loginpost:", user._id)
-        const userId = user._id
+        const userId = user._id;
+        const VERIFYuser = user.verify;
         req.session.VERIFYuser = user;
 
-        const VERIFYuser = user.verify;
         console.log('VERIFYuser:', VERIFYuser)
 
         if (!user) { // user name validation
@@ -266,7 +269,7 @@ const EmailPost = async (req, res) => {
 
         req.session.email = checkingEmail.email//Current user emailId  assigning through Session 
 
-        console.log("verify:", req.session.email);// Redirect to the OTP entering page
+        console.log("verify email:", req.session.email);// Redirect to the OTP entering page
         res.redirect('/otp');
     }
     else {
@@ -356,14 +359,11 @@ const NewpasswordPost = async (req, res) => {
 //category based rendering field
 const categorybasedrender = async (req, res) => {
     const Id = req.params.CategoryId;
-    console.log('Id:', Id)
     const categoryId = await Categorycollection.findOne({ _id: Id })
-    console.log('categoryId:', categoryId)
     try {
         const prodectinfo = await Prodectcollection.find({ Category: categoryId.Category });  //prodect colleection
-        console.log('prodectinfo:', prodectinfo)
         categoryinfo = await Categorycollection.find({});  //category collection
-        return res.render("User/CategoryRenderingCommonPage", { categoryinfo, prodectinfo, Userlogin });  //Updating Prodect and Category collection
+        return res.render("User/CategoryRenderingCommonPage", { categoryinfo, prodectinfo, Userlogin, username });  //Updating Prodect and Category collection
     }
     catch (error) {
         console.error(error);
@@ -376,12 +376,10 @@ const categorybasedrender = async (req, res) => {
 //one prodect details//
 const oneprodectdetails = async (req, res) => {
     const prodectId = req.params.prodectId;
-    console.log('prodectId:', prodectId)
     try {
         const prodectdata = await Prodectcollection.findOne({ _id: prodectId })
-        console.log('prodectdata:', prodectdata)
         categoryinfo = await Categorycollection.find({});  //category collection
-        return res.render("User/ProdectDetails", { categoryinfo, prodectdata, Userlogin })
+        return res.render("User/ProdectDetails", { categoryinfo, prodectdata, Userlogin, username })
     }
     catch (error) {
         console.log("Error due to one prodect detailing time:", error)
@@ -394,18 +392,18 @@ const oneprodectdetails = async (req, res) => {
 
 //cartpagepageGET methode
 const cartpagedetails = async (req, res) => {
+    const userdetails = req.session.userId;
+    const userid = userdetails._id
 
     try {
         categoryinfo = await Categorycollection.find({});
-        const cartinfo = await CartCollection.find({})
+        const cartinfo = await CartCollection.find({ UserId: userid })
 
         let totalprice = 0
-        let num = 0;
         cartinfo.forEach((cartiteam) => {
             totalprice += cartiteam.Price * cartiteam.Count;
-            num++;
         })
-        return res.render("User/Shoppingcartpage", { Userlogin, categoryinfo, cartinfo, totalprice, num })
+        return res.render("User/Shoppingcartpage", { Userlogin, categoryinfo, cartinfo, totalprice, num, username })
     } catch (error) {
         console.log("Error due to cart detail displaying time:", error)
         return res.status(500).send("Error due to cart detail displaying time")
@@ -429,7 +427,7 @@ const cartpage = async (req, res) => {
 
         const existingCartItem = await CartCollection.findOne({ ProdectId });
         if (existingCartItem) {
-
+            num++;
             existingCartItem.Count += 1; // You can adjust this as needed
 
             await existingCartItem.save();
@@ -447,7 +445,7 @@ const cartpage = async (req, res) => {
             Brand,
             Image,
         })
-
+        num++;
         await NewCartProdect.save();
         return res.redirect("back")
     }
@@ -465,7 +463,7 @@ const CartPluseButton = async (req, res) => {
     try {
         const existingCartItem = await CartCollection.findOne({ ProdectId });
         if (existingCartItem) {
-
+            num++;
             existingCartItem.Count += 1; // You can adjust this as needed
 
             await existingCartItem.save();
@@ -485,7 +483,7 @@ const CartMinusebutton = async (req, res) => {
     try {
         const existingCartItem = await CartCollection.findOne({ ProdectId });
         if (existingCartItem) {
-
+            num = num - 1;
             existingCartItem.Count -= 1; // You can adjust this as needed
 
             await existingCartItem.save();
@@ -524,20 +522,26 @@ const IteamRemoveCart = async (req, res) => {
 
 //checkoutpage
 const checkoutpage = async (req, res) => {
-    const cartinfo = await CartCollection.find({})
-    const AllAddress = await AddressCollection.find({})
-    let totalprice = 0
-    let num = 0;
-    cartinfo.forEach((cartiteam, index) => {
-        totalprice += cartiteam.Price * cartiteam.Count
-        num++;
-    })
-    return res.render("User/checkoutpage", { Userlogin, categoryinfo, totalprice, num, AllAddress, cartinfo })
+    try {
+        const userdetail = req.session.userId;
+        const cartinfo = await CartCollection.find({ UserId: userdetail._id })
+        const AllAddress = await AddressCollection.find({ UserId: userdetail._id })
+        let totalprice = 0
+
+        cartinfo.forEach((cartiteam) => {
+            totalprice += cartiteam.Price * cartiteam.Count
+
+        })
+        return res.render("User/checkoutpage", { Userlogin, categoryinfo, totalprice, num, AllAddress, cartinfo, username })
+    } catch (error) {
+        console.log('Error due to checkout time', error);
+        return res.status(500).send("Error due to checkout time")
+    }
 }
 
 
 
-//Address 
+//Address add to database
 const AddAddress = async (req, res) => {
     const addressdetails = req.body
     try {
@@ -573,17 +577,16 @@ const AddAddress = async (req, res) => {
 const userprofile = async (req, res) => {
     try {
         const userdetail = req.session.userId;
-        console.log('userprofile',userdetail);   
-        // const customerId = userdetail._id;
-        // console.log("customerId:",customerId)
-        const userdetails = await signupcollection.findById({_id:userdetail._id})
-        const AllAddress = await AddressCollection.find({UserId:userdetail._id})
-        const Allorders=await Ordercollection.find({customerId:userdetail._id})
-        // console.log("AllAddress:",AllAddress)
+        console.log('userprofile', userdetail);
+
+        const userdetails = await signupcollection.findById({ _id: userdetail._id })
+        const AllAddress = await AddressCollection.find({ UserId: userdetail._id })
+        const Allorders = await Ordercollection.find({ customerId: userdetail._id })
+ 
         categoryinfo = await Categorycollection.find({});
-        console.log('adresssss',AllAddress)
-        console.log('Allorders',Allorders)
-        return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails,Allorders })
+        console.log('adresssss', AllAddress)
+        console.log('Allorders', Allorders)
+        return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, username })
     } catch (error) {
         console.log("Error due to user profile page rendering error:", error)
         res.status(500).send("Error due to sucessful page rendering error");
@@ -598,7 +601,7 @@ const ordersucessful = async (req, res) => {
     try {
 
         categoryinfo = await Categorycollection.find({});
-        return res.render("User/ORDERSUCESSFUL", { categoryinfo, Userlogin })
+        return res.render("User/ORDERSUCESSFUL", { categoryinfo, Userlogin, username })
     } catch (error) {
         console.log("Error due to sucessful page rendering error:", error)
         res.status(500).send("Error due to sucessful page rendering error");
@@ -610,9 +613,9 @@ const ordersucessful = async (req, res) => {
 const ordersuccessfulPOST = async (req, res) => {
     console.log("datas:", req.body)
 
-    const addressId =  req.body.address;
-    const address=await AddressCollection.findById(addressId)
-    
+    const addressId = req.body.address;
+    const address = await AddressCollection.findById(addressId)
+
     const userdetails = req.session.userId;
     const customerId = userdetails._id;
     const CustomerName = userdetails.username;

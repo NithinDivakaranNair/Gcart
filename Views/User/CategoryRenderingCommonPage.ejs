@@ -2,115 +2,107 @@
 <html lang="zxx">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Ashion Template">
-    <meta name="keywords" content="Ashion, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Gcart</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ashion Template">
+  <meta name="keywords" content="Ashion, unica, creative, html">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Gcart</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Css Styles -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+  <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 </head>
 
 <body>
- <!-- Header Section Begin -->
+  <!-- Header Section Begin -->
   <%- include('./partials/header.ejs') %>
 
-      <!-- Heading -->
-     <div class="bg-secondary mb-4">
-       
-        <div class="container py-4">
-      <!-- <nav class="d-flex mb-2">
-            <h6 class="mb-0">
-              <a href="" class="text-white-50">Home</a>
-              <span class="text-white-50 mx-2"> > </span>
-              <a href="" class="text-white-50">Library</a>
-              <span class="text-white-50 mx-2"> > </span>
-              <a href="" class="text-white"><u>Data</u></a>
-            </h6>
-          </nav>  -->
-          
-          </div>
-      </div>
-      <!-- Heading
-    </header>
-        
-     
+
+
+
+
     <!-- sidebar + content -->
     <section>
       <div class="container my-5">
         <div class="row">
-          <% prodectinfo.forEach(data => { %>
-            
-          <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
-            <a href="/oneprodectdetails/<%= data._id %>">
-              <div class="card w-100 my-2 shadow-2-strong">
-                <img src="/uploads/<%= data.Image[0] %>" alt="Product Image" width="200" height="210" />
-                <div class="card-body d-flex flex-column">
-                  <h6><a href="#"><%= data.Brand %></a></h6>
-                  <h6><a href="#"><%= data.Model %></a></h6>
-                  <h6><a href="#"><%= data.Description %></a></h6>
-                  <!-- Uncomment the rating section when needed -->
-                  <!-- <div class="rating">
+          <% prodectinfo.forEach(data=> { %>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
+              <a href="/oneprodectdetails/<%= data._id %>">
+                <div class="card w-100 my-2 shadow-2-strong">
+                  <img src="/uploads/<%= data.Image[0] %>" alt="Product Image" width="200" height="210" />
+                  <div class="card-body d-flex flex-column">
+                    <h6><a href="#">
+                        <%= data.Brand %>
+                      </a></h6>
+                    <h6><a href="#">
+                        <%= data.Model %>
+                      </a></h6>
+                    <h6><a href="#">
+                        <%= data.Description %>
+                      </a></h6>
+                    <!-- Uncomment the rating section when needed -->
+                    <!-- <div class="rating">
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                   </div> -->
-                  <div class="product__price"><%= data.Price %></div>
-                  <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
+                    <div class="product__price">
+                      <%= data.Price %>
+                    </div>
+                    <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
                       <a href="/cartpage/<%=data._id%>" class="btn btn-success shadow-0 me-1">Add to cart</a>
                       <a href="#!" class="btn btn-warning shadow-0 me-1">Wishlist</a>
                     </div>
-                    
+
+                  </div>
                 </div>
-              </div>
-            </a>
-          </div>
-          <% }) %>
+              </a>
+            </div>
+            <% }) %>
         </div>
       </div>
     </section>
-    
-    
+
+
     <!--footer-->
-<%- include('./partials/footer.ejs') %>
-<!--footer-->
+    <%- include('./partials/footer.ejs') %>
+      <!--footer-->
 
 
-<!-- Js Plugins -->
-<script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/jquery.magnific-popup.min.js"></script>
-<script src="/js/jquery-ui.min.js"></script>
-<script src="/js/mixitup.min.js"></script>
-<script src="/js/jquery.countdown.min.js"></script>
-<script src="/js/jquery.slicknav.js"></script>
-<script src="/js/owl.carousel.min.js"></script>
-<script src="/js/jquery.nicescroll.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <!-- Js Plugins -->
+      <script src="/js/jquery-3.3.1.min.js"></script>
+      <script src="/js/bootstrap.min.js"></script>
+      <script src="/js/jquery.magnific-popup.min.js"></script>
+      <script src="/js/jquery-ui.min.js"></script>
+      <script src="/js/mixitup.min.js"></script>
+      <script src="/js/jquery.countdown.min.js"></script>
+      <script src="/js/jquery.slicknav.js"></script>
+      <script src="/js/owl.carousel.min.js"></script>
+      <script src="/js/jquery.nicescroll.min.js"></script>
+      <script src="/js/main.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- redirect to product-->
-    <!-- <script>
+      <!-- redirect to product-->
+      <!-- <script>
       const items=document.querySelectorAll('.prodItem')
       items.forEach((item)=>{
           console.log(item);
@@ -126,4 +118,4 @@
 
 </body>
 
-</html> 
+</html>

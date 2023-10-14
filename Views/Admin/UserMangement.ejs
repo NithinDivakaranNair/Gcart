@@ -311,11 +311,11 @@
 
                   <% if(data.block){ %>
                     <form action="/AdminUserpage/userunblock/<%= data._id %>" method="post" class="d-inline">
-                      <button type="submit" class="btn btn-success btn-sm">Block</button>
+                      <button type="submit" class="btn btn-success btn-sm">Unblock</button>
                     </form>
                     <% }else{ %>
                       <form action="/AdminUserpage/userblock/<%= data._id %>" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-success btn-sm">Unblock</button>
+                        <button type="submit" class="btn btn-success btn-sm">Block</button>
                       </form>
                       <% } %>
 

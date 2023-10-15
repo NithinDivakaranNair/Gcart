@@ -350,8 +350,10 @@ const userblock = async (req, res) => {
       return res.status(404).send("user is not found")
     }
     userdata.block = true;
+   
     await userdata.save();
     console.log('userdata:', userdata)
+    req.session.userblock=true;
     return res.redirect("/AdminUserpage")
   }
   catch (error) {
@@ -371,7 +373,9 @@ const userunblock = async (req, res) => {
       return res.status(404).send("user is not found")
     }
     userdata.block = false;
+    
     await userdata.save();
+    req.session.userblock=false;
     console.log('userdata:', userdata)
     return res.redirect("/AdminUserpage")
   }

@@ -58,6 +58,11 @@ router.get("/IteamRemoveCart/:iteam",authentication.BlockAuthenticationHomepage,
 
 router.get("/userprofile",authentication.BlockAuthenticationHomepage, usercontroller.userprofile)
 
+router.post("/Updateuserdetails/:userid",authentication.BlockAuthenticationHomepage, usercontroller.Updateuserdetails)
+
+router.post("/UpdatePassword/:userid",authentication.BlockAuthenticationHomepage, usercontroller.UpdatePassword)
+
+
 router.post("/AddAddress",authentication.BlockAuthenticationHomepage, usercontroller.AddAddress)
 
 router.get("/ordersucessful", ordercontroller.ordersucessful)

@@ -536,24 +536,86 @@ const AddAddress = async (req, res) => {
 
 // profile detail page
 const userprofile = async (req, res) => {
+   
     try {
         const userdetail = req.session.userId;
-        console.log('userprofile', userdetail);
-
-        const userdetails = await signupcollection.findById({ _id: userdetail._id })
+       const userdetails = await signupcollection.findById({ _id: userdetail._id })
         const AllAddress = await AddressCollection.find({ UserId: userdetail._id })
         const Allorders = await Ordercollection.find({ customerId: userdetail._id })
- 
-      const  categoryinfo = await Categorycollection.find({});
-        console.log('adresssss', AllAddress)
-        console.log('Allorders', Allorders)
+         const  categoryinfo = await Categorycollection.find({});
+       
+        if(req.session.password){
+           return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username ,msg: "Old Password not correct"})
+        }else if( req.session.repeatpassword){
+          return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username , msg: "Password not match"})
+        }else if(req.session.NewpasswordUpdated){
+        return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username ,msg: "New password Updated"})
+         }
         return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username })
-    } catch (error) {
+       } catch (error) {
         console.log("Error due to user profile page rendering error:", error)
-        res.status(500).send("Error due to sucessful page rendering error");
+        res.status(500).send("Error due to profile page rendering error");
 
     }
 }
+
+
+// Update user details
+
+const Updateuserdetails=async(req,res)=>{
+    const userId=req.params.userid
+    console.log('userId:',userId)
+    const{username,email}=req.body;
+    console.log('username,email:',username,email)
+    try{
+        const updateddata = await signupcollection.findByIdAndUpdate(userId, {username,email}, { new: true })
+        if (!updateddata) {
+            return res.status(404).send("user not found")
+          }
+      
+          return res.redirect("back")
+        }
+        catch (error) {
+          console.error("Error updating user:", error);
+          res.status(500).send("Internal server Error");
+      
+        }
+      }
+
+
+
+//update user password Postmethode
+
+const UpdatePassword=async(req,res)=>{  
+    const userId=req.params.userid
+    console.log('UserId:',userId)
+    const{currentpassword,newpassword,repeatedpassword}=req.body;
+    console.log('Currentpassword,Newpassword,Nepeatedpassword:',currentpassword,newpassword,repeatedpassword)
+    try{
+        const user=await signupcollection.findById(userId)
+        const PasswordMatch = await bcrypt.compare(currentpassword, user.password)
+        if(!PasswordMatch){
+          req.session.password=true;
+           res.redirect("/userprofile")
+        }else if(newpassword!==repeatedpassword){
+            req.session.repeatpassword=true;
+             res.redirect("/userprofile")
+        }else{
+             const saltRounds = 10;
+              const hashedPassword = await bcrypt.hash(newpassword, saltRounds); // Password hashing process
+              const updatepassword = await signupcollection.updateOne({ _id: userId }, { $set: { password: hashedPassword } })
+              req.session.NewpasswordUpdated=true;
+              req.session.destroy();
+              res.redirect("/login")
+            }
+
+       }catch (error) {
+          console.error("Error updating user Password:", error);
+          res.status(500).send("Internal server Error");
+      
+        }
+}
+
 
 
 
@@ -580,7 +642,9 @@ module.exports = {
 
     AddAddress,
 
-
+    Updateuserdetails,
+    UpdatePassword,
+ 
    
 }
 

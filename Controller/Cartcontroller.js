@@ -13,13 +13,13 @@ const CartCollection = require("../Model/CartSchema")// cart schema require
 //cartpagepageGET methode
 const cartpagedetails = async (req, res) => {
     const userdetails = req.session.userId;
-    const id = userdetails._id;
+    // const id = userdetails._id;
   const  Userlogin = true;
 
   const  Username = userdetails.username;
     try {
         const categoryinfo = await Categorycollection.find({});
-        const cartinfo = await CartCollection.find({ UserId:id })
+        const cartinfo = await CartCollection.find({ UserId:userdetails._id })
 
         let totalprice = 0
         cartinfo.forEach((cartiteam) => {

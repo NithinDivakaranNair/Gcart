@@ -335,10 +335,18 @@
                 <td>
                   <%=data.paymentmode%>
                 </td>
-                <td>
-          <button class="btn btn-primary">Order Pending</button>
-               <button class="btn btn-danger">Order Cancel</button>
-                </td>
+             
+                  <td>
+                    <select class="form-select" id="Category" name="Category">
+                     
+                   <option value="OrderPending" >OrderPending</option>
+                   <option value="OrderShipped" >OrderShipped</option>
+                    <option value="OrderCancel" >OrderCancel</option>
+                    </select>
+                  </td>
+                  
+      
+              
               </tr>
               <%})%>
           </tbody>

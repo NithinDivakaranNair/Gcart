@@ -334,9 +334,15 @@ const updateprodectdata = async (req, res) => {
 
 //AdminUserpage
 const AdminUserpage = async (req, res) => {
-  const userdetails = await signupcollection.find({})
-  return res.render("Admin/UserMangement", { userdetails })
+  try {
+    const userdetails = await signupcollection.find({})
+    return res.render("Admin/UserMangement", { userdetails })
+  } catch (error) {
+    console.log("error due to AdminUserpage:", error)
+    return res.status(404).send("internal server error due to AdminUserpage")
+  }
 }
+
 
 
 //user block
@@ -350,10 +356,10 @@ const userblock = async (req, res) => {
       return res.status(404).send("user is not found")
     }
     userdata.block = true;
-   
+
     await userdata.save();
     console.log('userdata:', userdata)
-    req.session.userblock=true;
+    req.session.userblock = true;
     return res.redirect("/AdminUserpage")
   }
   catch (error) {
@@ -361,6 +367,7 @@ const userblock = async (req, res) => {
     return res.status(404).send("internal server error")
   }
 }
+
 
 
 //user unblock
@@ -373,9 +380,9 @@ const userunblock = async (req, res) => {
       return res.status(404).send("user is not found")
     }
     userdata.block = false;
-    
+
     await userdata.save();
-    req.session.userblock=false;
+    req.session.userblock = false;
     console.log('userdata:', userdata)
     return res.redirect("/AdminUserpage")
   }
@@ -389,10 +396,36 @@ const userunblock = async (req, res) => {
 
 //admin ordermanagement
 const OrderManagPage = async (req, res) => {
-  const orderdetails = await Ordercollection.find({});
-
-  return res.render("Admin/OrderManagement", { orderdetails })
+  try {
+    const orderdetails = await Ordercollection.find({});
+    return res.render("Admin/OrderManagement", { orderdetails })
+  } catch (error) {
+    console.log("error due to ordermangepage:", error)
+    return res.status(404).send("internal error due to ordermangepage")
+  }
 }
+
+
+
+//upadate order status
+const Updateorderstatus = async (req, res) => {
+  const orderStatus = req.body.selectedValue;
+  const orderid = req.body.ORDERid;
+  console.log('orderStatus:', orderStatus)
+  console.log('userid:', req.body.orderid);
+  try {
+    const updateorderstatusinfo = await Ordercollection.updateOne({ _id: orderid }, { $set: { orderstatus: orderStatus } })
+    console.log(updateorderstatusinfo);
+   return res.status(200).json("updated")
+  } catch (error) {
+    console.log("error due to orderstatus update:", error)
+    return res.status(404).send("internal error due to orderstatus update")
+  }
+}
+
+
+
+
 
 module.exports = {
   adminlogin,
@@ -420,5 +453,6 @@ module.exports = {
   userunblock,
 
 
-  OrderManagPage
+  OrderManagPage,
+  Updateorderstatus
 }

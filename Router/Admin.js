@@ -45,5 +45,6 @@ router.post("/AdminUserpage/userunblock/:userId", admincontroller.userunblock)
 
 
 router.get("/OrderManagPage", admincontroller.OrderManagPage)
+router.post("/Updateorderstatus", admincontroller.Updateorderstatus)
 
 module.exports = router

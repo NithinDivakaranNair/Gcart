@@ -17,7 +17,7 @@ const ordersucessful = async (req, res) => {
     try {
         const Userlogin = true;
         const userdetail = req.session.userId;
-       const  Username = userdetail.username;
+        const Username = userdetail.username;
 
         const categoryinfo = await Categorycollection.find({});
         return res.render("User/ORDERSUCESSFUL", { categoryinfo, Userlogin, Username })
@@ -62,8 +62,69 @@ const ordersuccessfulPOST = async (req, res) => {
     }
 };
 
+
+///order cancel for userside
+const ordercanel =async  (req, res) => {
+    // const Orderid = req.params.orderId;
+    // console.log("Orderid;", Orderid)
+    // try {
+    //     const orderdetails = await Ordercollection.findById(Orderid)
+    //     console.log(orderdetails.orderstatus)
+    //     if (orderdetails.orderstatus == "Orderpending") {
+           
+    //         await Ordercollection.deleteMany({ _id: Orderid });
+    //     }
+    //     res.redirect("back")
+    // } catch (error) {
+    //     console.log("Error due to ordercancel time:", error);
+    //     res.status(500).send("Error due to ordercancel time");
+    // }
+    const orderid=req.body.ORDERid
+    console.log("orderid:",orderid)
+    try{
+    const orderid=req.body.ORDERid
+      const Orderstatus=await Ordercollection.findById(orderid)
+      if((Orderstatus.orderstatus=="OrderPending")||(Orderstatus.orderstatus=="OrderShipped")){
+const updateorderstatusinfo = await Ordercollection.updateOne({ _id: orderid }, { $set: { orderactionuser:false } })
+res.redirect("back")
+      }
+ res.redirect("back")
+    }catch (error) {
+            console.log("Error due to ordercanel time:", error);
+            res.status(500).send("Error  due to ordercanel time");
+        }
+    }
+
+
+
+//each order details
+const EachOrderdetailpage= async (req, res) => {
+    console.log('ordersucessful')
+    try {
+        const orderid=req.params.orderid;
+        const Userlogin = true;
+        
+        const userdetail =  req.session.userId;
+       
+        const Username = userdetail.username;
+        console.log('Username:',Username)
+
+        const categoryinfo = await Categorycollection.find({});
+const selectedorderdetails=await Ordercollection.findById(orderid)
+        return res.render("User/EachOrderdetailPage", { categoryinfo, Userlogin, Username ,selectedorderdetails})
+    } catch (error) {
+        console.log("Error due to sucessful page rendering error:", error)
+        res.status(500).send("Error due to sucessful page rendering error");
+    }
+}
+
+
+
+
 module.exports = {
     ordersucessful,
     ordersuccessfulPOST,
+    ordercanel,
+    EachOrderdetailpage
 }
 

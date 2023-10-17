@@ -319,15 +319,16 @@
                 <td>
                   <%=data.CustomerName%>
                 </td>
-                <td><p>
-                  <%=data.address.Address%> 
-                  <%=data.address.Landmark  %> 
+                <td>
+                  <p>
+                    <%=data.address.Address%>
+                      <%=data.address.Landmark %>
 
-                </p>
+                  </p>
                 <td>
                   <% data.iteams.forEach((item)=>{ %>
                     <%=item.Model%>
-                 <% }) %>
+                      <% }) %>
                 </td>
                 <td>
                   <%=data.totalAmount%>
@@ -335,18 +336,20 @@
                 <td>
                   <%=data.paymentmode%>
                 </td>
-             
-                  <td>
-                    <select class="form-select" id="Category" name="Category">
-                     
-                   <option value="OrderPending" >OrderPending</option>
-                   <option value="OrderShipped" >OrderShipped</option>
-                    <option value="OrderCancel" >OrderCancel</option>
-                    </select>
-                  </td>
-                  
-      
-              
+
+                <td>
+                  <select class="form-select orderstatus"  data-Orderid="<%=data._id%>" name="ORDERSTATUS">
+                    <option value="OrderPending" <%=data.orderstatus==='OrderPending' ?'selected':'' %>>OrderPending
+                    </option>
+                    <option value="OrderShipped" <%=data.orderstatus==='OrderShipped' ?'selected':'' %>>OrderShipped
+                    </option>
+                    <option value="OrderDelivered" <%=data.orderstatus==='OrderDelivered' ?'selected':''%>
+                      >OrderDelivered</option>
+                    <option value="OrderCancel" <%=data.orderstatus==='OrderCancel' ?'selected':'' %>>OrderCancel
+                    </option>
+                  </select>
+                </td>
+
               </tr>
               <%})%>
           </tbody>
@@ -371,6 +374,46 @@
   <script src="/assets1/js/settings.js"></script>
   <script src="/assets1/js/todolist.js"></script>
   <script src="/assets1/js/dashboard.js"></script>
+
+  <script>
+// Get a reference to the select element
+    const selectElements = document.querySelectorAll(".orderstatus");
+    console.log('selectElements:',selectElements)
+ // Add an event listener to detect changes in the select element
+    selectElements.forEach((selectElement) => {
+      selectElement.addEventListener("change", () => {
+  // Get the selected value
+      const orderdata = selectElement.getAttribute("data-Orderid")
+      const selectedValue = selectElement.value;
+      const ORDERid = orderdata
+// Create an object to send to the controller
+      const data = { selectedValue, ORDERid };
+// Use the Fetch API to send the data to the controller
+      fetch("/Updateorderstatus", {
+        method: "POST", // Use "POST" or "GET" depending on your requirements
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Handle the response from the controller here
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Fetch error:", error);
+        });
+    });
+    })
+  </script>
+
+
 
 </body>
 

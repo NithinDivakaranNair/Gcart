@@ -30,6 +30,7 @@
   
 </head>
 
+
 <body> 
 
     <!--header-->
@@ -151,6 +152,7 @@
                         </thead>
                         <tbody>
                           <%Allorders.forEach(data=>{%>
+                          
                             <tr>
                               <td><%=data.date.getDate()%>/ <%=data.date.getMonth()+1%>/<%=data.date.getFullYear()%>
                               </td>
@@ -160,12 +162,22 @@
                                <% }) %></td>
                                 <!-- <td>2</td> -->
                                 <td> <%=data.totalAmount%></td>
-                                <td>   <p class="text-danger"> <%= locals.msg %> </p></td>
+                                <td>   <p class="text-danger"> <%= data.orderstatus%> </p></td>
                                 <td>
-                                  <form action="" method="">
-                                      <button class="btn btn-primary">Cancel Items</button>
-                                  </form>
+                                  <!-- <form action="/ordercanel/%=data._id%>" method="get"> -->
+                                  <% if(data.orderactionuser==false){%>
+                                    <p class="live">Ordercancelled</p>
+                                  <%}else{%>
+                                    <button  type="submit" id="Button" data-Orderid="<%=data._id%>" >Cancel Items</button>
+                                    <% } %>
+                                      
+                                      
+                                  <!-- </form> -->
                                   
+                              </td>
+                              <td>
+                               
+                                <a href="/EachOrderdetailpage/<%=data._id%>">More details</a>
                               </td>
                             </tr>
                           <% }) %>
@@ -325,6 +337,43 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
            
+
+
+<script>
+ 
+  const clickElement = document.querySelectorAll("#Button");
+  console.log('selectElements:',clickElement)
+    
+     clickElement.forEach((selectElement) => {
+    selectElement.addEventListener("click", () => {
+     const orderdata = selectElement.getAttribute("data-Orderid")
+    const ORDERid = orderdata
+// Create an object to send to the controller
+    const data = {  ORDERid };
+// Use the Fetch API to send the data to the controller
+    fetch("/ordercanel", {
+      method: "POST", // Use "POST" or "GET" depending on your requirements
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Handle the response from the controller here
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
+  });
+  })
+</script>
             
 </body>
 

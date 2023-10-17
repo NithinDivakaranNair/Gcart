@@ -14,12 +14,12 @@ const CartCollection = require("../Model/CartSchema")// cart schema require
 const cartpagedetails = async (req, res) => {
     const userdetails = req.session.userId;
     // const id = userdetails._id;
-  const  Userlogin = true;
+    const Userlogin = true;
 
-  const  Username = userdetails.username;
+    const Username = userdetails.username;
     try {
         const categoryinfo = await Categorycollection.find({});
-        const cartinfo = await CartCollection.find({ UserId:userdetails._id })
+        const cartinfo = await CartCollection.find({ UserId: userdetails._id })
 
         let totalprice = 0
         cartinfo.forEach((cartiteam) => {
@@ -72,7 +72,7 @@ const cartpage = async (req, res) => {
         return res.redirect("back")
     }
     catch (error) {
-        console.log("Error due to  prodect add in cart time");
+        console.log(error);
         return res.status(500).send("Error due to  prodect add in cart time");
     }
 }

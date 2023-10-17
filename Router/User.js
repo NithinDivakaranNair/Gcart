@@ -1,10 +1,10 @@
 const express = require("express")
 const router = express.Router()
 const usercontroller = require("../Controller/Usercontroller")
-const cartcontroller= require("../Controller/Cartcontroller")
+const cartcontroller = require("../Controller/Cartcontroller")
 
-const ordercontroller= require("../Controller/Ordercontroller")
-const checkoutcontroller= require("../Controller/CheckController")
+const ordercontroller = require("../Controller/Ordercontroller")
+const checkoutcontroller = require("../Controller/CheckController")
 const multer = require('multer') //require multer middleware module
 
 const bodyParser = require('body-parser');
@@ -29,47 +29,48 @@ const upload = multer({ storage: storage }); // stored image detail
 
 
 
-router.get("/mainhomepage",authentication.MainhomepageAuthentication, usercontroller.mainhomepage)
-router.get("/signup",authentication.SignUpAuthentication, usercontroller.signup)
+router.get("/mainhomepage", authentication.MainhomepageAuthentication, usercontroller.mainhomepage)
+router.get("/signup", authentication.SignUpAuthentication, usercontroller.signup)
 router.post("/signup", usercontroller.signupdata)
-router.get("/login",authentication.LoginAuthentication,usercontroller.login)
+router.get("/login", authentication.LoginAuthentication, usercontroller.login)
 router.post("/login", usercontroller.loginpost)
-router.get("/home",authentication.HomepageAuthentication, usercontroller.home)
+router.get("/home", authentication.HomepageAuthentication, usercontroller.home)
 router.get("/logout", usercontroller.logout)
 
-router.get("/EmailEnteringPage",authentication.EmailpageAuthentication, usercontroller.EmailEnteringPage)
+router.get("/EmailEnteringPage", authentication.EmailpageAuthentication, usercontroller.EmailEnteringPage)
 router.post("/EmailPost", usercontroller.EmailPost)
-router.get("/otp",authentication.otpAuthentication, usercontroller.otp)
+router.get("/otp", authentication.otpAuthentication, usercontroller.otp)
 router.post("/OTPPost", usercontroller.OTPPost)
-router.get("/Newpassword",authentication.NewpasswordAuthentication, usercontroller.Newpassword)
+router.get("/Newpassword", authentication.NewpasswordAuthentication, usercontroller.Newpassword)
 router.post("/NewpasswordPost", usercontroller.NewpasswordPost)
 
-router.get("/categorybasedrender/:CategoryId",authentication.BlockAuthenticationHomepage, usercontroller.categorybasedrender) //category based rendering route
+router.get("/categorybasedrender/:CategoryId", authentication.BlockAuthenticationHomepage, usercontroller.categorybasedrender) //category based rendering route
 
-router.get("/oneprodectdetails/:prodectId",authentication.BlockAuthenticationHomepage, usercontroller.oneprodectdetails)
+router.get("/oneprodectdetails/:prodectId", authentication.BlockAuthenticationHomepage, usercontroller.oneprodectdetails)
 
-router.get("/cartpage/:prodectId",authentication.BlockAuthenticationHomepage, cartcontroller.cartpage)
-router.get("/cartpagedetails",authentication.BlockAuthenticationHomepage, cartcontroller.cartpagedetails)
-router.get("/CartPluseButton/:prodectId",authentication.BlockAuthenticationHomepage, cartcontroller.CartPluseButton)
-router.get("/CartMinusebutton/:prodectId",authentication.BlockAuthenticationHomepage, cartcontroller.CartMinusebutton)
+router.get("/cartpage/:prodectId", authentication.BlockAuthenticationHomepage,authentication.HomepageAuthentication, cartcontroller.cartpage)
+router.get("/cartpagedetails", authentication.BlockAuthenticationHomepage, cartcontroller.cartpagedetails)
+router.get("/CartPluseButton/:prodectId", authentication.BlockAuthenticationHomepage, cartcontroller.CartPluseButton)
+router.get("/CartMinusebutton/:prodectId", authentication.BlockAuthenticationHomepage, cartcontroller.CartMinusebutton)
 
-router.get("/checkoutpage",authentication.BlockAuthenticationHomepage, checkoutcontroller.checkoutpage)
-router.get("/IteamRemoveCart/:iteam",authentication.BlockAuthenticationHomepage, cartcontroller.IteamRemoveCart)
+router.get("/checkoutpage", authentication.BlockAuthenticationHomepage, checkoutcontroller.checkoutpage)
+router.get("/IteamRemoveCart/:iteam", authentication.BlockAuthenticationHomepage, cartcontroller.IteamRemoveCart)
 
-router.get("/userprofile",authentication.BlockAuthenticationHomepage, usercontroller.userprofile)
+router.get("/userprofile", authentication.BlockAuthenticationHomepage, usercontroller.userprofile)
 
-router.post("/Updateuserdetails/:userid",authentication.BlockAuthenticationHomepage, usercontroller.Updateuserdetails)
+router.post("/Updateuserdetails/:userid", authentication.BlockAuthenticationHomepage, usercontroller.Updateuserdetails)
 
-router.post("/UpdatePassword/:userid",authentication.BlockAuthenticationHomepage, usercontroller.UpdatePassword)
+router.post("/UpdatePassword/:userid", authentication.BlockAuthenticationHomepage, usercontroller.UpdatePassword)
 
 
-router.post("/AddAddress",authentication.BlockAuthenticationHomepage, usercontroller.AddAddress)
+router.post("/AddAddress", authentication.BlockAuthenticationHomepage, usercontroller.AddAddress)
 
 router.get("/ordersucessful", ordercontroller.ordersucessful)
 
-router.post("/ordersuccessfulPOST",authentication.BlockAuthenticationHomepage, ordercontroller.ordersuccessfulPOST)
-
-module.exports = router 
+router.post("/ordersuccessfulPOST", authentication.BlockAuthenticationHomepage, ordercontroller.ordersuccessfulPOST)
+router.post("/ordercanel", ordercontroller.ordercanel)
+router.get("/EachOrderdetailpage/:orderid", ordercontroller.EachOrderdetailpage)
+module.exports = router
 
 
 
@@ -139,6 +140,6 @@ module.exports = router
 
 // router.post("/ordersuccessfulPOST", usercontroller.ordersuccessfulPOST)
 
-// module.exports = router 
+// module.exports = router
 
 // }

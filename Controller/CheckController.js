@@ -12,12 +12,12 @@ const AddressCollection = require("../Model/AddressSchema")
 const checkoutpage = async (req, res) => {
 
 
-    
+
 
     try {
-        
+
         const userdetail = req.session.userId;
-       const Username = userdetail.username;
+        const Username = userdetail.username;
         const Userlogin = true;
         const categoryinfo = await Categorycollection.find({});
         const cartinfo = await CartCollection.find({ UserId: userdetail._id })

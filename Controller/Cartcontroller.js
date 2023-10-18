@@ -2,12 +2,7 @@ require('dotenv').config()
 
 const Prodectcollection = require("../Model/ProdectSchema")
 const Categorycollection = require("../Model/CategorySchema")
-
 const CartCollection = require("../Model/CartSchema")// cart schema require
-
-
-
-
 
 
 //cartpagepageGET methode
@@ -16,7 +11,7 @@ const cartpagedetails = async (req, res) => {
     // const id = userdetails._id;
     const Userlogin = true;
 
-    const Username = userdetails.username;
+    const Username = userdetails.username?userdetails.username:" ";
     try {
         const categoryinfo = await Categorycollection.find({});
         const cartinfo = await CartCollection.find({ UserId: userdetails._id })

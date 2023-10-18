@@ -2,379 +2,407 @@
 <html lang="zxx">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Ashion Template">
-    <meta name="keywords" content="Ashion, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Gcart</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ashion Template">
+  <meta name="keywords" content="Ashion, unica, creative, html">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Gcart</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/stylesheet/userdetails.css" type="text/css">
+  <!-- Css Styles -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+  <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/stylesheet/userdetails.css" type="text/css">
 
-    <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">
-  
+  <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">
+
 </head>
 
 
-<body> 
+<body>
 
+  <!--header-->
+  <%- include('./partials/header.ejs') %>
     <!--header-->
-   <%- include('./partials/header.ejs') %>
-        <!--header-->
-     
- 
-        <div class="container light-style flex-grow-1 container-p-y">
 
-        <h4 class="font-weight-bold py-3 mb-4">
-          Account settings
-        </h4>
-    
-        <div class="card overflow-hidden">
-          <div class="row no-gutters row-bordered row-border-light">
-            <div class="col-md-3 pt-0">
-              <div class="list-group list-group-flush account-settings-links">
-                <a class="list-group-item list-group-item-action active" data-toggle="list" href="#infro">Info</a>
-                <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change password</a>
-                <a class="list-group-item list-group-item-action" data-toggle="list" href="#Address">Address</a>
-                <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a> -->
-                <a class="list-group-item list-group-item-action" data-toggle="list" href="#Order">Orders</a>
-                <a class="list-group-item list-group-item-action" data-toggle="list" href="#Wallets">Wallets</a>
-              
-              </div>
+
+    <div class="container light-style flex-grow-1 container-p-y">
+
+      <h4 class="font-weight-bold py-3 mb-4">
+        Account settings
+      </h4>
+
+      <div class="card overflow-hidden">
+        <div class="row no-gutters row-bordered row-border-light">
+          <div class="col-md-3 pt-0">
+            <div class="list-group list-group-flush account-settings-links">
+              <a class="list-group-item list-group-item-action active" data-toggle="list" href="#infro">Info</a>
+              <a class="list-group-item list-group-item-action" data-toggle="list"
+                href="#account-change-password">Change password</a>
+              <a class="list-group-item list-group-item-action" data-toggle="list" href="#Address">Address</a>
+              <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a> -->
+              <a class="list-group-item list-group-item-action" data-toggle="list" href="#Order">Orders</a>
+              <a class="list-group-item list-group-item-action" data-toggle="list" href="#Wallets">Wallets</a>
+
             </div>
-        
-       
-            <div class="col-md-9">
-              <div class="tab-content">
+          </div>
 
- <!--info-->  
-                <div class="tab-pane fade active show" id="infro">
-          <form action="/Updateuserdetails/<%=userdetails._id %>" method="post">   
+
+          <div class="col-md-9">
+            <div class="tab-content">
+
+              <!--info-->
+              <div class="tab-pane fade active show" id="infro">
+                <form action="/Updateuserdetails/<%=userdetails._id %>" method="post">
                   <div class="card-body media align-items-center">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxYA4yTn5sczM4j6psN48F0zJk8zELz2nT4A&usqp=CAU " alt="" class="d-block ui-w-80">
+                    <img
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxYA4yTn5sczM4j6psN48F0zJk8zELz2nT4A&usqp=CAU "
+                      alt="" class="d-block ui-w-80">
                     <div class="media-body ml-4">
                       <label class="btn btn-outline-primary">
                         Upload new photo
                         <input type="file" class="account-settings-fileinput">
                       </label> &nbsp;
                       <button type="button" class="btn btn-default md-btn-flat">Reset</button>
-    
-                     
+
+
                     </div>
                   </div>
                   <hr class="border-light m-0">
-    
+
                   <div class="card-body">
                     <div class="form-group">
                       <label class="form-label">Username</label>
-                      <input type="text" class="form-control mb-1" name="username" value="<%=userdetails.username%>" >
-                  </div>
-                   
+                      <input type="text" class="form-control mb-1" name="username" value="<%=userdetails.username%>">
+                    </div>
+
                     <div class="form-group">
                       <label class="form-label">Email</label>
-                      <input type="text" class="form-control mb-1" name="email" value="<%=userdetails.email%>" >
-                      
+                      <input type="text" class="form-control mb-1" name="email" value="<%=userdetails.email%>">
+
+                    </div>
+
                   </div>
-                  
+                  <div class="text-right mt-3">
+                    <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;
+                    <button type="button" class="btn btn-default">Cancel</button>
                   </div>
-               <div class="text-right mt-3">
-               <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;
-               <button type="button" class="btn btn-default">Cancel</button>
-               </div> 
-      </form>
-                </div>
-               
-  
-<!--change password--> 
-           
-                 <div class="tab-pane fade" id="account-change-password">
-             <form action="/UpdatePassword/<%=userdetails._id %>" method="post"> 
+                </form>
+              </div>
+
+
+              <!--change password-->
+
+              <div class="tab-pane fade" id="account-change-password">
+                <form action="/UpdatePassword/<%=userdetails._id %>" method="post">
                   <div class="card-body pb-2">
-    
+
                     <div class="form-group">
                       <label class="form-label">Current password</label>
                       <input type="password" class="form-control" name="currentpassword">
                     </div>
-                    
+
                     <div class="form-group">
                       <label class="form-label">New password</label>
                       <input type="password" class="form-control" name="newpassword">
                     </div>
-    
+
                     <div class="form-group">
                       <label class="form-label">Repeat new password</label>
                       <input type="password" class="form-control" name="repeatedpassword">
                     </div>
-    
+
                   </div>
-                  <p class="text-danger"> <%= locals.msg %> </p>
-                 <div class="text-right mt-3">
-          <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;
-          <button type="button" class="btn btn-default">Cancel</button>
-        </div> 
-      </form> 
-                </div>
-                
-       
+                  <p class="text-danger">
+                    <%= locals.msg %>
+                  </p>
+                  <div class="text-right mt-3">
+                    <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;
+                    <button type="button" class="btn btn-default">Cancel</button>
+                  </div>
+                </form>
+              </div>
 
-<!--Orders-->
-             <div class="tab-pane fade" id="Order">
-             
+
+
+              <!--Orders-->
+              <div class="tab-pane fade" id="Order">
+
                 <div class="container">
-                    <h2>Order History</h2>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                              <th>Date</th>
-                                <th>Order ID</th>
-                                <th>Product Name</th>
-                                <!-- <th>Quantity</th> -->
-                                <th>Price</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                          
-                            </tr>
-                        </thead>
-                        <tbody>
-                          <%Allorders.forEach(data=>{%>
-                          
-                            <tr>
-                              <td><%=data.date.getDate()%>/ <%=data.date.getMonth()+1%>/<%=data.date.getFullYear()%>
-                              </td>
-                                <td><%=data._id%></td>
-                                <td><% data.iteams.forEach((item)=>{ %>
-                                  <%=item.Model%>
-                               <% }) %></td>
-                                <!-- <td>2</td> -->
-                                <td> <%=data.totalAmount%></td>
-                                <td>   <p class="text-danger"> <%= data.orderstatus%> </p></td>
-                                <td>
-                                  <!-- <form action="/ordercanel/%=data._id%>" method="get"> -->
-                                  <% if(data.orderactionuser==false){%>
-                                    <p class="live">Ordercancelled</p>
-                                  <%}else{%>
-                                    <button  type="submit" id="Button" data-Orderid="<%=data._id%>" >Cancel Items</button>
-                                    <% } %>
-                                      
-                                      
+                  <h2>Order History</h2>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Order ID</th>
+                        <th>Product Name</th>
+                        <!-- <th>Quantity</th> -->
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <%Allorders.forEach(data=>{%>
+
+                        <tr>
+                          <td>
+                            <%=data.date.getDate()%>/ <%=data.date.getMonth()+1%>/<%=data.date.getFullYear()%>
+                          </td>
+                          <td>
+                            <%=data._id%>
+                          </td>
+                          <td>
+                            <% data.iteams.forEach((item)=>{ %>
+                              <%=item.Model%>
+                                <% }) %>
+                          </td>
+                          <!-- <td>2</td> -->
+                          <td>
+                            <%=data.totalAmount%>
+                          </td>
+                          <td>
+                            <p class="text-danger">
+                              <%= data.orderstatus%>
+                            </p>
+                          </td>
+                          <td>
+                            <!-- <form action="/ordercanel/%=data._id%>" method="get"> -->
+                            <% if(data.orderactionuser==false){%>
+                              <p class="live">Ordercancelled</p>
+                              <%}else{%>
+                                <button type="submit" id="Button" data-Orderid="<%=data._id%>">Cancel Items</button>
+                                <% } %>
+
+
                                   <!-- </form> -->
-                                  
-                              </td>
-                              <td>
-                               
-                                <a href="/EachOrderdetailpage/<%=data._id%>">More details</a>
-                              </td>
-                            </tr>
-                          <% }) %>
-                        </tbody>
-                    </table>
+
+                          </td>
+                          <td>
+
+                            <a href="/EachOrderdetailpage/<%=data._id%>">More details</a>
+                          </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                  </table>
                 </div>
-                </div> 
+              </div>
 
-  <!--Wallet-->               
-                <div class="tab-pane fade" id="Wallets">
-                 
-
+              <!--Wallet-->
+              <div class="tab-pane fade" id="Wallets">
 
 
-                </div>
-               
-  <!--adress-->             
-                <div class="tab-pane fade" id="Address">
-                  <div class="container">
-                    <h4>Address</h4>
-                    <form>
-                      <% AllAddress.forEach((data)=>{%>
-                        <div class="form-check">
-                          
-                          <label class="form-check-label" for="address1" style="font-weight: bold; color: black;"><%= data.Name %></label>
+
+
+              </div>
+
+              <!--adress-->
+              <div class="tab-pane fade" id="Address">
+                <div class="container">
+                  <h4>Address</h4>
+                  <form>
+                    <% AllAddress.forEach((data)=>{%>
+                      <div class="form-check">
+
+                        <label class="form-check-label" for="address1" style="font-weight: bold; color: black;">
+                          <%= data.Name %>
+                        </label>
 
                       </div>
                       <div class="form-check">
-                          <label class="form-check-label" for="address1"><%= data.MobileNumber%>,<%=  data.Address%>, <%= data.Landmark%>,<%=  data.AternateNumber%>, <%= data.City%>,<%=  data.Pincode %></label>
+                        <label class="form-check-label" for="address1">
+                          <%= data.MobileNumber%>,<%= data.Address%>, <%= data.Landmark%>,<%= data.AternateNumber%>, <%=
+                                    data.City%>,<%= data.Pincode %>
+                        </label>
                       </div>
                       <hr />
                       <% })%>
-                      <div>
+                        <div>
                         </div>
-  
-                     
-   <!--add new address-->                  
-                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAddressModal">
-                        Add New Address
-                      </button>
-                    </form>
-                  </div>
-  
-                  <!-- Modal for adding a new address -->
-                  <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog"
-                    aria-labelledby="addAddressModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="addAddressModalLabel">Add New Address</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-  
-                          <!-- new address adding field -->
-  
-                          <form action="/AddAddress" method="post">
-                            <!-- 2 column grid layout with text inputs for the first and last names -->
-                            <div class="row mb-4">
-                              <div class="col">
-                                <div class="form-outline">
-                                  <input type="text" id="form7Example1" class="form-control" name="name" />
-                                  <label class="form-label" for="form7Example1">Name</label>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="form-outline mb-4">
-                              <input type="number" id="form7Example3" class="form-control" name="mobilenumber" />
-                              <label class="form-label" for="form7Example3">Mobile Number</label>
-                            </div>
-  
-  
-                            <div class="form-outline mb-4">
-                              <textarea class="form-control" id="form7Example7" rows="4" name="address"></textarea>
-                              <label class="form-label" for="form7Example7">Address</label>
-                            </div>
-  
-  
-                            <!-- Email input -->
-                            <div class="form-outline mb-4">
-                              <input type="text" id="form7Example5" class="form-control" name="landmark" />
-                              <label class="form-label" for="form7Example5">LandMark</label>
-                            </div>
-  
-                            <!-- Number input -->
-                            <div class="form-outline mb-4">
-                              <input type="number" id="form7Example6" class="form-control" name="alternatenumber" />
-                              <label class="form-label" for="form7Example6">Alternate number</label>
-                            </div>
-  
-                            <!-- Text input -->
-                            <div class="form-outline mb-4">
-                              <input type="text" id="form7Example4" class="form-control" name="city" />
-                              <label class="form-label" for="form7Example4">City</label>
-                            </div>
-  
+
+
+                        <!--add new address-->
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                          data-target="#addAddressModal">
+                          Add New Address
+                        </button>
+                  </form>
+                </div>
+
+                <!-- Modal for adding a new address -->
+                <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog"
+                  aria-labelledby="addAddressModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="addAddressModalLabel">Add New Address</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+
+                        <!-- new address adding field -->
+
+                        <form action="/AddAddress" method="post">
+                          <!-- 2 column grid layout with text inputs for the first and last names -->
+                          <div class="row mb-4">
                             <div class="col">
                               <div class="form-outline">
-                                <input type="number" id="form7Example1" class="form-control" name="pincode" />
-                                <label class="form-label" for="form7Example1">Pincode</label>
+                                <input type="text" id="form7Example1" class="form-control" name="name" />
+                                <label class="form-label" for="form7Example1">Name</label>
                               </div>
                             </div>
-  
-                            <div class="modal-footer">
-                              <!-- <button  class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                              <button type="submit" class="btn btn-primary">Save Address</button>
+                          </div>
+                          <div class="form-outline mb-4">
+                            <input type="number" id="form7Example3" class="form-control" name="mobilenumber" />
+                            <label class="form-label" for="form7Example3">Mobile Number</label>
+                          </div>
+
+
+                          <div class="form-outline mb-4">
+                            <textarea class="form-control" id="form7Example7" rows="4" name="address"></textarea>
+                            <label class="form-label" for="form7Example7">Address</label>
+                          </div>
+
+
+                          <!-- Email input -->
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form7Example5" class="form-control" name="landmark" />
+                            <label class="form-label" for="form7Example5">LandMark</label>
+                          </div>
+
+                          <!-- Number input -->
+                          <div class="form-outline mb-4">
+                            <input type="number" id="form7Example6" class="form-control" name="alternatenumber" />
+                            <label class="form-label" for="form7Example6">Alternate number</label>
+                          </div>
+
+                          <!-- Text input -->
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form7Example4" class="form-control" name="city" />
+                            <label class="form-label" for="form7Example4">City</label>
+                          </div>
+
+                          <div class="col">
+                            <div class="form-outline">
+                              <input type="number" id="form7Example1" class="form-control" name="pincode" />
+                              <label class="form-label" for="form7Example1">Pincode</label>
                             </div>
-  
-                          </form>
-                          <!--End  new address adding field -->
-  
-  
-                        </div>
+                          </div>
+
+                          <div class="modal-footer">
+                            <!-- <button  class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                            <button type="submit" class="btn btn-primary">Save Address</button>
+                          </div>
+
+                        </form>
+                        <!--End  new address adding field -->
+
+
                       </div>
                     </div>
                   </div>
-
                 </div>
-             
-             
+
               </div>
+
+
             </div>
           </div>
         </div>
-    
-        <!-- <div class="text-right mt-3">
+      </div>
+
+      <!-- <div class="text-right mt-3">
           <button type="button" class="btn btn-primary">Save changes</button>&nbsp;
           <button type="button" class="btn btn-default">Cancel</button>
         </div> -->
-    
-      </div>
-    
 
- <!--footer-->
-  <%- include('./partials/footer.ejs') %> 
-            <!--footer-->
+    </div>
 
 
-           
-
-            <!-- Js Plugins -->
-            <script src="js/jquery-3.3.1.min.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <script src="js/jquery.magnific-popup.min.js"></script>
-            <script src="js/jquery-ui.min.js"></script>
-            <script src="js/mixitup.min.js"></script>
-            <script src="js/jquery.countdown.min.js"></script>
-            <script src="js/jquery.slicknav.js"></script>
-            <script src="js/owl.carousel.min.js"></script>
-            <script src="js/jquery.nicescroll.min.js"></script>
-            <script src="js/main.js"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-           
+    <!--footer-->
+    <%- include('./partials/footer.ejs') %>
+      <!--footer-->
 
 
-<script>
- 
-  const clickElement = document.querySelectorAll("#Button");
-  console.log('selectElements:',clickElement)
-    
-     clickElement.forEach((selectElement) => {
-    selectElement.addEventListener("click", () => {
-     const orderdata = selectElement.getAttribute("data-Orderid")
-    const ORDERid = orderdata
-// Create an object to send to the controller
-    const data = {  ORDERid };
-// Use the Fetch API to send the data to the controller
-    fetch("/ordercanel", {
-      method: "POST", // Use "POST" or "GET" depending on your requirements
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Handle the response from the controller here
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Fetch error:", error);
-      });
-  });
-  })
-</script>
-            
+
+
+      <!-- Js Plugins -->
+      <script src="js/jquery-3.3.1.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery.magnific-popup.min.js"></script>
+      <script src="js/jquery-ui.min.js"></script>
+      <script src="js/mixitup.min.js"></script>
+      <script src="js/jquery.countdown.min.js"></script>
+      <script src="js/jquery.slicknav.js"></script>
+      <script src="js/owl.carousel.min.js"></script>
+      <script src="js/jquery.nicescroll.min.js"></script>
+      <script src="js/main.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+
+
+      <script>
+
+        const clickElement = document.querySelectorAll("#Button");
+        console.log('selectElements:', clickElement)
+
+        clickElement.forEach((selectElement) => {
+          selectElement.addEventListener("click", (eve) => {
+            const orderdata = selectElement.getAttribute("data-Orderid")
+            const ORDERid = orderdata
+            // Create an object to send to the controller
+            const data = { ORDERid };
+            // Use the Fetch API to send the data to the controller
+            fetch("/ordercanel", {
+              method: "POST", // Use "POST" or "GET" depending on your requirements
+              body: JSON.stringify(data),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("Network response was not ok");
+                }
+                let pee = document.createElement('p');
+                pee.classList.add('live');
+                pee.innerText = "Ordercancelled";
+                eve.target.replaceWith(pee);
+                return response.json();
+              })
+              .then((data) => {
+                // Handle the response from the controller here
+
+                // console.log(data);
+                return window.location.reload();
+              })
+              .catch((error) => {
+                console.error("Fetch error:", error);
+              });
+          });
+        })
+      </script>
+
 </body>
 
 </html>

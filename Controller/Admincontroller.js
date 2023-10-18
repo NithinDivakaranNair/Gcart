@@ -1,11 +1,7 @@
 const Admincollection = require("../Model/AdminSchema")
 const signupcollection = require("../Model/UserSchema")
-
-
 const Prodectcollection = require("../Model/ProdectSchema")
 const Categorycollection = require("../Model/CategorySchema")
-
-
 const Ordercollection = require("../Model/OrderSchema")
 
 

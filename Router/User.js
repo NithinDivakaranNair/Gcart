@@ -79,6 +79,7 @@ router.get("/wishlistdisplay", wishlistcontroller.wishlistdisplay)
 
 router.get("/Removewishlist/:prodectid", wishlistcontroller.Removewishlist)
 
+router.get("/prodectsearch", usercontroller.prodectsearch)
 
 module.exports = router
 

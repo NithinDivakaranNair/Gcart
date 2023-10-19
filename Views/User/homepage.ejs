@@ -38,7 +38,7 @@
 
         <!-- Categories Section Begin -->
         <section class="categories">
-
+         
             <div class="container-fluid">
 
                 <div class="row">
@@ -99,7 +99,50 @@
         <!-- Categories Section End -->
         </div>
 
+        /////////
 
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <!-- Sorting Dropdown -->
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Sort By
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="sortDropdown">
+                            <a class="dropdown-item" href="#" data-sort="lowToHigh">Low to High</a>
+                            <a class="dropdown-item" href="#" data-sort="highToLow">High to Low</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <!-- Brand Dropdown -->
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="brandDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Brand
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="brandDropdown">
+                            <a class="dropdown-item" href="#" data-brand="brand1">Brand 1</a>
+                            <a class="dropdown-item" href="#" data-brand="brand2">Brand 2</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <!-- Price-based Dropdown -->
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="priceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Price
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="priceDropdown">
+                            <a class="dropdown-item" href="#" data-price="under20">$20 and under</a>
+                            <a class="dropdown-item" href="#" data-price="20to50">$20 - $50</a>
+                            <a class="dropdown-item" href="#" data-price="50plus">Over $50</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+/////////// 
         <!--new cards-->
         <section>
             <div class="container my-5">
@@ -270,7 +313,50 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    $('.dropdown-item').click(function(e) {
+                        e.preventDefault();
+                        
+                        // Determine the selected criteria
+                        var selectedSort = $(this).data('sort');
+                        var selectedBrand = $(this).data('brand');
+                        var selectedPrice = $(this).data('price');
+                        
+                        // Apply the sorting and filtering logic here
+                        // You can use if statements or switch cases to implement sorting and filtering
+                        
+                        // Example: Sorting by Price
+                        if (selectedSort === 'lowToHigh') {
+                            // Sort items from low to high
+                            // Implement your sorting logic
+                        } else if (selectedSort === 'highToLow') {
+                            // Sort items from high to low
+                            // Implement your sorting logic
+                        }
+                        
+                        // Example: Filtering by Brand
+                        if (selectedBrand) {
+                            // Show items with the selected brand
+                            // Implement your filtering logic
+                        }
+                        
+                        // Example: Filtering by Price
+                        if (selectedPrice === 'under20') {
+                            // Show items with a price under $20
+                            // Implement your filtering logic
+                        } else if (selectedPrice === '20to50') {
+                            // Show items with a price between $20 and $50
+                            // Implement your filtering logic
+                        } else if (selectedPrice === '50plus') {
+                            // Show items with a price over $50
+                            // Implement your filtering logic
+                        }
+                    });
+                });
+            </script>
+            
 </body>
 
 </html>

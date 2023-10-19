@@ -626,6 +626,44 @@ const UpdatePassword=async(req,res)=>{
 }
 
 
+//prodect search in home page
+const prodectsearch = async (req, res) => {
+const { searchQuery } = req.query; // searched value store in paticular variable , used for destructure methode
+    console.log(searchQuery);
+    try {
+      // Check if the searchQuery is empty
+      if (!searchQuery) {
+        return res.redirect("back");
+      }
+
+            Userlogin =true;
+            const userdetail = req.session.userId;
+            const  Username = userdetail.username;
+          
+          const  categoryinfo = await Categorycollection.find({});  //category collection
+
+  
+      // Perform a search using MongoDB
+      const prodectinfo = await Prodectcollection.find({  // serched value is Search all field
+        $or: [
+          { Category: { $regex: searchQuery, $options: "i" } },
+          { Brand: { $regex: searchQuery, $options: "i" } },
+          { Model: { $regex: searchQuery, $options: "i" } },
+          { Description: { $regex: searchQuery, $options: "i" } },
+        ]
+      });
+  
+      return res.render("User/homepage", { prodectinfo,Userlogin,Username,categoryinfo });    // Render the search results in Prodect list
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Data searching error");
+    }
+  };
+
+
+
+
+
 
 
 module.exports = {
@@ -654,6 +692,7 @@ module.exports = {
     Updateuserdetails,
     UpdatePassword,
  
+    prodectsearch
    
 }
 

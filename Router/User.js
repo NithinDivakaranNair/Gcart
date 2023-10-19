@@ -5,13 +5,14 @@ const cartcontroller = require("../Controller/Cartcontroller")
 
 const ordercontroller = require("../Controller/Ordercontroller")
 const checkoutcontroller = require("../Controller/CheckController")
+const wishlistcontroller = require("../Controller/Wishlistcontroller")
+
 const multer = require('multer') //require multer middleware module
 
-const bodyParser = require('body-parser');
 const authentication = require("../Middilewares/authentication")
 
-const app = express();
-app.use(bodyParser.json());
+// const app = express();
+// app.use(bodyParser.json());
 
 // multer middleware
 const storage = multer.diskStorage({
@@ -73,7 +74,10 @@ router.get("/EachOrderdetailpage/:orderid", ordercontroller.EachOrderdetailpage)
 
 router.post("/paypost", ordercontroller.paypost)
 
+router.get("/wishlistpost/:prodectid", wishlistcontroller.wishlistpost)
+router.get("/wishlistdisplay", wishlistcontroller.wishlistdisplay)
 
+router.get("/Removewishlist/:prodectid", wishlistcontroller.Removewishlist)
 
 
 module.exports = router

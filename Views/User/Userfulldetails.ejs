@@ -205,10 +205,34 @@
               <!--Wallet-->
               <div class="tab-pane fade" id="Wallets">
 
+                <div class="container mt-5">
+                  <div class="row">
+                      <div class="col-md-6">
+                          <div class="card">
+                              <div class="card-body">
+                                  <h5 class="card-title">Wallet Balance</h5>
+                                  <% walletdetails.forEach(item => {%>
+                                    
+                                    <h3 class="card-text"><%= item.Amount %></h3>
 
-
-
-              </div>
+                                    <% }) %>
+                                  <a href="#" class="btn btn-primary">Add Funds</a>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- <div class="col-md-6">
+                          <div class="card">
+                              <div class="card-body">
+                                  <h5 class="card-title">Transaction History</h5>
+                                  <ul class="list-group">
+                                      <li class="list-group-item">Received $100.00 from User A</li>
+                                      <li class="list-group-item">Sent $50.00 to User B</li>
+                                      <!-- Add more transaction items as needed -->
+                                  </ul>
+                              </div>
+                          </div>
+                      </div> 
+               
 
               <!--adress-->
               <div class="tab-pane fade" id="Address">
@@ -243,7 +267,7 @@
                   </form>
                 </div>
 
-                <!-- Modal for adding a new address -->
+               <!-- Modal for adding a new address -->
                 <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog"
                   aria-labelledby="addAddressModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -394,10 +418,10 @@
                 // Handle the response from the controller here
 
                 // console.log(data);
-                return window.location.reload();
+                // return window.location.reload();
               })
               .catch((error) => {
-                console.error("Fetch error:", error);
+               
               });
           });
         })

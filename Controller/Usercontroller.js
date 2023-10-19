@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt")     //Password encrypting module
 const Prodectcollection = require("../Model/ProdectSchema")
 const Categorycollection = require("../Model/CategorySchema")
 
-
+const Walletcollection = require("../Model/WalletSchema")
 const AddressCollection = require("../Model/AddressSchema")
 const Ordercollection = require("../Model/OrderSchema")
 const nodemailer = require("nodemailer");    //Email sending module
@@ -63,6 +63,16 @@ console.log('homepage:')
             const  Username = userdetail.username;
             const prodectinfo = await Prodectcollection.find({});  //prodect colleection
           const  categoryinfo = await Categorycollection.find({});  //category collection
+
+///wallet creation
+const wallet=await Walletcollection.findOne({customerid:userdetail._id})
+if(!wallet){
+const newwallet=new Walletcollection({
+    customerid:userdetail._id,
+   })
+console.log("newwallet:",newwallet)
+await newwallet.save();
+}
             return res.render("User/homepage", { prodectinfo, categoryinfo, Userlogin, Username });  //Updating Prodect and Category collection
         }
         catch (error) {
@@ -234,9 +244,7 @@ const signupdata = async (req, res) => {
     catch (error) {
         return res.status(500).send("error during user registration");
     }
-
-
-    return res.redirect("/EmailEnteringPage")
+ return res.redirect("/EmailEnteringPage")
 }
 
 
@@ -521,7 +529,7 @@ const AddAddress = async (req, res) => {
             PincodeL: pincode
         })
         console.log(newaddressdetails)
-        await newaddressdetails.save()
+        await newaddressdetails.save();
         res.redirect("/checkoutpage")
     }
     catch (error) {
@@ -538,20 +546,21 @@ const AddAddress = async (req, res) => {
 const userprofile = async (req, res) => {
    
     try {
-        const userdetail = req.session.userId;
+        const userdetail = req.session.userId;    
        const userdetails = await signupcollection.findById({ _id: userdetail._id })
         const AllAddress = await AddressCollection.find({ UserId: userdetail._id })
         const Allorders = await Ordercollection.find({ customerId: userdetail._id })
          const  categoryinfo = await Categorycollection.find({});
-       
+         const walletdetails=await Walletcollection.find({ customerid: userdetail._id })
+       console.log('walletdetails:',walletdetails)
         if(req.session.password){
-           return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username ,msg: "Old Password not correct"})
+           return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username ,walletdetails,msg: "Old Password not correct"})
         }else if( req.session.repeatpassword){
-          return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username , msg: "Password not match"})
+          return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username ,walletdetails, msg: "Password not match"})
         }else if(req.session.NewpasswordUpdated){
-        return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username ,msg: "New password Updated"})
+        return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username ,walletdetails,msg: "New password Updated"})
          }
-        return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username })
+        return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username,walletdetails })
        } catch (error) {
         console.log("Error due to user profile page rendering error:", error)
         res.status(500).send("Error due to profile page rendering error");

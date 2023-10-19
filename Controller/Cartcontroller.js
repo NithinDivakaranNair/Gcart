@@ -3,7 +3,7 @@ require('dotenv').config()
 const Prodectcollection = require("../Model/ProdectSchema")
 const Categorycollection = require("../Model/CategorySchema")
 const CartCollection = require("../Model/CartSchema")// cart schema require
-
+const WishlistCollection = require("../Model/WishlistSchema")
 
 //cartpagepageGET methode
 const cartpagedetails = async (req, res) => {
@@ -11,7 +11,7 @@ const cartpagedetails = async (req, res) => {
     // const id = userdetails._id;
     const Userlogin = true;
 
-    const Username = userdetails.username?userdetails.username:" ";
+    const Username = userdetails.username ? userdetails.username : " ";
     try {
         const categoryinfo = await Categorycollection.find({});
         const cartinfo = await CartCollection.find({ UserId: userdetails._id })
@@ -48,6 +48,7 @@ const cartpage = async (req, res) => {
             existingCartItem.Count += 1; // You can adjust this as needed
 
             await existingCartItem.save();
+            const deletewishdata = await WishlistCollection.findOneAndRemove({ ProdectId: ProdectId })
             return res.redirect("back")
         }
 
@@ -64,6 +65,9 @@ const cartpage = async (req, res) => {
         })
 
         await NewCartProdect.save();
+        const deletewishdata = await WishlistCollection.findOneAndRemove({ ProdectId: ProdectId })
+
+
         return res.redirect("back")
     }
     catch (error) {

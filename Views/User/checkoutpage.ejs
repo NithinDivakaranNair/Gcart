@@ -164,7 +164,7 @@
                   <h4>Select Payment Method</h4>
 
                   <div class="form-check">
-                    <input type="radio" checked class="form-check-input" id="cashOnDelivery" value="Cash on Delivery"
+                    <input type="radio" checked class="form-check-input" id="Deliverytype" value="Cash on Delivery"
                       name="paymentMethod">
                     <label class="form-check-label" for="cashOnDelivery">Cash on Delivery</label>
                   </div>
@@ -185,7 +185,10 @@
                     <input type="radio" class="form-check-input" id="emi" value="EMI" name="paymentMethod">
                     <label class="form-check-label" for="emi">EMI</label>
                   </div>
-
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" id="emi" value="Wallet" name="paymentMethod">
+                    <label class="form-check-label" for="emi">Wallet</label>
+                  </div>
 
 
 
@@ -329,10 +332,20 @@
 <!-- <button id="rzp-button1">Pay</button> -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+
+
+
+///form submit post action
 let payorderid
 const formVALUE=document.getElementById("Formvalue");
 formVALUE.addEventListener("submit",(data)=>{
   data.preventDefault();
+  const addr=formVALUE.address.value
+  const payment=formVALUE.paymentMethod.value
+  console.log(addr,payment);
+if(payment=="Cash on Delivery"||payment=="Wallet"){
+  formVALUE.submit()
+}
   fetch("/paypost", {
               method: "POST",
               headers: {
@@ -343,8 +356,8 @@ formVALUE.addEventListener("submit",(data)=>{
 .then((Returnvalue)=>{
  return Returnvalue.json()})
  .then((data)=>{
-  console.log(data);
-   payorderid=data.id;
+ console.log(data.id);
+ payorderid=data.id;
    
 var options = {
     "key": "rzp_test_GCcWdKrz1uFYwx", // Enter the Key ID generated from the Dashboard
@@ -361,7 +374,11 @@ var options = {
         "contact": "9000090000" //Provide the customer's phone number for better conversion rates 
     },
     "notes": {
-        "address": "Razorpay Corporate Office"
+        // "address": "Razorpay Corporate Office",
+        "order_id": payorderid ,
+        "address":addr,
+        "paymethode":payment,
+        'totalamount':'<%=(totalprice-20+50) %>'
     },
     "theme": {
         "color": "#3399cc"

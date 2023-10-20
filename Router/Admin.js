@@ -47,4 +47,11 @@ router.post("/AdminUserpage/userunblock/:userId", admincontroller.userunblock)
 router.get("/OrderManagPage", admincontroller.OrderManagPage)
 router.post("/Updateorderstatus", admincontroller.Updateorderstatus)
 
+router.get("/CouponManagent", admincontroller.CouponManagent)
+router.get("/Addnewcoupon", admincontroller.Addnewcoupon)
+router.post("/coupondata", admincontroller.coupondata)
+router.post("/deletecoupon/:couponid", admincontroller.deletecoupon)
+router.post("/Editcoupon/:couponid", admincontroller.Editcoupon)
+router.post("/couponeditpage/:couponid", admincontroller.couponeditpage)
+
 module.exports = router

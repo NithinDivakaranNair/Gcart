@@ -175,16 +175,6 @@ const ordersuccessfulPOST = async (req, res) => {
 }
 
 
-
-
-
-
-
-
-
-
-
-
 ///order cancel for userside
 // const ordercanel = async (req, res) => {
 //     // const Orderid = req.params.orderId;

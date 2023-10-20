@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="/assets1/vendors/owl-carousel-2/owl.theme.default.min.css">
   <link rel="stylesheet" href="/assets1/css/style.css">
   <link rel="shortcut icon" href="/assets1/images/favicon.png" />
-  
 </head>
 
 <body>
@@ -149,19 +148,20 @@
         </li>
 
 
+        
         <li class="nav-item menu-items">
-          <a class="nav-link" data-toggle="collapse" href="#coupon-management" aria-expanded="false"
-            aria-controls="coupon-management">
-            <span class="menu-title">COUPON MANAGEMENT</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <div class="collapse" id="coupon-management">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="/CouponManagent">Coupon details</a></li>
-              <li class="nav-item"> <a class="nav-link" href="/Addnewcoupon">Add New Coupon</a></li>
-            </ul>
-          </div>
-        </li>
+            <a class="nav-link" data-toggle="collapse" href="#coupon-management" aria-expanded="false"
+              aria-controls="coupon-management">
+              <span class="menu-title">COUPON MANAGEMENT</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="coupon-management">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/CouponManagent">Coupon details</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/Addnewcoupon">Add New Coupon</a></li>
+              </ul>
+            </div>
+          </li>
 
         </li>
       </ul>
@@ -307,55 +307,44 @@
 
       <div class="container mt-4">
         <div class="my-5">
-            <h1>Order Management</h1>
-        </div>
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-        <tr class="bg-light text-yellow">
-                    <th>Date</th>
-                    <th>Customer ID</th>
-                    <th>Customer Name</th>
-                    <th>Address</th>
-                    <th>Items</th>
-                    <th>Total</th>
-                    <th>Payment Mode</th>
-                    <th>Status</th>
+          <h1>Coupon Management</h1>
+      </div>
+      <table class="table table-bordered table-striped">
+       
+            <thead>
+                <tr>
+                    <th>Coupon Code</th>
+                    <th>Discount Amount</th>
+                    <th>Expiration Date</th>
+                    <th>Description</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <% orderdetails.forEach(data => { %>
-                  <tr class="text-white">
-                        <td><%= data.date.getDate() %>/<%= data.date.getMonth() + 1 %>/<%= data.date.getFullYear() %></td>
-                        <td><%= data.customerId %></td>
-                        <td><%= data.CustomerName %></td>
-                        <td>
-                            <p><%= data.address.Address %><br><%= data.address.Landmark %></p>
-                        </td>
-                        <td>
-                            <% data.iteams.forEach((item) => { %>
-                                <%= item.Model %>
-                            <% }) %>
-                        </td>
-                        <td><%= data.totalAmount %></td>
-                        <td><%= data.paymentmode %></td>
-                        <td>
-                            <% if (data.orderactionuser == true) { %>
-                              <select class="form-control orderstatus text-white" data-Orderid="<%= data._id %>" name="ORDERSTATUS">
-                                <option value="OrderPending" class="text-white" <%= data.orderstatus === 'OrderPending' ? 'selected' : '' %>>Order Pending</option>
-                                <option value="OrderShipped" class="text-white" <%= data.orderstatus === 'OrderShipped' ? 'selected' : '' %>>Order Shipped</option>
-                                <option value="OrderDelivered" class="text-white" <%= data.orderstatus === 'OrderDelivered' ? 'selected' : '' %>>Order Delivered</option>
-                                <option value="OrderCancel" class="text-white" <%= data.orderstatus === 'OrderCancel' ? 'selected' : '' %>>Order Cancel</option>
-                            </select>
-                            
-                            <% } else { %>
-                                <p>Order Cancelled by the user</p>
-                            <% } %>
-                        </td>
-                    </tr>
-                <% }) %>
+            <% Allcoupons.forEach((data)=>{ %>
+                <tr class="text-white">
+                    <td><%=data.CouponCode %></td>
+                    <td><%=data.DiscountAmount %></td>
+                    <td><%= data.ExpirationDate.getDate() %>/<%= data.ExpirationDate.getMonth() + 1 %>/<%= data.ExpirationDate.getFullYear() %></td>
+                    <td><%=data.Description %></td>
+                    <td>
+                    
+                        
+                        <form action="/couponeditpage/<%= data._id %>" method="post">
+                          <button class="btn btn-primary">Edit</button>
+                      </form>
+
+                    <form action="/deletecoupon/<%= data._id %>" method="post">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+             <% }) %>
+                <!-- Add more rows for additional coupons as needed -->
             </tbody>
         </table>
     </div>
+    
 
     </div>
     <!-- Prodect details end-->
@@ -376,46 +365,9 @@
   <script src="/assets1/js/todolist.js"></script>
   <script src="/assets1/js/dashboard.js"></script>
 
-  <script>
-// Get a reference to the select element
-    const selectElements = document.querySelectorAll(".orderstatus");
-    
-    console.log('selectElements:',selectElements)
-    
-    selectElements.forEach((selectElement) => {           // Add an event listener to detect changes in the select element
-      selectElement.addEventListener("change", () => {
-    
-        const orderdata = selectElement.getAttribute("data-Orderid")    // Get the selected value
-      const selectedValue = selectElement.value;
-      const ORDERid = orderdata
-     const data = { selectedValue, ORDERid };     // Create an object to send to the controller
-       
-     fetch("/Updateorderstatus", {           // Use the Fetch API to send the data to the controller
-        method: "POST",                     // Use "POST" or "GET" depending on your requirements
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          // Handle the response from the controller here
-          console.log(data);
-        })
-        .catch((error) => {
-          console.error("Fetch error:", error);
-        });
-    });
-    })
-  </script>
+ 
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 
 </body>
 

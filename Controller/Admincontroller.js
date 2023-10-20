@@ -3,7 +3,7 @@ const signupcollection = require("../Model/UserSchema")
 const Prodectcollection = require("../Model/ProdectSchema")
 const Categorycollection = require("../Model/CategorySchema")
 const Ordercollection = require("../Model/OrderSchema")
-
+const Couponcollection=require("../Model/CouponSchema")
 
 //AddCategory rout
 const addcategorys = (req, res) => {
@@ -420,10 +420,115 @@ const Updateorderstatus = async (req, res) => {
 }
 
 
+/// coupon management
+const CouponManagent= async (req, res) => {
+  try {
+   const Allcoupons=await Couponcollection.find({})
+    return res.render("Admin/CouponManagement",{Allcoupons})
+  } catch (error) {
+    console.log("error due to coupondisplaying:", error)
+    return res.status(404).send("internal error due to coupon displaying")
+  }
+}
+
+
+//add new coupon
+const Addnewcoupon= async (req, res) => {
+  try {
+   
+    return res.render("Admin/AddNewCoupon")
+  } catch (error) {
+    console.log("error due to coupondisplaying:", error)
+    return res.status(404).send("internal error due to new coupon displaying")
+  }
+}
 
 
 
-module.exports = {
+//add new coupon data add
+const coupondata=async (req, res) => {
+  console.log('req.body:',req.body)
+  const{CouponCode,DiscountAmount,ExpirationDate,Description}=req.body;
+  try {
+    const newcoupon = new Couponcollection({
+      CouponCode,
+      DiscountAmount,
+      ExpirationDate,
+      Description,
+    
+    });
+    console.log('newcoupon:', newcoupon)
+    await newcoupon.save(); // Store the product details in the product database
+    return res.redirect("/CouponManagent");
+} catch (error) {
+    console.log("error due to coupondisplaying:", error)
+    return res.status(404).send("internal error due to new coupon data add ")
+  }
+}
+
+
+
+//DELETE Coupon
+const deletecoupon = async (req, res) => {
+const couponId = req.params.couponid; // deleting prodect id stored in 'ProdectId' variable
+  try {
+    const DeleteCoupon = await Couponcollection.findByIdAndRemove(couponId) // find the prodect with prodectid and delete from database
+    console.log("DeleteCoupon:",DeleteCoupon)
+    if (!DeleteCoupon) {
+      return res.status(404).send("prodect not found")
+    }
+    return res.redirect('/CouponManagent')
+  } catch (error) {
+    return res.status(500).send('internal server error')
+  }
+}
+
+
+
+//Edit  Coupon admin
+const Editcoupon = async (req, res) => {
+  const couponId = req.params.couponid;
+  console.log("editcouponId:",couponId)
+  const { CouponCode, DiscountAmount, ExpirationDate, Description } = req.body;
+  try {
+    const updatedcoupon = await Couponcollection.findByIdAndUpdate(couponId, { CouponCode, DiscountAmount, ExpirationDate,Description  }, { new: true })
+    if (!updatedcoupon) {
+      return res.status(404).send("coupon not found")
+    }
+    return res.render("Admin/CouponManagement")
+  }
+  catch (error) {
+    console.error("Error coupon updating admin:", error);
+    res.status(500).send("Internal server Error");
+
+  }
+}
+
+
+//update prodect detail page for admin
+const couponeditpage = async (req, res) => {
+  const couponId = req.params.couponid;
+
+  try {
+    const coupon = await Couponcollection.findOne({ _id: couponId })
+    console.log("page couponId:",coupon)
+    if (!coupon) {
+      return res.status(404).send("coupon not found");
+    }
+    return res.render("Admin/AdminEditCoupon", {coupon})
+  } catch (error) {
+    console.error("Error rendering edit user form:", error);
+    res.status(500).send("Internal server Error");
+  }
+}
+
+
+
+
+
+
+
+  module.exports = {
   adminlogin,
   adminhome,
   adminlogout,
@@ -450,5 +555,12 @@ module.exports = {
 
 
   OrderManagPage,
-  Updateorderstatus
+  Updateorderstatus,
+
+  CouponManagent,
+  Addnewcoupon,
+  coupondata,
+  deletecoupon,
+  Editcoupon,
+  couponeditpage
 }

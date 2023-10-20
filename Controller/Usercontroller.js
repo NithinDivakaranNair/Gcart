@@ -65,7 +65,7 @@ console.log('homepage:')
           const  categoryinfo = await Categorycollection.find({});  //category collection
  
  
-          //filter
+          //filter in prodect
           let queryObject = {};
           let sortObject = {};
           

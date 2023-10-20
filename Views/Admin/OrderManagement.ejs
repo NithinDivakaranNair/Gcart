@@ -378,19 +378,19 @@
   <script>
 // Get a reference to the select element
     const selectElements = document.querySelectorAll(".orderstatus");
+    
     console.log('selectElements:',selectElements)
- // Add an event listener to detect changes in the select element
-    selectElements.forEach((selectElement) => {
+    
+    selectElements.forEach((selectElement) => {           // Add an event listener to detect changes in the select element
       selectElement.addEventListener("change", () => {
-  // Get the selected value
-      const orderdata = selectElement.getAttribute("data-Orderid")
+    
+        const orderdata = selectElement.getAttribute("data-Orderid")    // Get the selected value
       const selectedValue = selectElement.value;
       const ORDERid = orderdata
-// Create an object to send to the controller
-      const data = { selectedValue, ORDERid };
-// Use the Fetch API to send the data to the controller
-      fetch("/Updateorderstatus", {
-        method: "POST", // Use "POST" or "GET" depending on your requirements
+     const data = { selectedValue, ORDERid };     // Create an object to send to the controller
+       
+     fetch("/Updateorderstatus", {           // Use the Fetch API to send the data to the controller
+        method: "POST",                     // Use "POST" or "GET" depending on your requirements
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",

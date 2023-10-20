@@ -28,6 +28,20 @@
 
     <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">
 
+    <style>
+       .dropdown-items{
+            display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -99,10 +113,11 @@
         <!-- Categories Section End -->
         </div>
 
-        /////////
+    <!--start filter--> 
 
         <div class="container">
             <div class="row">
+               
                 <div class="col-md-3">
                     <!-- Sorting Dropdown -->
                     <div class="dropdown">
@@ -110,40 +125,51 @@
                             Sort By
                         </button>
                         <div class="dropdown-menu" aria-labelledby="sortDropdown">
-                            <a class="dropdown-item" href="#" data-sort="lowToHigh">Low to High</a>
-                            <a class="dropdown-item" href="#" data-sort="highToLow">High to Low</a>
+                            <a class="sort-dropdown-item" href="/home?sort=0" data-sort="lowToHigh">Low to High</a>
+                            <a class="sort-dropdown-item" href="/home?sort=1" data-sort="highToLow">High to Low</a>
                         </div>
                     </div>
                 </div>
+                 
+                
+               
                 <div class="col-md-3">
                     <!-- Brand Dropdown -->
-                    <div class="dropdown">
+                    <div class="dropdow">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="brandDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Brand
                         </button>
                         <div class="dropdown-menu" aria-labelledby="brandDropdown">
-                            <a class="dropdown-item" href="#" data-brand="brand1">Brand 1</a>
-                            <a class="dropdown-item" href="#" data-brand="brand2">Brand 2</a>
+                            <% prodectinfo.forEach(data=> { %>
+                            <a class="dropdown-items" href="/home?brand=<%=data.Brand %>" data-brand="brand1"><%=data.Brand %></a>
+             <% }) %>
                         </div>
                     </div>
                 </div>
+                
+                
                 <div class="col-md-3">
                     <!-- Price-based Dropdown -->
-                    <div class="dropdown">
+                    <div class="dropdo">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="priceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Price
                         </button>
                         <div class="dropdown-menu" aria-labelledby="priceDropdown">
-                            <a class="dropdown-item" href="#" data-price="under20">$20 and under</a>
-                            <a class="dropdown-item" href="#" data-price="20to50">$20 - $50</a>
-                            <a class="dropdown-item" href="#" data-price="50plus">Over $50</a>
+                            <a class="dropdown-items" href="/home?sprice=0&eprice=2000" data-price="under20">2000 and under</a>
+                            <a class="dropdown-items" href="/home?sprice=2000&eprice=5000" data-price="20to50">5000 - 2000</a>
+                            <a class="dropdown-items" href="/home?sprice=5000&eprice=100000" data-price="50plus">Over 5000</a>
                         </div>
                     </div>
                 </div>
+           
+           
+           
             </div>
         </div>
-/////////// 
-        <!--new cards-->
+
+ <!--end filter-->  
+     
+ <!--prodect displaying-->
         <section>
             <div class="container my-5">
                 <h3>All Prodects</h3>
@@ -191,7 +217,7 @@
             </div>
         </section>
 
-
+ <!--end prodect displaying-->
 
         <section class="trend spad">
             <div class="container">
@@ -356,7 +382,55 @@
                     });
                 });
             </script>
-            
+            <script>
+                // Get a reference to the dropdown menu and button
+const dropdown = document.querySelector(".dropdown");
+const sort_dropdown_item = document.querySelectorAll(".sort-dropdown-item");
+
+// sort_dropdown_item.forEach(ele=>{
+
+//     ele.addEventListener('click',(e)=>{
+
+//         event.preventDefault();
+
+//     })
+// })
+
+
+
+// Add an event listener to the button to detect when it's clicked
+// button.addEventListener("click", (event) => {
+//     // Prevent the default behavior of the button (prevents dropdown from closing)
+//     event.preventDefault();
+    
+//     // Get the selected value
+//     const selectedValue = event.target.getAttribute("data-sort");
+//     console.log("selectedValue:",selectedValue)
+//     // Check if a value is selected
+//     if (selectedValue) {
+//         // Use the Fetch API to send the selected value to the server or perform an action
+//         fetch('/filter', {
+//             method: 'POST', // or 'GET' depending on your server-side implementation
+//             body: JSON.stringify({ sortValue: selectedValue }),
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//         })
+//         .then((response) => response.json())
+//         .then((data) => {
+//             // Handle the response from the server
+//             console.log(data);
+//         })
+//         .catch((error) => {
+//             console.error('Error:', error);
+//         });
+//     }
+// });
+
+            </script>
+
+
+
 </body>
 
 </html>

@@ -81,6 +81,7 @@ router.get("/Removewishlist/:prodectid", wishlistcontroller.Removewishlist)
 
 router.get("/prodectsearch", usercontroller.prodectsearch)
 
+router.post("/filter", usercontroller.filter)
 module.exports = router
 
 

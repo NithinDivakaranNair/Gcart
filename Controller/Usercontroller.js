@@ -61,18 +61,51 @@ console.log('homepage:')
            Userlogin =true;
             const userdetail = req.session.userId;
             const  Username = userdetail.username;
-            const prodectinfo = await Prodectcollection.find({});  //prodect colleection
+            let prodectinfo = await Prodectcollection.find({});  //prodect colleection
           const  categoryinfo = await Categorycollection.find({});  //category collection
+ 
+ 
+          //filter
+          let queryObject = {};
+          let sortObject = {};
+          
+          // If brand is provided, filter by brand
+          if (req.query.brand) {
+              queryObject.Brand = req.query.brand;
+          }
+          
+          // If sort is provided, sort by the sort value
+          if (req.query.sort) {
+              const value = req.query.sort;
+              if (value === '1'){
+                  sortObject.Price = -1;
+              }
+              else{
+                  sortObject.Price = 1;
+              }
+          }
+          
+          // If price is provided, filter by price
+          if (req.query.sprice && req.query.eprice) {
+              const spriceValue = parseFloat(req.query.sprice); // Convert to a number
+              const epriceValue = parseFloat(req.query.eprice); // Convert to a number
+              queryObject.Price = {  $gte: spriceValue, $lte: epriceValue };
+          }
+          
+          prodectinfo = await Prodectcollection.find(queryObject).sort(sortObject);
 
-///wallet creation
-const wallet=await Walletcollection.findOne({customerid:userdetail._id})
-if(!wallet){
-const newwallet=new Walletcollection({
-    customerid:userdetail._id,
-   })
-console.log("newwallet:",newwallet)
-await newwallet.save();
-}
+
+          ///wallet creation
+       const wallet=await Walletcollection.findOne({customerid:userdetail._id})
+        if(!wallet){
+        const newwallet=new Walletcollection({
+        customerid:userdetail._id,
+        })
+      console.log("newwallet:",newwallet)
+       await newwallet.save();
+        }
+
+
             return res.render("User/homepage", { prodectinfo, categoryinfo, Userlogin, Username });  //Updating Prodect and Category collection
         }
         catch (error) {
@@ -661,7 +694,12 @@ const { searchQuery } = req.query; // searched value store in paticular variable
   };
 
 
+//filter option in home
+const filter=async(req,res)=>{
+    const sortedvalue=req.body;
+    console.log("sortedvalue")
 
+}
 
 
 
@@ -692,7 +730,8 @@ module.exports = {
     Updateuserdetails,
     UpdatePassword,
  
-    prodectsearch
+    prodectsearch,
+    filter
    
 }
 

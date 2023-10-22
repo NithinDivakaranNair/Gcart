@@ -4,8 +4,11 @@ const Categorycollection = require("../Model/CategorySchema")
 const CartCollection = require("../Model/CartSchema")// cart schema require
 const AddressCollection = require("../Model/AddressSchema")
 const Ordercollection = require("../Model/OrderSchema")
+const CouponCollection = require("../Model/CouponSchema")
+
 const nodemailer = require("nodemailer");    //Email sending module
-const Razorpay = require('razorpay')
+
+const Razorpay = require('razorpay')//Razorpay
 var instance = new Razorpay({
     key_id: 'rzp_test_GCcWdKrz1uFYwx',
     key_secret: 'wsM5ZRlx0XLkOtmq3BBMKDqv',
@@ -62,11 +65,14 @@ const ordersucessful = async (req, res) => {
 //     }
 // };
 
+
 //order sucessfulpage post methode
 const ordersuccessfulPOST = async (req, res) => {
-
+    const userdetail = req.session.userId;
+    const Userid = userdetail._id;
+    const coupon = req.session.coupon;
+    const updatecoupon = await CouponCollection.updateOne({ CouponCode: coupon }, { $set: { userid: Userid } })
     if (req.body.razorpay_payment_id) {
-
         const payorderid = req.body.razorpay_payment_id
         var instance = new Razorpay({ key_id: 'rzp_test_GCcWdKrz1uFYwx', key_secret: 'wsM5ZRlx0XLkOtmq3BBMKDqv' })
 
@@ -89,7 +95,8 @@ const ordersuccessfulPOST = async (req, res) => {
                     totalAmount: totalAmount,
                     address,
                     iteams: cartinf,
-                    paymentmode
+                    paymentmode,
+                    Coupon: coupon
                 });
                 await newOrder.save();
 
@@ -119,7 +126,8 @@ const ordersuccessfulPOST = async (req, res) => {
                 totalAmount: totalAmount,
                 address,
                 iteams: cartinf,
-                paymentmode
+                paymentmode,
+                Coupon: coupon
             });
             await newOrder.save();
 
@@ -157,7 +165,8 @@ const ordersuccessfulPOST = async (req, res) => {
                 totalAmount: totalAmount,
                 address,
                 iteams: cartinf,
-                paymentmode
+                paymentmode,
+                Coupon: coupon
             });
             await newOrder.save();
 
@@ -269,6 +278,8 @@ const EachOrderdetailpage = async (req, res) => {
         res.status(500).send("Error due to sucessful page rendering error");
     }
 }
+
+
 
 
 //pay

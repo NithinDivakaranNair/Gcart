@@ -4,6 +4,7 @@ const Prodectcollection = require("../Model/ProdectSchema")
 const Categorycollection = require("../Model/CategorySchema")
 const CartCollection = require("../Model/CartSchema")// cart schema require
 const WishlistCollection = require("../Model/WishlistSchema")
+const CouponCollection = require("../Model/CouponSchema")
 
 //cartpagepageGET methode
 const cartpagedetails = async (req, res) => {
@@ -20,6 +21,8 @@ const cartpagedetails = async (req, res) => {
         cartinfo.forEach((cartiteam) => {
             totalprice += cartiteam.Price * cartiteam.Count;
         })
+
+
         return res.render("User/Shoppingcartpage", { Userlogin, categoryinfo, cartinfo, totalprice, Username })
     } catch (error) {
         console.log("Error due to cart detail displaying time:", error)
@@ -116,6 +119,7 @@ const CartMinusebutton = async (req, res) => {
     }
 }
 
+
 //remove  prodect the cart 
 const IteamRemoveCart = async (req, res) => {
     const prodectid = req.params.iteam;
@@ -132,6 +136,42 @@ const IteamRemoveCart = async (req, res) => {
 }
 
 
+
+//Add coupon and all authentication process
+const addcouponcart = async (req, res) => {
+    const userdetail = req.session.userId;
+    const Userid = userdetail._id;
+    try {
+        const addedcoupon = req.body.coupon;
+
+
+        /// check to coupon  not found
+        const couponvalue = await CouponCollection.findOne({ CouponCode: addedcoupon })
+        if (!couponvalue) {
+            return res.status(400).json("Coupon not found.");
+        }
+        if ((couponvalue.userid == Userid) || couponvalue.userid) {
+            return res.status(403).json("Coupon not found.");
+        }
+        /// check to coupon is expire or not
+        const currentDate = new Date();
+        const couponExpirationDate = new Date(couponvalue.ExpirationDate);
+        if (currentDate > couponExpirationDate) {
+            return res.status(404).json("Coupon has expired.");
+        }
+        req.session.coupon = couponvalue.CouponCode; //this session using for order placing time add to order schema
+        const discountamount = couponvalue.DiscountAmount;
+        return res.status(200).json(discountamount)
+
+    } catch (error) {
+        console.log('Error due to coupon add to cart', error);
+        return res.status(500).json("Error due to coupon add cart")
+    }
+
+}
+
+
+
 module.exports = {
 
     cartpage,
@@ -139,5 +179,6 @@ module.exports = {
     CartPluseButton,
     CartMinusebutton,
     IteamRemoveCart,
+    addcouponcart
 
 }

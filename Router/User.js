@@ -54,7 +54,7 @@ router.get("/cartpagedetails", authentication.BlockAuthenticationHomepage, cartc
 router.get("/CartPluseButton/:prodectId", authentication.BlockAuthenticationHomepage, cartcontroller.CartPluseButton)
 router.get("/CartMinusebutton/:prodectId", authentication.BlockAuthenticationHomepage, cartcontroller.CartMinusebutton)
 
-router.get("/checkoutpage", authentication.BlockAuthenticationHomepage, checkoutcontroller.checkoutpage)
+router.get("/checkoutpage/:amount", authentication.BlockAuthenticationHomepage, checkoutcontroller.checkoutpage)
 router.get("/IteamRemoveCart/:iteam", authentication.BlockAuthenticationHomepage, cartcontroller.IteamRemoveCart)
 
 router.get("/userprofile", authentication.BlockAuthenticationHomepage, usercontroller.userprofile)
@@ -67,21 +67,24 @@ router.post("/UpdatePassword/:userid", authentication.BlockAuthenticationHomepag
 router.post("/AddAddress", authentication.BlockAuthenticationHomepage, usercontroller.AddAddress)
 
 router.get("/ordersucessful", ordercontroller.ordersucessful)
-
 router.post("/ordersuccessfulPOST", authentication.BlockAuthenticationHomepage, ordercontroller.ordersuccessfulPOST)
 router.post("/ordercanel", ordercontroller.ordercanel)
-router.get("/EachOrderdetailpage/:orderid", ordercontroller.EachOrderdetailpage)
+router.get("/EachOrderdetailpage/:orderid",authentication.BlockAuthenticationHomepage, ordercontroller.EachOrderdetailpage)
 
 router.post("/paypost", ordercontroller.paypost)
 
 router.get("/wishlistpost/:prodectid", wishlistcontroller.wishlistpost)
-router.get("/wishlistdisplay", wishlistcontroller.wishlistdisplay)
+router.get("/wishlistdisplay",authentication.BlockAuthenticationHomepage, wishlistcontroller.wishlistdisplay)
 
 router.get("/Removewishlist/:prodectid", wishlistcontroller.Removewishlist)
 
 router.get("/prodectsearch", usercontroller.prodectsearch)
 
 router.post("/filter", usercontroller.filter)
+
+router.post("/addcouponcart", cartcontroller.addcouponcart)
+
+
 module.exports = router
 
 

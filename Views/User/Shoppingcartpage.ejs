@@ -91,7 +91,7 @@
                             </h6>
                           </td>
                           <td>
-         <!-- + & - button  working place-->
+                            <!-- + & - button  working place-->
                             <div class="count-container">
                               <% if(data.Count===1){ %>
                                 <button style="background-color: #ff0000; color: #ffffff;">-</button>
@@ -140,15 +140,21 @@
           <div class="col-lg-3">
             <div class="card mb-3 border shadow-0" style="background-color: lightyellow;">
               <div class="card-body" style="color: green;">
-                <form>
+
+                <form id="couponadd">
                   <div class="form-group">
                     <label class="form-label">Have coupon?</label>
                     <div class="input-group">
-                      <input type="text" class="form-control border" name="" placeholder="Coupon code" />
-                      <button class="btn btn-light border">Apply</button>
+                      <input type="text" class="form-control border" id="couponid" name="" placeholder="Coupon code" />
+
+                      <button class="btn btn-light border" type="button" id="button">Apply</button>
                     </div>
+
+                    <p class="text-danger" id="error-message"> </p>
                   </div>
                 </form>
+
+
               </div>
             </div>
 
@@ -159,91 +165,44 @@
                 <div class="d-flex justify-content-between">
                   <p class="mb-2" style="color: rgb(0, 0, 0);">Total price:</p> <!--(<=num %>iteams)-->
                   <p class="mb-2" style="color: black; font-weight: bold;">
-                    <%= totalprice.toLocaleString('en-IN', { style: 'currency' , currency: 'INR' })%>
+                    <!-- <= totalprice.toLocaleString('en-IN', { style: 'currency' , currency: 'INR' })%> -->
+                    <%= totalprice%>/-
                   </p>
                 </div>
                 <div class="d-flex justify-content-between">
                   <p class="mb-2" style="color: black;">Discount:</p>
                   <p class="mb-2 text-success" style="color: black; font-weight: bold;">
-                    <%= (20).toLocaleString('en-IN', { style: 'currency' , currency: 'INR' }) %>
+                    <!-- <= (20).toLocaleString('en-IN', { style: 'currency' , currency: 'INR' }) %> -->
+                    20/-
                   </p>
                 </div>
 
                 <hr />
                 <div class="d-flex justify-content-between">
                   <p class="mb-2" style="color: black;">Total Amount:</p>
-                  <p class="mb-2 fw-bold" style="color: black" ; font-weight: bold;">
-                    <%= (totalprice-20).toLocaleString('en-IN', { style: 'currency' , currency: 'INR' }) %>
+                  <p class="mb-2 fw-bold" style="color: black" ; font-weight: bold;" id="totalDisplay">
+                    <!-- <= (totalprice-20).toLocaleString('en-IN', { style: 'currency' , currency: 'INR' }) %> -->
+                    <%=(totalprice-20)%>/-
                   </p>
+                  <input type="hidden" value=<%=(totalprice-20)%> id="total">
                 </div>
 
                 <div class="mt-3">
-                  <a href="/checkoutpage" class="btn btn-success w-100 shadow-0 mb-2">CheckOut</a>
+                  <a href="/checkoutpage/<%=totalprice%>" class="btn btn-success w-100 shadow-0 mb-2"
+                    id="TotalDisplay">CheckOut</a>
                   <!-- <a href="#" class="btn btn-light w-100 border mt-2">Back to shop</a> -->
                 </div>
               </div>
             </div>
-
-
           </div>
-
           <!-- summary -->
-
         </div>
       </div>
     </section>
 
-
-    <!--this code is used to +&- working
-             <button class="increase">+</button>
-            
-          <span class="count">1</span
-          <button class="decrease">-</button> -->
-    <!-- <section>
-            <div class="container my-5">
-              <header class="mb-4">
-                <h3>Recommended items</h3>
-              </header>
-          
-              <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                  <div class="card px-4 border shadow-0 mb-4 mb-lg-0">
-                    <div class="mask px-2" style="height: 50px;">
-                      <div class="d-flex justify-content-between">
-                        <h6><span class="badge bg-danger pt-1 mt-3 ms-2">New</span></h6>
-                        <a href="#"><i class="fas fa-heart text-primary fa-lg float-end pt-3 m-2"></i></a>
-                      </div>
-                    </div>
-                    <a href="#" class="">
-                      <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp" class="card-img-top rounded-2" />
-                    </a>
-                    <div class="card-body d-flex flex-column pt-3 border-top">
-                      <a href="#" class="nav-link">Gaming Headset with Mic</a>
-                      <div class="price-wrap mb-2">
-                        <strong class="">$18.95</strong>
-                        <del class="">$24.99</del>
-                      </div>
-                      <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-                        <a href="#" class="btn btn-outline-primary w-100">Add to cart</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              
-              </div>
-            </div>
-          </section> -->
-    <!-- Recommended -->
-
-    <!-- Footer -->
-    -
-
-
- <!--footer-->
+    <!--footer-->
     <%- include('./partials/footer.ejs') %>
       <!--footer-->
-
-
 
       <!-- Js Plugins -->
       <script src="js/jquery-3.3.1.min.js"></script>
@@ -259,7 +218,64 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script>
+const error1=document.getElementById('error-message')
+        const coupon = document.getElementById('couponid')
+        const Botton = document.getElementById('button')
+        const displayTotal = document.getElementById('totalDisplay')
+        const checkouttotal = document.getElementById('TotalDisplay')
+        const total = document.getElementById('total')
+        let totalAmount = Number(total.value)
+        Botton.addEventListener("click", (eve) => {
+          const data = coupon.value;
+          fetch("/addcouponcart", {
+            method: "POST", // Use "POST" or "GET" depending on your requirements
+            body: JSON.stringify({ coupon: data }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }).then((response) => {
+          
+              if (response.status === 400) {
+                return response.json().then((data)=>{
+                  error1.innerText="Enter a valid coupon code.";
+                  throw new Error("Invalid coupon code");
+                })
+         }else if(response.status === 404){
+          return response.json().then((data)=>{
+                  error1.innerText="Coupon has expired";
+                  throw new Error("Invalid coupon code");
+                })
+         }else if(response.status === 403){
+          return response.json().then((data)=>{
+                  error1.innerText="Coupon already used";
+                  throw new Error("Invalid coupon code");
+                })
+         }
+         else if(response.status === 200){
+            return response.json();
+         }
+          }).then((data) => {
 
+         
+            console.log(data);
+            console.log(totalAmount);
+            if (data > totalAmount) {
+          error1.innerText = "Coupon not allowed in this Totalamount .";
+          throw new Error("Invalid coupon amount");
+        }else {
+            totalAmount = totalAmount - data;
+            console.log(totalAmount);
+            checkouttotal.href = `/checkoutpage/${totalAmount}`<!-- value assign in url---->
+            displayTotal.innerText = totalAmount;
+            Botton.disabled = true;
+        } 
+        })
+            .catch((error) => {
+              console.log(error);
+            });
+        }) 
+      </script>
 
       <!-- <script>
               // Get references to the HTML elements using querySelectorAll
@@ -293,6 +309,8 @@
       
               
           </script> -->
+
+
 </body>
 
 </html>

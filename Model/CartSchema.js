@@ -14,6 +14,7 @@ const CartSchema = new mongoose.Schema({
           type: Number,
           default: 1, // Set the default value to 1
      },
+
 })
 const Cartcollection = mongoose.model("Cart", CartSchema)
 module.exports = Cartcollection;

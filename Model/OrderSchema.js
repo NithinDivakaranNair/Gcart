@@ -12,8 +12,9 @@ const OrderSchema = new mongoose.Schema({
     iteams: Array,
     totalAmount: Number,
     paymentmode: String,
+    Coupon: String,
     orderstatus: { type: String, default: "OrderPending" },
-    orderactionuser:{ type: Boolean, default: true },
+    orderactionuser: { type: Boolean, default: true },
 })
 
 

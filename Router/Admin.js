@@ -39,6 +39,13 @@ router.post("/deleteprodect/:prodectId", admincontroller.deleteprodect)
 router.post("/updateprodectdetails/:prodectId", admincontroller.updateprodectdetails)
 router.post("/updateprodectdata/:prodectId", upload.array('Image'), admincontroller.updateprodectdata)
 
+
+router.post("/updatecategorydetails/:categoryId", admincontroller.updatecategorydetails)
+router.post("/updatecategorydata/:categoryId", upload.single('Image'), admincontroller.updatecategorydata)
+
+
+
+
 router.get("/AdminUserpage", admincontroller.AdminUserpage)
 router.post("/AdminUserpage/userblock/:userId", admincontroller.userblock)
 router.post("/AdminUserpage/userunblock/:userId", admincontroller.userunblock)

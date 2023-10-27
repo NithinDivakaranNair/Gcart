@@ -86,6 +86,7 @@ const ordersuccessfulPOST = async (req, res) => {
             const CustomerName = userdetails.username;
             const paymentmode = data.notes.paymethode;
             const totalAmount = data.notes.totalamount;
+            console.log("address:",addressId)
             try {
                 const cartinf = await CartCollection.find({ UserId: customerId })
                 // Save the order with the total amount to your database using the Order model
@@ -116,7 +117,8 @@ const ordersuccessfulPOST = async (req, res) => {
         const CustomerName = userdetails.username;
         const paymentmode = req.body.paymentMethod;
         const totalAmount = req.body.totalAmount;
-
+        console.log("address:",addressId)
+        console.log("addressvxccxcvxc:",address)
         try {
             const cartinf = await CartCollection.find({ UserId: customerId })
             // Save the order with the total amount to your database using the Order model
@@ -129,6 +131,7 @@ const ordersuccessfulPOST = async (req, res) => {
                 paymentmode,
                 Coupon: coupon
             });
+            console.log("addres7878787:",newOrder)
             await newOrder.save();
 
             res.redirect("/ordersucessful");
@@ -145,7 +148,7 @@ const ordersuccessfulPOST = async (req, res) => {
         const CustomerName = userdetails.username;
         const paymentmode = req.body.paymentMethod;
         const totalAmount = req.body.totalAmount;
-
+        console.log("address:",addressId)
         try {
             const cartinf = await CartCollection.find({ UserId: customerId })
             const walletinfo = await Walletcollection.find({ customerid: customerId })

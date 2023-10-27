@@ -18,9 +18,14 @@ const categorydata = async (req, res) => {
     // Destructure request body
     const { Category, Description } = req.body;
 
-    // Check if the category already exists in the database
-    const categoryVal = await Categorycollection.findOne({ Category: Category });
-    console.log(categoryVal)
+    // Normalize the category name by converting it to lowercase and removing spaces
+    const normalizedCategory = Category.toLowerCase().replace(/\s+/g, '');
+
+    // Check if the normalized category already exists in the database
+    const categoryVal = await Categorycollection.findOne({
+      Category: { $regex: new RegExp('^' + normalizedCategory + '$', 'i') },
+    });
+
     if (categoryVal) {
       // Handle the case where the category already exists (you may want to redirect or send an error response)
       return res.render("Admin/AddCategory", { msg: "Category already added" });
@@ -31,7 +36,7 @@ const categorydata = async (req, res) => {
 
     // Create a new category document
     const newCategory = new Categorycollection({
-      Category,
+      Category: normalizedCategory, // Store the normalized category name
       Image,
       Description,
     });
@@ -47,6 +52,9 @@ const categorydata = async (req, res) => {
     return res.status(500).send("Error during category data insertion");
   }
 };
+
+
+
 
 
 
@@ -113,6 +121,59 @@ const deletecategory = async (req, res) => {
     return res.status(500).send('internal server error')
   }
 }
+
+//update updatecategorydetails page for admin
+const updatecategorydetails = async (req, res) => {
+  const catergoryId = req.params.categoryId;
+  console.log('catergoryId;', catergoryId)
+  try {
+    const category = await Categorycollection.findOne({ _id: catergoryId })
+
+    console.log('category:', category)
+    if (!category) {
+      return res.status(404).send("category not found");
+    }
+    return res.render("Admin/AdminUpdateCategoryDetails", { category })
+  } catch (error) {
+    console.error("Error rendering edit category :", error);
+    res.status(500).send("Internal server Error");
+  }
+}
+
+
+
+//update updatecategorydata detail data
+const updatecategorydata = async (req, res) => {
+  const categoryId = req.params.categoryId;
+  console.log("updated data:", categoryId);
+  console.log("body:", req.body);
+  const { Category, Description } = req.body;
+
+  let Image = req.file ? req.file.filename : req.body.Image; // Use the new filename if a file is uploaded, otherwise use the existing value
+
+  console.log("Category:", Category);
+  console.log("Image:", Image);
+  console.log("Description:", Description);
+
+  try {
+    const updatedData = await Categorycollection.findByIdAndUpdate(
+      categoryId,
+      { Category, Image, Description },
+      { new: true }
+    );
+
+    if (!updatedData) {
+      return res.status(404).send("Category not found");
+    }
+
+    return res.redirect("/categorydetails");
+  } catch (error) {
+    console.error("Error updating category:", error);
+    return res.status(500).send("Internal server error");
+  }
+}
+
+
 
 
 //CATEGEORY RENDER ADD PRODECT PAGE  AND DISPLAYING ADDPRODECT PAGE
@@ -218,6 +279,95 @@ const deleteprodect = async (req, res) => {
 }
 
 
+//update prodect detail page for admin
+const updateprodectdetails = async (req, res) => {
+  const prodectId = req.params.prodectId;
+  console.log('prodectId;', prodectId)
+  try {
+    const prodect = await Prodectcollection.findOne({ _id: prodectId })
+    const Cdetails = await Categorycollection.find(); //All category stored in  'Cdetails' variable
+
+    console.log(Cdetails)
+
+    console.log('prodect:', prodect)
+    if (!prodect) {
+      return res.status(404).send("prodect not found");
+    }
+    return res.render("Admin/AdminUpdateProdectDetail", { prodect, Cdetails })
+  } catch (error) {
+    console.error("Error rendering edit user form:", error);
+    res.status(500).send("Internal server Error");
+  }
+}
+
+
+
+//update prodect detail data
+const updateprodectdata = async (req, res) => {
+  const productId = req.params.prodectId;
+
+  try {
+    // Retrieve the existing product data from the database
+    const existingProduct = await Prodectcollection.findById(productId);
+
+    if (!existingProduct) {
+      return res.status(404).send("Product not found");
+    }
+
+    // Extract the fields submitted in the form
+    const { Category, Brand, Model, Description, Quantity, Price } = req.body;
+
+    // Create an object to store the updated fields
+    const updatedFields = {};
+
+    // Compare and update only the changed fields
+    if (Category !== existingProduct.Category) {
+      updatedFields.Category = Category;
+    }
+    if (Brand !== existingProduct.Brand) {
+      updatedFields.Brand = Brand;
+    }
+    if (Model !== existingProduct.Model) {
+      updatedFields.Model = Model;
+    }
+    if (Description !== existingProduct.Description) {
+      updatedFields.Description = Description;
+    }
+    if (Quantity !== existingProduct.Quantity) {
+      updatedFields.Quantity = Quantity;
+    }
+    if (Price !== existingProduct.Price) {
+      updatedFields.Price = Price;
+    }
+
+    // Handle image updates if needed (assuming 'Image' is an array of image filenames)
+    if (req.files && req.files.length > 0) {
+      const newImages = req.files.map((file) => file.filename);
+      updatedFields.Image = newImages;
+    }
+
+    // Update the product with the changed fields
+    const updatedProduct = await Prodectcollection.findByIdAndUpdate(
+      productId,
+      updatedFields,
+      { new: true }
+    );
+
+    return res.redirect("/prodectdetails");
+  } catch (error) {
+    console.error("Error updating product:", error);
+    res.status(500).send("Internal server error");
+  }
+};
+
+
+
+
+
+
+
+
+
 ///////---------Admin side details----------//////
 
 //Adminlogin 
@@ -282,50 +432,6 @@ const adminloginpost = async (req, res) => {
 
 
 
-//update prodect detail page for admin
-const updateprodectdetails = async (req, res) => {
-  const prodectId = req.params.prodectId;
-  console.log('prodectId;', prodectId)
-  try {
-    const prodect = await Prodectcollection.findOne({ _id: prodectId })
-    const Cdetails = await Categorycollection.find(); //All category stored in  'Cdetails' variable
-
-    console.log(Cdetails)
-
-    console.log('prodect:', prodect)
-    if (!prodect) {
-      return res.status(404).send("prodect not found");
-    }
-    return res.render("Admin/AdminUpdateProdectDetail", { prodect, Cdetails })
-  } catch (error) {
-    console.error("Error rendering edit user form:", error);
-    res.status(500).send("Internal server Error");
-  }
-}
-
-
-
-//update prodect detail data
-const updateprodectdata = async (req, res) => {
-  const ProdectId = req.params.prodectId;
-  console.log("updated data:", ProdectId)
-  console.log("body:", req.body)
-  const { Category, Brand, Model, Description, Quantity, Price } = req.body;
-  const Image = req.files.map((file) => file.filename);
-  console.log(Category, Brand, Model, Image, Description, Quantity, Price)
-  try {
-    const updateddata = await Prodectcollection.findByIdAndUpdate(ProdectId, { Category, Brand, Model, Image, Description, Quantity, Price }, { new: true })
-    if (!updateddata) {
-      return res.status(404).send("user not found")
-    }
-    return res.redirect("/prodectdetails")
-  }
-  catch (error) {
-    console.error("Error updating user:", error);
-    res.status(500).send("Internal server Error");
-
-  }
-}
 
 
 //AdminUserpage
@@ -562,5 +668,9 @@ module.exports = {
   coupondata,
   deletecoupon,
   Editcoupon,
-  couponeditpage
+  couponeditpage,
+
+  updatecategorydetails,
+  updatecategorydata
+
 }

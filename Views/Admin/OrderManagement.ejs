@@ -339,18 +339,18 @@
                         <td><%= data.totalAmount %></td>
                         <td><%= data.paymentmode %></td>
                         <td>
-                            <% if (data.orderactionuser == true) { %>
-                              <select class="form-control orderstatus text-white" data-Orderid="<%= data._id %>" name="ORDERSTATUS">
-                                <option value="OrderPending" class="text-white" <%= data.orderstatus === 'OrderPending' ? 'selected' : '' %>>Order Pending</option>
-                                <option value="OrderShipped" class="text-white" <%= data.orderstatus === 'OrderShipped' ? 'selected' : '' %>>Order Shipped</option>
-                                <option value="OrderDelivered" class="text-white" <%= data.orderstatus === 'OrderDelivered' ? 'selected' : '' %>>Order Delivered</option>
-                                <option value="OrderCancel" class="text-white" <%= data.orderstatus === 'OrderCancel' ? 'selected' : '' %>>Order Cancel</option>
-                            </select>
-                            
-                            <% } else { %>
-                                <p>Order Cancelled by the user</p>
-                            <% } %>
-                        </td>
+                          <% if (data.orderactionuser == true) { %>
+                              <select class="form-select form-select-sm orderstatus" data-Orderid="<%= data._id %>" name="ORDERSTATUS">
+                                  <option value="OrderPending" <%= data.orderstatus === 'OrderPending' ? 'selected' : '' %>>Order Pending</option>
+                                  <option value="OrderShipped" <%= data.orderstatus === 'OrderShipped' ? 'selected' : '' %>>Order Shipped</option>
+                                  <option value="OrderDelivered" <%= data.orderstatus === 'OrderDelivered' ? 'selected' : '' %>>Order Delivered</option>
+                                  <option value="OrderCancel" <%= data.orderstatus === 'OrderCancel' ? 'selected' : '' %>>Order Cancel</option>
+                              </select>
+                          <% } else { %>
+                              <p>Order Cancelled by the user</p>
+                          <% } %>
+                      </td>
+                      
                     </tr>
                 <% }) %>
             </tbody>

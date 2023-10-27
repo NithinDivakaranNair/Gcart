@@ -7,7 +7,7 @@ const AddressCollection = require("../Model/AddressSchema")
 
 //checkoutpage
 const checkoutpage = async (req, res) => {
-
+console.log("helooooooooooooo")
     try {
         const userdetail = req.session.userId;
         // const Username = userdetail.username;

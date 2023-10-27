@@ -1,5 +1,6 @@
 require('dotenv').config()
 
+
 const signupcollection = require("../Model/UserSchema")
 const bcrypt = require("bcrypt")     //Password encrypting module
 
@@ -559,11 +560,11 @@ const AddAddress = async (req, res) => {
             Landmark: landmark,
             AternateNumber: alternatenumber,
             City: city,
-            PincodeL: pincode
+            Pincode: pincode
         })
         console.log(newaddressdetails)
         await newaddressdetails.save();
-        res.redirect("/checkoutpage")
+       return res.redirect("back")
     }
     catch (error) {
         console.log("Error due to address details add time:", error);
@@ -572,6 +573,80 @@ const AddAddress = async (req, res) => {
 
 }
 
+
+// Route to render the edit address form
+const editAddress=async (req, res) => {
+try{
+    const addressid=req.params.id;
+    const address=await AddressCollection.findById(addressid)
+    const  categoryinfo = await Categorycollection.find({});  //category collection
+return res.render('User/addresseditpage',{address,categoryinfo, Userlogin, Username})
+} catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+// const editAddress = async (req, res) => {
+//     try {
+//       const addressId = req.params.id;
+//       console.log("addressId:",addressId)
+//       const address = await AddressCollection.findById(addressId);
+//       console.log("Adreesss:",address)
+//       if (address) {
+//         console.log("editaddress:",address)
+//         res.json(address); // Sending address data as JSON response
+//       } else {
+//         res.status(404).json({ error: 'Address not found' });
+//       }
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//     }
+//   };
+  
+
+
+// Route to update the address
+const editAddressData = async (req, res) => {
+    try {
+        const updateAddress = req.body;
+        const AddressId = req.params.id;
+
+        // Make sure to handle the case where the updateAddress object is empty or missing fields.
+        if (!updateAddress || Object.keys(updateAddress).length === 0) {
+            return res.status(400).send('Invalid update data'); // Respond with a Bad Request status
+        }
+
+        // Use the 'new' option to get the updated document in the response.
+        const updatedAddress = await AddressCollection.findByIdAndUpdate(AddressId, updateAddress, { new: true });
+
+        if (!updatedAddress) {
+            return res.status(404).send('Address not found'); // Respond with a Not Found status
+        }
+
+        return res.redirect('/userprofile'); // Redirect to the user profile page or a relevant URL
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
+//delete address
+const deleteaddress = async (req, res) => {
+    const AddressId = req.params.id; // deleting prodect id stored in 'ProdectId' variable
+    try {
+      const Deleteaddress = await AddressCollection.findByIdAndRemove(AddressId) // find the prodect with prodectid and delete from database
+
+      if (!Deleteaddress) {
+        return res.status(404).send("address not found")
+      }
+      return res.redirect('/userprofile')
+    } catch (error) {
+      return res.status(500).send('internal server error')
+    }
+  }
 
 
 
@@ -603,7 +678,6 @@ const userprofile = async (req, res) => {
 
 
 // Update user details
-
 const Updateuserdetails=async(req,res)=>{
     const userId=req.params.userid
     console.log('userId:',userId)
@@ -627,7 +701,6 @@ const Updateuserdetails=async(req,res)=>{
 
 
 //update user password Postmethode
-
 const UpdatePassword=async(req,res)=>{  
     const userId=req.params.userid
     console.log('UserId:',userId)
@@ -726,12 +799,19 @@ module.exports = {
    userprofile,
 
     AddAddress,
+    editAddress,
+    editAddressData,
+    deleteaddress,
 
+    
     Updateuserdetails,
     UpdatePassword,
  
     prodectsearch,
-    filter
+    filter,
+
+
+   
    
 }
 

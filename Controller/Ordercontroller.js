@@ -20,7 +20,9 @@ const ordersucessful = async (req, res) => {
     try {
         const Userlogin = true;
         const userdetail = req.session.userId;
-        // const Username = userdetail.username;
+        const Userid = userdetail._id;
+        const orderdetails=await Ordercollection.findById(Userid)
+        
         const Username = userdetail.username ? userdetail.username : " ";
         const categoryinfo = await Categorycollection.find({});
         return res.render("User/ORDERSUCESSFUL", { categoryinfo, Userlogin, Username })

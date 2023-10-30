@@ -333,7 +333,7 @@
                         </td>
                         <td>
                             <% data.iteams.forEach((item) => { %>
-                                <%= item.Model %>
+                                <%= item.Model %>(<%= item.Count %>Nos)<br>
                             <% }) %>
                         </td>
                         <td><%= data.totalAmount %></td>

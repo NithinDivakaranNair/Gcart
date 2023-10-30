@@ -300,6 +300,8 @@
                             <th>Description</th>
                             <th>Quantity</th>
                             <th>Price</th>
+                            <th>OfferPrice</th>
+                            <th>Discount</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -313,6 +315,13 @@
                             <td><%= data.Description %></td>
                             <td><%= data.Quantity %></td>
                             <td><%= data.Price %></td>
+                            <td><%= data.OfferPrice %></td>
+                            <% if(data.Discount) {%>
+                              <td><%= data.Discount %>%</td>                             
+                               <% } else{%>
+                                <td></td>
+                                <% } %>
+                          
                             <td>
                                 <form action="/updateprodectdetails/<%= data._id %>" method="post">
                                     <button class="btn btn-primary">Edit</button>

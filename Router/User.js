@@ -54,8 +54,8 @@ router.get("/cartpagedetails", authentication.BlockAuthenticationHomepage, cartc
 router.get("/CartPluseButton/:prodectId", authentication.BlockAuthenticationHomepage, cartcontroller.CartPluseButton)
 router.get("/CartMinusebutton/:prodectId", authentication.BlockAuthenticationHomepage, cartcontroller.CartMinusebutton)
 
-router.get("/checkoutpage/:amount", authentication.BlockAuthenticationHomepage, checkoutcontroller.checkoutpage)
-router.get("/IteamRemoveCart/:iteam", authentication.BlockAuthenticationHomepage, cartcontroller.IteamRemoveCart)
+router.get("/checkoutpage", authentication.BlockAuthenticationHomepage, checkoutcontroller.checkoutpage)
+router.get("/IteamRemoveCart/:iteam", authentication.BlockAuthenticationHomepage, cartcontroller.IteamRemoveCart) 
 
 router.get("/userprofile", authentication.BlockAuthenticationHomepage, usercontroller.userprofile)
 router.post("/Updateuserdetails/:userid", authentication.BlockAuthenticationHomepage, usercontroller.Updateuserdetails)

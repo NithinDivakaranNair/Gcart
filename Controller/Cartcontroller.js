@@ -17,9 +17,13 @@ const cartpagedetails = async (req, res) => {
         const categoryinfo = await Categorycollection.find({});
         const cartinfo = await CartCollection.find({ UserId: userdetails._id })
 
-        let totalprice = 0
+        let totalprice = 0;
         cartinfo.forEach((cartiteam) => {
-            totalprice += cartiteam.Price * cartiteam.Count;
+            if (cartiteam.OfferPrice) {
+                totalprice += cartiteam.OfferPrice * cartiteam.Count;
+            } else {
+                totalprice += cartiteam.Price * cartiteam.Count;
+            }
         })
 
 
@@ -34,16 +38,16 @@ const cartpagedetails = async (req, res) => {
 //cartpagepagepost methode
 const cartpage = async (req, res) => {
 
-    try {
+    try { 
         const ProdectId = req.params.prodectId;
         const prodectdetails = await Prodectcollection.findOne({ _id: ProdectId })
-
+        console.log("prodectdetails:", prodectdetails)
         const userdetails = req.session.userId
         const UserId = userdetails._id;
 
         const categoryinfo = await Categorycollection.findOne({ Category: prodectdetails.Category });
         const CategoryId = categoryinfo._id;
-        const { Category, Price, Brand, Model, Description, Image } = prodectdetails;
+        const { Category, Price, Brand, Model, Description, Image, OfferPrice } = prodectdetails;
 
         const existingCartItem = await CartCollection.findOne({ ProdectId });
         if (existingCartItem) {
@@ -65,6 +69,7 @@ const cartpage = async (req, res) => {
             Model,
             Brand,
             Image,
+            OfferPrice
         })
 
         await NewCartProdect.save();
@@ -83,22 +88,23 @@ const cartpage = async (req, res) => {
 
 // + button working  for  count in cart
 
+
 const CartPluseButton = async (req, res) => {
     const ProdectId = req.params.prodectId;
+    // console.log('product id', ProdectId);
     try {
         const existingCartItem = await CartCollection.findOne({ ProdectId });
         if (existingCartItem) {
-
             existingCartItem.Count += 1; // You can adjust this as needed
-
             await existingCartItem.save();
-            return res.redirect("back")
+            return res.status(200).json("success");
         }
     } catch (error) {
-        console.log("Error due to  + button click time");
-        return res.status(500).send("Error due to  + button click time");
+        console.log("Error due to + button click time");
+        return res.status(500).send("Error due to + button click time");
     }
 }
+
 
 
 // - button working  for  count in cart
@@ -111,7 +117,7 @@ const CartMinusebutton = async (req, res) => {
             existingCartItem.Count -= 1; // You can adjust this as needed
 
             await existingCartItem.save();
-            return res.redirect("back")
+            return res.status(200).json("success");
         }
     } catch (error) {
         console.log("Error due to  + button click time");

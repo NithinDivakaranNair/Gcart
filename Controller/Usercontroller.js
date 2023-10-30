@@ -64,6 +64,7 @@ console.log('homepage:')
             const  Username = userdetail.username;
             let prodectinfo = await Prodectcollection.find({});  //prodect colleection
           const  categoryinfo = await Categorycollection.find({});  //category collection
+          console.log('categoryinfo:',categoryinfo);
  
  
           //filter in prodect
@@ -259,7 +260,12 @@ const signupdata = async (req, res) => {
             return res.redirect("/signup")
         }
         else {
-
+            function generateReferralCode(username) {
+                // Generate a unique referral code based on the username or using a random algorithm
+                return username.slice(0, 4) + Math.random().toString(36).substring(2, 6).toUpperCase();
+              }
+              
+            const referralCode = generateReferralCode(username);
             const saltRounds = 10;
             const hashedPassword = await bcrypt.hash(password, saltRounds); // Password hashing process
 
@@ -267,7 +273,9 @@ const signupdata = async (req, res) => {
                 username,
                 email,
                 password: hashedPassword,
-                verify: false
+                verify: false,
+                referralCode
+
             })
 
             req.session.Signuserverification = newUser;
@@ -336,8 +344,10 @@ const loginpost = async (req, res) => {
 
 //Email entering Page
 const EmailEnteringPage = (req, res) => {
-   
+   if(req.session.emailvalue){
     return res.render("User/OTPEmailpage", { msg: "Invalid Email Id" })
+   }
+   return res.render("User/OTPEmailpage")
 }
 
 

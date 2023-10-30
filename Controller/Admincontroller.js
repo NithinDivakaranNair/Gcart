@@ -197,10 +197,12 @@ const addprodects = async (req, res) => {
 const prodectdata = async (req, res) => {
   try {
     console.log(req.body);
-    const { Category, Brand, Model, Description, Quantity, Price } = req.body; // req.body data destructured process
-    // const Image = req.file.filename; // multered image stored path assign 'Image' variable
+
+    const { Category, Brand, Model, Description, Quantity, Price, OfferPrice, Discount } = req.body; // req.body data destructured process
     const Image = req.files.map((file) => file.filename);
-    console.log('Image:', Image)
+    console.log('Image:', Image);
+
+    // Save the new product
     const newProdects = new Prodectcollection({
       Category,
       Brand,
@@ -209,9 +211,46 @@ const prodectdata = async (req, res) => {
       Description,
       Quantity,
       Price,
+      OfferPrice,
+      Discount
     });
-    console.log('newProdects:', newProdects)
+
     await newProdects.save(); // Store the product details in the product database
+
+    // Find the largest discount in the category
+    const largestDiscountResult = await Prodectcollection.aggregate([
+      {
+        $match: {
+          Category: Category
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          maxDiscount: {
+            $max: "$Discount"
+          }
+        }
+      }
+    ]);
+
+    if (largestDiscountResult.length > 0) {
+      const largestDiscount = largestDiscountResult[0].maxDiscount;
+      console.log(`The largest discount in the '${Category}' category is: `, largestDiscount);
+
+      // Update the category with the largest discount
+      const catdiscountmax = await Categorycollection.updateOne(
+        { Category },
+        { $set: { Discount: largestDiscount } }
+      );
+      console.log('Category updated with the largest discount.');
+    } else {
+      console.log(`No data found for the largest discount in the '${Category}' category.`);
+    }
+
+    const Catdetails = await Categorycollection.find();
+    console.log('Catdetails:', Catdetails);
+
     return res.redirect("/prodectdetails");
   } catch (error) {
     console.error(error);
@@ -222,16 +261,20 @@ const prodectdata = async (req, res) => {
 
 
 
+
 //Display prodectdetails
 const prodectdetails = async (req, res) => {
   try {
-    const prodectinfo = await Prodectcollection.find({}); // All prodect deatails are stored in 'prodectinfo'
-    return res.render("Admin/AdminProdectManage", { iteam: prodectinfo });  //Then data render prodectlisting page
+    const prodectinfo = await Prodectcollection.find({});
+    console.log("prodectinfo:", prodectinfo);
+ 
+    return res.render("Admin/AdminProdectManage", { iteam: prodectinfo });
   } catch (error) {
     console.error(error);
     return res.status(500).send("Error fetching product information.");
   }
 };
+
 
 
 //prodect search
@@ -271,6 +314,36 @@ const deleteprodect = async (req, res) => {
     const DeleteProdect = await Prodectcollection.findByIdAndRemove(prodectId) // find the prodect with prodectid and delete from database
     if (!DeleteProdect) {
       return res.status(404).send("prodect not found")
+    }
+    ///Category updated with the largest discount
+    const largestDiscountResult = await Prodectcollection.aggregate([
+      {
+        $match: {
+          Category: Category
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          maxDiscount: {
+            $max: "$Discount"
+          }
+        }
+      }
+    ]);
+
+    if (largestDiscountResult.length > 0) {
+      const largestDiscount = largestDiscountResult[0].maxDiscount;
+      console.log(`The largest discount in the '${Category}' category is: `, largestDiscount);
+
+      // Update the category with the largest discount
+      const catdiscountmax = await Categorycollection.updateOne(
+        { Category },
+        { $set: { Discount: largestDiscount } }
+      );
+      console.log('Category updated with the largest discount.');
+    } else {
+      console.log(`No data found for the largest discount in the '${Category}' category.`);
     }
     return res.redirect('/prodectdetails')
   } catch (error) {
@@ -315,7 +388,7 @@ const updateprodectdata = async (req, res) => {
     }
 
     // Extract the fields submitted in the form
-    const { Category, Brand, Model, Description, Quantity, Price } = req.body;
+    const { Category, Brand, Model, Description, Quantity, Price,OfferPrice,Discount } = req.body;
 
     // Create an object to store the updated fields
     const updatedFields = {};
@@ -339,6 +412,12 @@ const updateprodectdata = async (req, res) => {
     if (Price !== existingProduct.Price) {
       updatedFields.Price = Price;
     }
+    if (OfferPrice !== existingProduct.OfferPrice) {
+      updatedFields.OfferPrice = OfferPrice;
+    }
+    if (Discount !== existingProduct.Discount) {
+      updatedFields.Discount = Discount;
+    }
 
     // Handle image updates if needed (assuming 'Image' is an array of image filenames)
     if (req.files && req.files.length > 0) {
@@ -352,6 +431,38 @@ const updateprodectdata = async (req, res) => {
       updatedFields,
       { new: true }
     );
+
+  ///Category updated with the largest discount
+  const largestDiscountResult = await Prodectcollection.aggregate([
+    {
+      $match: {
+        Category: Category
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        maxDiscount: {
+          $max: "$Discount"
+        }
+      }
+    }
+  ]);
+
+  if (largestDiscountResult.length > 0) {
+    const largestDiscount = largestDiscountResult[0].maxDiscount;
+    console.log(`The largest discount in the '${Category}' category is: `, largestDiscount);
+
+    // Update the category with the largest discount
+    const catdiscountmax = await Categorycollection.updateOne(
+      { Category },
+      { $set: { Discount: largestDiscount } }
+    );
+    console.log('Category updated with the largest discount.');
+  } else {
+    console.log(`No data found for the largest discount in the '${Category}' category.`);
+  }
+
 
     return res.redirect("/prodectdetails");
   } catch (error) {

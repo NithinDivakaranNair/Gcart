@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   OTP: String,
   verify: { type: Boolean, default: true },
   block: { type: Boolean, default: false },
-
+  referralCode: String,
 
 });
 

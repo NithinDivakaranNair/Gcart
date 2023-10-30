@@ -10,22 +10,40 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ashion | Template</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+            rel="stylesheet">
+    
+        <!-- Css Styles -->
+        <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+        <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    
+        <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+    <style>
+        .dropdown-items{
+             display: block;
+     width: 100%;
+     padding: 0.25rem 1.5rem;
+     clear: both;
+     font-weight: 400;
+     color: #212529;
+     text-align: inherit;
+     white-space: nowrap;
+     background-color: transparent;
+     border: 0;
+         }
+     </style>
 </head>
 
 <body>
@@ -100,46 +118,155 @@
  <!-- Top Images  End -->
  </div> 
 
+ <!--start filter--> 
+
+ <div class="container">
+    <div class="row">
+       
+        <div class="col-md-3">
+            <!-- Sorting Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort By
+                </button>
+                <div class="dropdown-menu" aria-labelledby="sortDropdown">
+                    <a class="sort-dropdown-item" href="/home?sort=0" data-sort="lowToHigh">Low to High</a>
+                    <a class="sort-dropdown-item" href="/home?sort=1" data-sort="highToLow">High to Low</a>
+                </div>
+            </div>
+        </div>
+         
+        
+       
+        <div class="col-md-3">
+            <!-- Brand Dropdown -->
+            <div class="dropdow">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="brandDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Brand
+                </button>
+                <div class="dropdown-menu" aria-labelledby="brandDropdown">
+                    <% prodectinfo.forEach(data=> { %>
+                    <a class="dropdown-items" href="/home?brand=<%=data.Brand %>" data-brand="brand1"><%=data.Brand %></a>
+     <% }) %>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="col-md-3">
+            <!-- Price-based Dropdown -->
+            <div class="dropdo">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="priceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Price
+                </button>
+                <div class="dropdown-menu" aria-labelledby="priceDropdown">
+                    <a class="dropdown-items" href="/home?sprice=0&eprice=2000" data-price="under20">2000 and under</a>
+                    <a class="dropdown-items" href="/home?sprice=2000&eprice=5000" data-price="20to50">5000 - 2000</a>
+                    <a class="dropdown-items" href="/home?sprice=5000&eprice=100000" data-price="50plus">Over 5000</a>
+                </div>
+            </div>
+        </div>
+   
+   
+   
+    </div>
+</div>
+
+
+
+<!--end filter-->  
+
+
+
+<!--catergory based offers -->
+<div class="container mt-4">
+<h2>Category Offers</h2>
+<div class="row">
+    <!-- Category 1 Offer -->
+    <% categoryinfo.forEach(data => { %>
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card" style="height: 400px; width: 100%;">
+
+            <div class="card-img-top" style="background-image: url('/uploads/<%= data.Image %>'); background-size: cover; background-repeat: no-repeat; background-position: center center; height: 70%;"></div>
+
+            <div class="card-body">
+                <h5 class="card-title" style="color: rgb(7, 9, 0); font-size: 1.5rem;"><%= data.Category %></h5>
+             <div class="card-text">
+       <p class="text-success"><strong>Save up to <%= data.Discount %>%</strong></p>
+          </div>
+
+<a href="/categorybasedrender/<%= data._id %>" class="btn btn-success">Shop Now</a>
+
+            </div>
+        </div>
+    </div>
+    <% }) %>
+</div>
+</div>
+<!--catergory based offers -->   
+
+    
   
  <!-- Product Section start -->
  <section>
     <div class="container my-5">
-        <h3>All Prodects</h3>
-      <div class="row">
-      
-        <% prodectinfo.forEach(data => { %>
-        <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
-          <a href="/oneprodectdetails/<%= data._id %>">
-            <div class="card w-100 my-2 shadow-2-strong">
-              <img src="uploads/<%= data.Image[0] %>" alt="Product Image" width="200" height="210" />
-              <div class="card-body d-flex flex-column">
-                <h6><a href="#"><%= data.Brand %></a></h6>
-                <h6><a href="#"><%= data.Model %></a></h6>
-                <h6><a href="#"><%= data.Description %></a></h6>
-                <!-- Uncomment the rating section when needed -->
-                <!-- <div class="rating">
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                </div> -->
-                <div class="product__price"><%= data.Price %></div>
-                <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-                    <a href="/login" class="btn btn-success shadow-0 me-1">Add to cart</a>
-                    <a href="#!" class="btn btn-warning shadow-0 me-1">Wishlist</a>
-                  </div>
-                  
-              </div>
-            </div>
-          </a>
-        </div>
-        <% }) %>
-      </div>
-    </div>
-  </section>
-<!-- Product Section End -->
+        <h3>All Products</h3>
+        <div class="row">
+            <% prodectinfo.forEach(data => { %>
+                <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
+                    <a href="/oneprodectdetails/<%= data._id %>">
+                        <div class="card w-100 my-2 shadow-2-strong position-relative">
+                            <!-- Discount Sticker -->
+                            <% if (data.Discount > 0) { %>
+                                <div class="offer-sticker position-absolute top-0 end-0 rounded-pill bg-primary text-white px-2 py-1">
+                                    <%= data.Discount %>%OFF
+                                </div>
+                                
+                                
+                            <% } %>
 
+                            <img src="uploads/<%= data.Image[0] %>" alt="Product Image" width="200" height="210" />
+                            <div class="card-body d-flex flex-column">
+                                <h6><a href="#"><%= data.Brand %></a></h6>
+                                <h6><a href="#"><%= data.Model %></a></h6>
+                                <h6><a href="#"><%= data.Description %></a></h6>
+                                <% if (data.Discount) { %>
+                                <!-- Display the original price -->
+                                <div class="product__price">
+                                    <span class="text-muted">Price: ₹
+                                        <s><%= data.Price %></s></span>
+                                </div>
+                                
+                                <!-- Display the offer price -->
+                                <div class="offer__price text-danger">
+                                    <span class="font-weight-bold">Offer Price: ₹<%= data.OfferPrice %></span>
+                                </div>
+                                
+                                <% }else{ %>
+                                    <div class="offer__price text-primary">
+                                        <span class="font-weight-bold text-dark"> Price: ₹<%= data.Price %></span>
+                                    </div>
+                                    
+                                    
+                                <% } %>
+                                <!-- Display the offer percentage -->
+                                <!-- <div class="offer__percentage">
+                                    <= data.Discount %> off
+                                </div> -->
+
+                                <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
+                                    <a href="/login" class="btn btn-success shadow-0 me-1">Add to cart</a>
+                                    <a href="#!" class="btn btn-warning shadow-0 me-1">Wishlist</a>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</section>
+<!-- Product Section End -->
 
 
 
@@ -261,22 +388,110 @@
 <!-- Search End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/jquery.countdown.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/jquery.nicescroll.min.js"></script>
-<script src="js/main.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+     <!-- Js Plugins -->
+            <script src="js/jquery-3.3.1.min.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <script src="js/jquery.magnific-popup.min.js"></script>
+            <script src="js/jquery-ui.min.js"></script>
+            <script src="js/mixitup.min.js"></script>
+            <script src="js/jquery.countdown.min.js"></script>
+            <script src="js/jquery.slicknav.js"></script>
+            <script src="js/owl.carousel.min.js"></script>
+            <script src="js/jquery.nicescroll.min.js"></script>
+            <script src="js/main.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.dropdown-item').click(function(e) {
+            e.preventDefault();
+            
+            // Determine the selected criteria
+            var selectedSort = $(this).data('sort');
+            var selectedBrand = $(this).data('brand');
+            var selectedPrice = $(this).data('price');
+            
+            // Apply the sorting and filtering logic here
+            // You can use if statements or switch cases to implement sorting and filtering
+            
+            // Example: Sorting by Price
+            if (selectedSort === 'lowToHigh') {
+                // Sort items from low to high
+                // Implement your sorting logic
+            } else if (selectedSort === 'highToLow') {
+                // Sort items from high to low
+                // Implement your sorting logic
+            }
+            
+            // Example: Filtering by Brand
+            if (selectedBrand) {
+                // Show items with the selected brand
+                // Implement your filtering logic
+            }
+            
+            // Example: Filtering by Price
+            if (selectedPrice === 'under20') {
+                // Show items with a price under $20
+                // Implement your filtering logic
+            } else if (selectedPrice === '20to50') {
+                // Show items with a price between $20 and $50
+                // Implement your filtering logic
+            } else if (selectedPrice === '50plus') {
+                // Show items with a price over $50
+                // Implement your filtering logic
+            }
+        });
+    });
+</script>
+
+<script>
+    // Get a reference to the dropdown menu and button
+const dropdown = document.querySelector(".dropdown");
+const sort_dropdown_item = document.querySelectorAll(".sort-dropdown-item");
+
+// sort_dropdown_item.forEach(ele=>{
+
+//     ele.addEventListener('click',(e)=>{
+
+//         event.preventDefault();
+
+//     })
+// })
+
+
+
+// Add an event listener to the button to detect when it's clicked
+// button.addEventListener("click", (event) => {
+//     // Prevent the default behavior of the button (prevents dropdown from closing)
+//     event.preventDefault();
+
+//     // Get the selected value
+//     const selectedValue = event.target.getAttribute("data-sort");
+//     console.log("selectedValue:",selectedValue)
+//     // Check if a value is selected
+//     if (selectedValue) {
+//         // Use the Fetch API to send the selected value to the server or perform an action
+//         fetch('/filter', {
+//             method: 'POST', // or 'GET' depending on your server-side implementation
+//             body: JSON.stringify({ sortValue: selectedValue }),
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//         })
+//         .then((response) => response.json())
+//         .then((data) => {
+//             // Handle the response from the server
+//             console.log(data);
+//         })
+//         .catch((error) => {
+//             console.error('Error:', error);
+//         });
+//     }
+// });
+
+</script>
 
   <!-- redirect to product-->
   <script>
@@ -291,6 +506,8 @@
     })
  
 </script>
+
+
 </body>
 
 </html> 

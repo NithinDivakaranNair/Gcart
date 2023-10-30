@@ -39,18 +39,15 @@
     <section class="bg-light my-2">
       <div class="container-fluid">
         <div class="row">
-          <!-- cart -->
+          <!-- Cart -->
           <div class="col-lg-9">
             <div class="card border shadow-0">
-
               <div class="m-4">
-                <h4 class="card-title mb-4">Cart Iteams</h4>
+                <h4 class="card-title mb-4">Cart Items</h4>
 
-
-                <!--start cart iteam-->
+                <!-- Start Cart Item -->
                 <div class="container">
-
-                  <table class="table table-bordered">
+                  <table class="table table-bordered table-responsive-md">
                     <thead>
                       <tr>
                         <th>Brand</th>
@@ -64,141 +61,147 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% cartinfo.forEach(data=> { %>
-                        <tr>
+                      <% cartinfo.forEach((data)=> { %>
+                        <tr class="each_row">
                           <td>
                             <a href="#" class="nav-link brand text-dark font-weight-bold">
                               <%= data.Brand %>
                             </a>
                           </td>
                           <td>
-                            <img src="/uploads/<%= data.Image[0] %>" alt="Image" class="img-fluid" />
+                            <img src="/uploads/<%= data.Image[0] %>" alt="Image" class="img-fluid"
+                              style="max-height: 120px;" />
                           </td>
                           <td>
                             <a href="#" class="nav-link model text-dark font-weight-bold">
                               <%= data.Model %>
                             </a>
                           </td>
-
                           <td>
-                            <p class="description text-muted">
+                            <p class="description text-dark">
                               <%= data.Description %>
                             </p>
                           </td>
-                          <td>
-                            <h6 class="text-dark">
-                              <%= data.Price %>/-
-                            </h6>
-                          </td>
-                          <td>
-                            <!-- + & - button  working place-->
-                            <div class="count-container">
-                              <% if(data.Count===1){ %>
-                                <button style="background-color: #ff0000; color: #ffffff;">-</button>
-                                <%}else{ %>
-                                  <a href="/CartMinusebutton/<%=data.ProdectId%>">
-                                    <button style="background-color: #ff0000; color: #ffffff;">-</button>
-                                  </a>
-                                  <% } %>
-                                    <span class="count" style="font-size: 16px; color: #333;">
-                                      <%= data.Count %>
-                                    </span>
-                                    <a href="/CartPluseButton/<%=data.ProdectId%>">
-                                      <button style="background-color: #00ff00; color: #ffffff;">+</button>
-                                    </a>
-                            </div>
-
-                          </td>
-                          <td>
-                            <h5 class="text-dark">
-                              <%= data.Price*data.Count %>/-
-                            </h5>
-                          </td>
-                          <td>
-                            <a href="/IteamRemoveCart/<%= data.ProdectId %>" class="btn btn-primary">Remove</a>
-                          </td>
+                          <% if (data.OfferPrice) { %>
+                            <td>
+                              <h6 class="text-success">
+                                <%= data.OfferPrice %>/-
+                              </h6>
+                            </td>
+                            <% } else { %>
+                              <td>
+                                <h6 class="text-success">
+                                  <%= data.Price %>/-
+                                </h6>
+                              </td>
+                              <% } %>
+                                <td>
+                                  <div class="count_container" data-productid="<%= data.ProdectId %>"
+                                    data-price="<%= data.OfferPrice || data.Price %>">
+                                    <div class="input-group">
+                                      <div class="input-group-prepend">
+                                        <button class="decrebutton btn" 
+                                          style="background-color: #00ff00; color: #ffffff;">-</button>
+                                      </div>
+                                      <span style="font-size: 10px; color: #333;">
+                                        <input type="text" value="<%= data.Count %>"
+                                          class="count form-control form-control-sm" min="1" style="width: 40px;">
+                                      </span>
+                                      <div class="input-group-append">
+                                        <button class="incrbutton btn" 
+                                          style="background-color: #00ff00; color: #ffffff;">+</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <% if (data.OfferPrice) { %>
+                                  <td>
+                                    <h5 class="text-success">
+                                      <span class="total-price">
+                                        <%= data.OfferPrice * data.Count %>/-
+                                      </span>
+                                    </h5>
+                                  </td>
+                                  <% } else { %>
+                                    <td>
+                                      <h5 class="text-success">
+                                        <span class="total-price">
+                                          <%= data.Price * data.Count %>/-
+                                        </span>
+                                      </h5>
+                                    </td>
+                                    <% } %>
+                                      <td>
+                                        <a href="/IteamRemoveCart/<%= data.ProdectId %>"
+                                          class="btn btn-danger">Remove</a>
+                                      </td>
                         </tr>
                         <% }) %>
                     </tbody>
                   </table>
                 </div>
-
-
-                <!--end cart iteam-->
+                <!-- End Cart Item -->
 
               </div>
-
-              <!-- <div class="border-top pt-4 mx-4 mb-4">
-                      <p><i class="fas fa-truck text-muted fa-lg"></i> Free Delivery within 1-2 weeks</p>
-                      
-                    </div> -->
             </div>
           </div>
-          <!-- cart -->
 
-          <!-- summary -->
+          <!-- Summary -->
           <div class="col-lg-3">
             <div class="card mb-3 border shadow-0" style="background-color: lightyellow;">
               <div class="card-body" style="color: green;">
-
                 <form id="couponadd">
                   <div class="form-group">
-                    <label class="form-label">Have coupon?</label>
+                    <label class="form-label">Have a coupon?</label>
                     <div class="input-group">
                       <input type="text" class="form-control border" id="couponid" name="" placeholder="Coupon code" />
-
                       <button class="btn btn-light border" type="button" id="button">Apply</button>
                     </div>
-
-                    <p class="text-danger" id="error-message"> </p>
+                    <p class="text-danger" id="error-message"></p>
                   </div>
                 </form>
-
-
               </div>
             </div>
 
             <div class="card shadow-0 border" style="background-color: lightyellow;">
-
               <div class="card-body" style="color: green;">
                 <h6 class="mb-3">Price Details</h6>
                 <div class="d-flex justify-content-between">
-                  <p class="mb-2" style="color: rgb(0, 0, 0);">Total price:</p> <!--(<=num %>iteams)-->
-                  <p class="mb-2" style="color: black; font-weight: bold;">
-                    <!-- <= totalprice.toLocaleString('en-IN', { style: 'currency' , currency: 'INR' })%> -->
-                    <%= totalprice%>/-
+                  <p class="mb-2" style="color: black;">Total price:</p>
+                  <p class="price_container mb-2" id="totalpricess" data-totalprice="<%= totalprice %>"
+                    style="color: black; font-weight: bold;">
+                    <%= totalprice %>/-
                   </p>
                 </div>
                 <div class="d-flex justify-content-between">
                   <p class="mb-2" style="color: black;">Discount:</p>
-                  <p class="mb-2 text-success" style="color: black; font-weight: bold;">
-                    <!-- <= (20).toLocaleString('en-IN', { style: 'currency' , currency: 'INR' }) %> -->
-                    20/-
-                  </p>
+                  <p class="mb-2 text-success" style="color: black; font-weight: bold;">20%</p>
                 </div>
-
                 <hr />
                 <div class="d-flex justify-content-between">
                   <p class="mb-2" style="color: black;">Total Amount:</p>
-                  <p class="mb-2 fw-bold" style="color: black" ; font-weight: bold;" id="totalDisplay">
-                    <!-- <= (totalprice-20).toLocaleString('en-IN', { style: 'currency' , currency: 'INR' }) %> -->
-                    <%=(totalprice-20)%>/-
+                  <p class="mb-2 fw-bold" style="color: black; font-weight: bold;" id="totalDisplay">
+                    <%= (totalprice - (totalprice*0.20)) %>/-
                   </p>
-                  <input type="hidden" value=<%=(totalprice-20)%> id="total">
+                  <input type="hidden" id="TotalDisplay" value=<%=(totalprice - (totalprice*0.20)) %> id="total">
                 </div>
-
                 <div class="mt-3">
-                  <a href="/checkoutpage/<%=totalprice%>" class="btn btn-success w-100 shadow-0 mb-2"
-                    id="TotalDisplay">CheckOut</a>
-                  <!-- <a href="#" class="btn btn-light w-100 border mt-2">Back to shop</a> -->
+                  <a href="/checkoutpage">
+
+                    <button id="checkoutButton" class="btn btn-success w-100 shadow-0 mb-2">CheckOut</button>
+                  </a>
+
                 </div>
               </div>
             </div>
           </div>
-          <!-- summary -->
+          <!-- Summary -->
         </div>
       </div>
     </section>
+
+
+
 
     <!--footer-->
     <%- include('./partials/footer.ejs') %>
@@ -218,8 +221,9 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
       <script>
-const error1=document.getElementById('error-message')
+        const error1 = document.getElementById('error-message')
         const coupon = document.getElementById('couponid')
         const Botton = document.getElementById('button')
         const displayTotal = document.getElementById('totalDisplay')
@@ -235,42 +239,42 @@ const error1=document.getElementById('error-message')
               "Content-Type": "application/json",
             },
           }).then((response) => {
-          
-              if (response.status === 400) {
-                return response.json().then((data)=>{
-                  error1.innerText="Enter a valid coupon code.";
-                  throw new Error("Invalid coupon code");
-                })
-         }else if(response.status === 404){
-          return response.json().then((data)=>{
-                  error1.innerText="Coupon has expired";
-                  throw new Error("Invalid coupon code");
-                })
-         }else if(response.status === 403){
-          return response.json().then((data)=>{
-                  error1.innerText="Coupon already used";
-                  throw new Error("Invalid coupon code");
-                })
-         }
-         else if(response.status === 200){
-            return response.json();
-         }
+
+            if (response.status === 400) {
+              return response.json().then((data) => {
+                error1.innerText = "Enter a valid coupon code.";
+                throw new Error("Invalid coupon code");
+              })
+            } else if (response.status === 404) {
+              return response.json().then((data) => {
+                error1.innerText = "Coupon has expired";
+                throw new Error("Invalid coupon code");
+              })
+            } else if (response.status === 403) {
+              return response.json().then((data) => {
+                error1.innerText = "Coupon already used";
+                throw new Error("Invalid coupon code");
+              })
+            }
+            else if (response.status === 200) {
+              return response.json();
+            }
           }).then((data) => {
 
-         
+
             console.log(data);
             console.log(totalAmount);
             if (data > totalAmount) {
-          error1.innerText = "Coupon not allowed in this Totalamount .";
-          throw new Error("Invalid coupon amount");
-        }else {
-            totalAmount = totalAmount - data;
-            console.log(totalAmount);
-            checkouttotal.href = `/checkoutpage/${totalAmount}`<!-- value assign in url---->
-            displayTotal.innerText = totalAmount;
-            Botton.disabled = true;
-        } 
-        })
+              error1.innerText = "Coupon not allowed in this Totalamount .";
+              throw new Error("Invalid coupon amount");
+            } else {
+              totalAmount = totalAmount - data;
+              console.log(totalAmount);
+              checkouttotal.href = `/checkoutpage/${totalAmount}`<!-- value assign in url---->
+              displayTotal.innerText = totalAmount;
+              Botton.disabled = true;
+            }
+          })
             .catch((error) => {
               console.log(error);
             });
@@ -310,6 +314,163 @@ const error1=document.getElementById('error-message')
               
           </script> -->
 
+      <!-- <script>
+ const clickElement=document.querySelectorAll(".incrbutton");
+ console.log('selectElements:', clickElement)
+clickElement.forEach((selectElement) => {
+  selectElement.addEventListener("click", (eve) => {
+    const prodtId = selectElement.getAttribute("data-product-id")
+    console.log('product ejs',prodtId);
+    const prodectid = prodtId;
+    const data = `prodectid=${prodtId}`;
+console.log('dataejs is',data);
+
+const url=`/CartPluseButton?${data}`
+fetch(url, {
+              method: "GET", // Use "POST" or "GET" depending on your requirements
+             
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+            .then((response) => {
+                if (!response.ok) {
+                  throw new Error("Network response was not ok");
+                }
+               
+            return response.json();
+              })
+              .then((data) => {
+                // Handle the response from the controller here
+
+              console.log(data);
+             return window.location.reload();
+              })
+              .catch((error) => {
+
+              });
+          });
+        })
+
+</script> -->
+
+      <!--count i and amount functions-->
+      <script>
+        document.querySelectorAll('.each_row').forEach(product => {
+          const incrementbutton = product.querySelector('.incrbutton')
+          const decreasebutton = product.querySelector('.decrebutton')
+          const quantityinput = product.querySelector('.count')
+          const priceinput = product.querySelector('.total-price')
+          const container = product.querySelector('.count_container')
+          const Pricecontainer = product.querySelector('.price_container')
+          const AAmount = priceinput.textContent
+
+
+
+          decreasebutton.addEventListener('click', async () => {
+            const productId = container.dataset.productid
+            let quantity = parseFloat(quantityinput.value)
+
+            if (quantity > 1) {
+              quantityinput.value = parseInt(quantityinput.value) - 1;
+              quantity = parseFloat(quantityinput.value)
+              console.log('quantity is', quantity);
+
+              // Check if quantity is greater than 0 before decrementing
+
+              const response = await fetch(`/CartMinusebutton/${productId}`, {
+                method: 'get',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+
+              });
+              // window.location.reload()
+              if (response.status === 200) {
+                updateTotalPricem();
+              }
+            }
+          });
+
+          incrementbutton.addEventListener('click', async () => {
+            const productId = container.dataset.productid
+            quantityinput.value = parseInt(quantityinput.value) + 1;
+            const quantity = parseFloat(quantityinput.value)
+            console.log('quantity is', quantity);
+
+
+
+            const response = await fetch(`/CartPluseButton/${productId}`, {
+              method: 'get',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+            });
+
+            if (response.status === 200) {
+              updateTotalPrice();
+            }
+          });
+          // Implement this function to update the total price based on the updated quantity
+          function updateTotalPrice() {
+            const price = parseFloat(container.dataset.price)
+            const quantity = parseInt(quantityinput.value)
+            const total = price * quantity
+            priceinput.textContent = `${total}/-`
+
+            const totalprice = document.getElementById('totalpricess');
+            let dataTotalprice = parseFloat(totalprice.getAttribute('data-totalprice'));
+
+            // Access the data attribute here
+            const parsedPrice = parseInt(price)
+            console.log('dataTotalprice', dataTotalprice);
+
+
+            let parseddataTotalprice = parseInt(dataTotalprice)
+            const subtotal = parseddataTotalprice + parsedPrice
+            totalprice.innerText = `${subtotal}/-`
+            totalprice.setAttribute('data-totalprice', subtotal);
+            const totalDisplay = document.getElementById('totalDisplay')
+            const dicountvalue = subtotal - (subtotal * 0.20)
+            console.log("dicountvalue", dicountvalue);
+            const discounttt = subtotal - (subtotal * 0.20)
+            totalDisplay.innerText = `${discounttt}/-`
+            console.log('price is', parseddataTotalprice, parsedPrice);
+
+
+          }
+
+          function updateTotalPricem() {
+
+            const price = parseFloat(container.dataset.price)
+            const quantity = parseInt(quantityinput.value)
+            const total = price * quantity
+            priceinput.textContent = `${total}/-`
+
+            const totalprice = document.getElementById('totalpricess');
+            let dataTotalprice = parseFloat(totalprice.getAttribute('data-totalprice'));
+
+            // Access the data attribute here
+            const parsedPrice = parseInt(price)
+            console.log('dataTotalprice', dataTotalprice);
+
+
+            let parseddataTotalprice = parseInt(dataTotalprice)
+            const subtotal = parseddataTotalprice - parsedPrice
+            totalprice.innerText = `${subtotal}/-`
+            totalprice.setAttribute('data-totalprice', subtotal);
+            const totalDisplay = document.getElementById('totalDisplay')
+            const dicountvalue = subtotal - (subtotal * 0.20)
+            console.log("dicountvalue", dicountvalue);
+            const discounttt = subtotal - (subtotal * 0.20)
+            totalDisplay.innerText = `${discounttt}/-`
+            console.log('price is', parseddataTotalprice, parsedPrice);
+
+
+          }
+
+        });
+      </script>
 
 </body>
 

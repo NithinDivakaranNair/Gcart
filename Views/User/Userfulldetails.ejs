@@ -80,6 +80,9 @@
 
                     </div> -->
                   </div>
+                  <div>
+                    <p>Your Referral Code: <%= userdetails.referralCode %></p>
+                  </div>
                   <hr class="border-light m-0">
 
                   <div class="card-body">
@@ -100,6 +103,7 @@
                     <button type="button" class="btn btn-default">Cancel</button>
                   </div>
                 </form>
+
               </div>
 
 
@@ -147,9 +151,9 @@
                       <tr>
                         <th>Date</th>
                         <th>Order ID</th>
-                        <th>Product Name</th>
-                        <!-- <th>Quantity</th> -->
-                        <th>Price</th>
+                        <th>Product Name/count</th>
+                        <!-- <th>Quantity</th>  -->
+                        <th>TotalPrice</th>
                         <th>Status</th>
                         <th>Action</th>
 
@@ -159,19 +163,19 @@
                       <% Allorders.sort((a, b)=> b.date - a.date).forEach(data => { %>
 
                         <tr>
-                          <td>
+                          <td class="small">
                             <%=data.date.getDate()%>/ <%=data.date.getMonth()+1%>/<%=data.date.getFullYear()%>
                           </td>
-                          <td>
+                          <td class="small">
                             <%=data._id%>
                           </td>
-                          <td>
+                          <td class="small">
                             <% data.iteams.forEach((item)=>{ %>
-                              <%=item.Model%>
+                              <%=item.Model%>(<%=item.Count %>No)
                                 <% }) %>
                           </td>
                           <!-- <td>2</td> -->
-                          <td>
+                          <td class="small">
                             <%=data.totalAmount%>
                           </td>
                           <td>
@@ -184,10 +188,10 @@
                             <% if(data.orderactionuser==false||data.orderstatus=='OrderCancel' ){%>
                               <p class="live">Ordercancelled</p>
                               <%}else{%>
-                                <button type="submit" id="Button" data-Orderid="<%=data._id%>">Cancel Items</button>
+                                <button type="submit" id="Button"  data-Orderid="<%=data._id%>" onclick="return confirCancel();">Cancel Items</button>
                                 <% } %>
 
-
+                             
                                   <!-- </form> -->
 
                           </td>
@@ -285,49 +289,50 @@
                       </div>
                       <div class="modal-body">
                         <!-- New address adding field -->
-                        <form action="/AddAddress" method="post">
+                    
+                        <form action="/AddAddress" method="post" onsubmit="return validateForm()">
                           <!-- 2 column grid layout with text inputs for the first and last names -->
                           <div class="row mb-4">
                             <div class="col">
                               <div class="form-outline">
                                 <label class="form-label" for="form7Example1">Name</label>
-                                <input type="text" id="form7Example1" class="form-control" name="name" />
-                              
+                                <input type="text" id="form7Example1" class="form-control" name="name" required />
                               </div>
                             </div>
                           </div>
+                        
                           <div class="form-outline mb-4">
                             <label class="form-label" for="form7Example3">Mobile Number</label>
-                            <input type="tel" id="form7Example3" class="form-control" name="mobilenumber" />
-                      
+                            <input type="tel" id="form7Example3" class="form-control" name="mobilenumber" required pattern="[0-9]{10}" />
                           </div>
+                        
                           <div class="form-outline mb-4">
-                            <label class="form-label" for "form7Example7">Address</label>
-                            <textarea class="form-control" id="form7Example7" rows="4" name="address"></textarea>
-                   
+                            <label class="form-label" for="form7Example7">Address</label>
+                            <textarea class="form-control" id="form7Example7" rows="4" name="address" required></textarea>
                           </div>
+                        
                           <div class="form-outline mb-4">
                             <label class="form-label" for="form7Example5">Landmark</label>
                             <input type="text" id="form7Example5" class="form-control" name="landmark" />
-                   
                           </div>
+                        
                           <div class="form-outline mb-4">
                             <label class="form-label" for="form7Example6">Alternate number</label>
-                            <input type="tel" id="form7Example6" class="form-control" name="alternatenumber" />
-                        
+                            <input type="tel" id="form7Example6" class="form-control" name="alternatenumber" pattern="[0-9]{10}" />
                           </div>
+                        
                           <div class="form-outline mb-4">
                             <label class="form-label" for="form7Example4">City</label>
-                            <input type="text" id="form7Example4" class="form-control" name="city" />
-                           
+                            <input type="text" id="form7Example4" class="form-control" name="city" required />
                           </div>
+                        
                           <div class="col">
                             <div class="form-outline">
                               <label class="form-label" for="form7Example8">Pincode</label>
-                              <input type="number" id="form7Example8" class="form-control" name="pincode" />
-                        
+                              <input type="number" id="form7Example8" class="form-control" name="pincode" required />
                             </div>
                           </div>
+                        
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save Address</button>
@@ -519,12 +524,59 @@
 
       <!-- </script> --> -->
 
-      
+  
+  
+ <!--delete address conform pop-->    
       <script>
-function confirmDelete() {
+    function confirmDelete() {
     return confirm('Are you sure you want to delete this address?');
 }
 </script>
+
+
+<!--cancel order conform pop-->
+<script>
+  function confirCancel() {
+      return confirm('Are you sure you want to Cancel the Order?');
+  }
+  </script>
+
+
+
+<!--form validate address-->
+<script>
+  function validateForm() {
+    // Validation logic for each field
+    var name = document.getElementById("form7Example1").value;
+    var mobilenumber = document.getElementById("form7Example3").value;
+    var address = document.getElementById("form7Example7").value;
+    var city = document.getElementById("form7Example4").value;
+    var pincode = document.getElementById("form7Example8").value;
+  
+    // Example validation: Check if name, city, and pincode are not empty
+    if (name.trim() === "") {
+      alert("Name is required");
+      return false;
+    }
+  
+    if (city.trim() === "") {
+      alert("City is required");
+      return false;
+    }
+  
+    if (pincode.trim() === "") {
+      alert("Pincode is required");
+      return false;
+    }
+  
+    // Additional validation can be added for other fields as needed
+  
+    // If all validations pass, the form will submit
+    return true;
+  }
+  </script>
+
+
 
 
 

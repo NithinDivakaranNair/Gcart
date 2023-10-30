@@ -283,6 +283,17 @@
           <input type="text" class="form-control text-white" id="Price" name="Price" value="<%=prodect.Price%>">
       </div>
 
+
+      <div class="mb-3">
+        <label for="OfferPrice" class="form-label text-white">Offer Price</label>
+        <input type="text" class="form-control text-white" id="OfferPrice" name="OfferPrice" value="<%=prodect.OfferPrice%>" >
+    </div>  
+
+      <div class="mb-3">
+        <label for="Discount" class="form-label text-white">Discount</label>
+        <input type="text" id="Discount" name="Discount"  readonly>%
+    </div>
+
       <div class="mb-3">
         <label for="CurrentImages" class="form-label text-white">Current Images</label>
         <ul>
@@ -324,6 +335,33 @@
     <script src="/assets1/js/settings.js"></script>
     <script src="/assets1/js/todolist.js"></script>
      <script src="/assets1/js/dashboard.js"></script>
-
+     <script>
+      // Get references to the input fields
+      const priceInput = document.getElementById('Price');
+      const offerPriceInput = document.getElementById('OfferPrice');
+      const discountInput = document.getElementById('Discount');
+  
+      // Add event listeners to the "Price" and "OfferPrice" fields
+      priceInput.addEventListener('input', updateDiscount);
+      offerPriceInput.addEventListener('input', updateDiscount);
+  
+      // Function to update the "Discount" field
+      function updateDiscount() {
+          // Get the values from the "Price" and "OfferPrice" fields
+          const price = parseFloat(priceInput.value);
+          const offerPrice = parseFloat(offerPriceInput.value);
+  
+          // Calculate the discount percentage
+          if (!isNaN(price) && !isNaN(offerPrice) && price > 0 && offerPrice > 0) {
+              const discountPercentage = ((price - offerPrice) / price) * 100;
+  
+              // Update the "Discount" field with the calculated discount
+              discountInput.value = parseInt(discountPercentage.toFixed(2));
+          } else {
+              // If either field is not a valid number or less than or equal to 0, clear the "Discount" field
+              discountInput.value = '';
+          }
+      }
+  </script>
   </body>
 </html>

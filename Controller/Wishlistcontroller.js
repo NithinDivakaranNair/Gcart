@@ -32,7 +32,7 @@ const wishlistpost = async (req, res) => {
     try {
         const ProdectId = req.params.prodectid;
         const prodectdetails = await Prodectcollection.findOne({ _id: ProdectId })
-        const { Category, Price, Brand, Model, Description, Image } = prodectdetails;
+        const { Category, Price, Brand, Model, Description, Image,OfferPrice } = prodectdetails;
         const categoryinfo = await Categorycollection.findOne({ Category: prodectdetails.Category });
         const CategoryId = categoryinfo._id;
 
@@ -50,6 +50,7 @@ const wishlistpost = async (req, res) => {
             Model,
             Brand,
             Image,
+            OfferPrice
         })
         await NewWishprodect.save();
         return res.redirect("back")

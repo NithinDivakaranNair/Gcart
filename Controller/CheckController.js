@@ -29,12 +29,7 @@ const checkoutpage = async (req, res) => {
         const Amount = totalAmount-(totalAmount*20/100);
 
         const AllAddress = await AddressCollection.find({ UserId: userdetail._id })
-        // let totalprice = 0
-
-        // cartinfo.forEach((cartiteam) => {
-        //     totalprice += cartiteam.Price * cartiteam.Count
-        // })
-        // console.log('Amount:', Amount)
+        
         return res.render("User/checkoutpage", { Userlogin, categoryinfo, AllAddress, cartinfo, Username, Amount })
     } catch (error) {
         console.log('Error due to checkout time', error);

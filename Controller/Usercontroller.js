@@ -11,6 +11,8 @@ const Categorycollection = require("../Model/CategorySchema")
 const Walletcollection = require("../Model/WalletSchema")
 const AddressCollection = require("../Model/AddressSchema")
 const Ordercollection = require("../Model/OrderSchema")
+
+const ReferralCodecollection=require("../Model/ReferralCodeSchema")
 const nodemailer = require("nodemailer");    //Email sending module
 
 
@@ -242,8 +244,52 @@ const signup = (req, res) => {
 
 
 
-//Signup Creation, Create a new user(SignUp Post Methode)
+//Signup Creation, Create a new user(SignUp Post Methode) goood
 
+// const signupdata = async (req, res) => {
+//     try {
+//         console.log(req.body);
+//         const { username, email, password, confirmpassword } = req.body; //decoding the data in body and destructing
+//         const checkinguser = await signupcollection.findOne({ email }); //checking email in  current user database
+
+//         if (password !== confirmpassword) {//checking two passwords in the body
+//             console.log("password not match");
+//             req.session.pswd = true;
+//             return res.redirect("/signup")
+//         }
+//         if (checkinguser) {
+//             req.session.checkinguser = true;
+//             return res.redirect("/signup")
+//         }
+//         else {
+//             function generateReferralCode(username) {
+//                 // Generate a unique referral code based on the username or using a random algorithm
+//                 return username.slice(0, 4) + Math.random().toString(36).substring(2, 6).toUpperCase();
+//               }
+              
+//             const referralCode = generateReferralCode(username);
+//             const saltRounds = 10;
+//             const hashedPassword = await bcrypt.hash(password, saltRounds); // Password hashing process
+
+//             const newUser = new signupcollection({ //Create a new document and save it to the database
+//                 username,
+//                 email,
+//                 password: hashedPassword,
+//                 verify: false,
+//                 referralCode
+
+//             })
+
+//             req.session.Signuserverification = newUser;
+//             await newUser.save() // Saving in database
+
+//         }
+//     }
+//     catch (error) {
+//         return res.status(500).send("error during user registration");
+//     }
+//  return res.redirect("/EmailEnteringPage")
+// }
 const signupdata = async (req, res) => {
     try {
         console.log(req.body);
@@ -266,10 +312,11 @@ const signupdata = async (req, res) => {
               }
               
             const referralCode = generateReferralCode(username);
+            
             const saltRounds = 10;
             const hashedPassword = await bcrypt.hash(password, saltRounds); // Password hashing process
 
-            const newUser = new signupcollection({ //Create a new document and save it to the database
+            const newUser =new signupcollection({ //Create a new document and save it to the database
                 username,
                 email,
                 password: hashedPassword,
@@ -280,15 +327,33 @@ const signupdata = async (req, res) => {
 
             req.session.Signuserverification = newUser;
             await newUser.save() // Saving in database
+     
+        const id=await signupcollection.findOne({referralCode:referralCode})
+        console.log("iiddd:",id)
+        if (id) {
 
+
+            const newReferraldetail = new ReferralCodecollection({
+                userId: id._id,
+                code: id.referralCode,
+                
+            });
+
+            console.log("newReferraldeatail:", newReferraldetail);
+            await newReferraldetail.save();
+            console.log("Referral code created successfully");
+        } else {
+            console.log("User not found for referral code creation.");
         }
     }
+ return res.redirect("/EmailEnteringPage")
+    }
     catch (error) {
+        console.log(error);
         return res.status(500).send("error during user registration");
     }
- return res.redirect("/EmailEnteringPage")
-}
 
+}
 
 
 //Login validation(Login Post methode)

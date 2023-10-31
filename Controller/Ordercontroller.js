@@ -5,32 +5,59 @@ const CartCollection = require("../Model/CartSchema")// cart schema require
 const AddressCollection = require("../Model/AddressSchema")
 const Ordercollection = require("../Model/OrderSchema")
 const CouponCollection = require("../Model/CouponSchema")
-
+const Prodectcollection = require("../Model/ProdectSchema")
 const nodemailer = require("nodemailer");    //Email sending module
 
 const Razorpay = require('razorpay')//Razorpay
 var instance = new Razorpay({
-    key_id: 'rzp_test_GCcWdKrz1uFYwx',
+    key_id: 'rzp_test_GCcWdKrz1uFYwx',   
     key_secret: 'wsM5ZRlx0XLkOtmq3BBMKDqv',
 });
 
 //order sucessful page  
 const ordersucessful = async (req, res) => {
-    console.log('ordersucessful')
+    console.log('ordersucessful');
     try {
         const Userlogin = true;
         const userdetail = req.session.userId;
         const Userid = userdetail._id;
-        const orderdetails=await Ordercollection.findById(Userid)
         
+// Find the latest order for the user and decrease the  prodect quandity
+        const latestOrder = await Ordercollection.findOne({ customerId: Userid }).sort({ date: -1 });
+        
+        if (latestOrder) {
+            console.log('Latest Order:', latestOrder);
+        
+            latestOrder.iteams.forEach(async (item) => {
+                const productId = item.ProdectId;
+                const productCount = item.Count;
+        
+                // Debug output
+                console.log("productId:", productId);
+                console.log("productCount:", productCount);
+        
+                // Use await inside this loop to ensure each product is updated before moving to the next one.
+                await Prodectcollection.findByIdAndUpdate(
+                    { _id: productId },
+                    { $inc: { Quantity: -productCount } }
+                );
+            });
+        } else {
+            console.log('No orders found for the user.');
+        }
+        
+
+
+
         const Username = userdetail.username ? userdetail.username : " ";
         const categoryinfo = await Categorycollection.find({});
-        return res.render("User/ORDERSUCESSFUL", { categoryinfo, Userlogin, Username })
+        return res.render("User/ORDERSUCESSFUL", { categoryinfo, Userlogin, Username });
     } catch (error) {
-        console.log("Error due to sucessful page rendering error:", error)
-        res.status(500).send("Error due to sucessful page rendering error");
+        console.log("Error due to successful page rendering error:", error);
+        res.status(500).send("Error due to successful page rendering error");
     }
-}
+};
+
 
 
 //order sucessfulpage post methode

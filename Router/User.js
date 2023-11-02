@@ -87,6 +87,7 @@ router.post("/filter", usercontroller.filter)
 
 router.post("/addcouponcart", cartcontroller.addcouponcart)
 
+router.get("/invoice", ordercontroller.invoice)
 
 module.exports = router
 

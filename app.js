@@ -36,7 +36,8 @@ app.use("/", userrouter);
 app.use("/", adminrouter);
 
 // Connect to MongoDB
-mongoose.connect('mongodb://0.0.0.0/miniproj', {
+// mongoose.connect('mongodb://0.0.0.0/miniproj', {
+mongoose.connect('mongodb+srv://nithindivakarannair92:nithin92@cluster0.vqzoeie.mongodb.net/Gcart?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })

@@ -58,66 +58,143 @@ let Userlogin;
 let Username;
 
 //user homepage
-const home = async (req, res) => {
-console.log('homepage:')
-      try {
-           Userlogin =true;
-            const userdetail = req.session.userId;
-            const  Username = userdetail.username;
-            let prodectinfo = await Prodectcollection.find({});  //prodect colleection
-          const  categoryinfo = await Categorycollection.find({});  //category collection
-          console.log('categoryinfo:',categoryinfo);
+// const home = async (req, res) => {
+// console.log('homepage:')
+//       try {
+//            Userlogin =true;
+//             const userdetail = req.session.userId;
+//             const  Username = userdetail.username;
+//             let prodectinfo = await Prodectcollection.find({});  //prodect colleection
+//           const  categoryinfo = await Categorycollection.find({});  //category collection
+//           console.log('categoryinfo:',categoryinfo);
  
  
-          //filter in prodect
-          let queryObject = {};
-          let sortObject = {};
+//           //filter in prodect
+//           let queryObject = {};
+//           let sortObject = {};
           
-          // If brand is provided, filter by brand
-          if (req.query.brand) {
-              queryObject.Brand = req.query.brand;
-          }
+//           // If brand is provided, filter by brand
+//           if (req.query.brand) {
+//               queryObject.Brand = req.query.brand;
+//           }
           
-          // If sort is provided, sort by the sort value
-          if (req.query.sort) {
-              const value = req.query.sort;
-              if (value === '1'){
-                  sortObject.Price = -1;
-              }
-              else{
-                  sortObject.Price = 1;
-              }
-          }
+//           // If sort is provided, sort by the sort value
+//           if (req.query.sort) {
+//               const value = req.query.sort;
+//               if (value === '1'){
+//                   sortObject.Price = -1;
+//               }
+//               else{
+//                   sortObject.Price = 1;
+//               }
+//           }
           
-          // If price is provided, filter by price
-          if (req.query.sprice && req.query.eprice) {
-              const spriceValue = parseFloat(req.query.sprice); // Convert to a number
-              const epriceValue = parseFloat(req.query.eprice); // Convert to a number
-              queryObject.Price = {  $gte: spriceValue, $lte: epriceValue };
-          }
+//           // If price is provided, filter by price
+//           if (req.query.sprice && req.query.eprice) {
+//               const spriceValue = parseFloat(req.query.sprice); // Convert to a number
+//               const epriceValue = parseFloat(req.query.eprice); // Convert to a number
+//               queryObject.Price = {  $gte: spriceValue, $lte: epriceValue };
+//           }
           
-          prodectinfo = await Prodectcollection.find(queryObject).sort(sortObject);
+//           prodectinfo = await Prodectcollection.find(queryObject).sort(sortObject);
 
 
-          ///wallet creation
-       const wallet=await Walletcollection.findOne({customerid:userdetail._id})
-        if(!wallet){
-        const newwallet=new Walletcollection({
-        customerid:userdetail._id,
-        })
-      console.log("newwallet:",newwallet)
-       await newwallet.save();
-        }
+//           ///wallet creation
+//        const wallet=await Walletcollection.findOne({customerid:userdetail._id})
+//         if(!wallet){
+//         const newwallet=new Walletcollection({
+//         customerid:userdetail._id,
+//         })
+//       console.log("newwallet:",newwallet)
+//        await newwallet.save();
+//         }
 
 
-            return res.render("User/homepage", { prodectinfo, categoryinfo, Userlogin, Username });  //Updating Prodect and Category collection
-        }
-        catch (error) {
-            console.error(error);
-            return res.status(500).send("Error fetching product information.");
-        }
-    }
+//             return res.render("User/homepage", { prodectinfo, categoryinfo, Userlogin, Username });  //Updating Prodect and Category collection
+//         }
+//         catch (error) {
+//             console.error(error);
+//             return res.status(500).send("Error fetching product information.");
+//         }
+//     }
    
+
+const home = async (req, res) => {
+    console.log('homepage:');
+    try {
+        Userlogin = true;
+        const userdetail = req.session.userId;
+        const Username = userdetail.username;
+        const page = parseInt(req.query.page) || 1; // Current page, default to 1
+        const perPage = 6; // Number of products to display per page
+        const  categoryinfo = await Categorycollection.find({});  //category collection
+         console.log('categoryinfo:',categoryinfo);
+        let prodectinfo;
+        const prodectCount = await Prodectcollection.countDocuments({}); // Total number of products
+
+        const totalPages = Math.ceil(prodectCount / perPage);
+
+        if (page < 1 || page > totalPages) {
+            return res.status(404).send("Page not found");
+        }
+
+        const skip = (page - 1) * perPage;
+
+        let queryObject = {};
+        let sortObject = {};
+
+        // If brand is provided, filter by brand
+        if (req.query.brand) {
+            queryObject.Brand = req.query.brand;
+        }
+
+        // If sort is provided, sort by the sort value
+        if (req.query.sort) {
+            const value = req.query.sort;
+            if (value === '1') {
+                sortObject.Price = -1;
+            } else {
+                sortObject.Price = 1;
+            }
+        }
+
+        // If price is provided, filter by price
+        if (req.query.sprice && req.query.eprice) {
+            const spriceValue = parseFloat(req.query.sprice); // Convert to a number
+            const epriceValue = parseFloat(req.query.eprice); // Convert to a number
+            queryObject.Price = { $gte: spriceValue, $lte: epriceValue };
+        }
+
+        prodectinfo = await Prodectcollection
+            .find(queryObject)
+            .sort(sortObject)
+            .skip(skip)
+            .limit(perPage);
+
+        // wallet creation
+        const wallet = await Walletcollection.findOne({ customerid: userdetail._id });
+        if (!wallet) {
+            const newwallet = new Walletcollection({
+                customerid: userdetail._id,
+            });
+            console.log("newwallet:", newwallet);
+            await newwallet.save();
+        }
+
+        return res.render("User/homepage", {
+            prodectinfo,
+            categoryinfo,
+            Userlogin,
+            Username,
+            totalPages,
+            currentPage: page,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Error fetching product information.");
+    }
+}
+
 
 
 

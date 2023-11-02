@@ -286,119 +286,195 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-            
+ 
+ 
+  <!--top bars-->           
              <div class="row">
+            
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">$12.34</h3>
-                          <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
+                          <h3 class="mb-0"><%=Allorderstotal %></h3>
+                          <!-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> -->
                         </div>
                       </div>
-                      <div class="col-3">
+                      <!-- <div class="col-3">
                         <div class="icon icon-box-success ">
                           <span class="mdi mdi-arrow-top-right icon-item"></span>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
-                    <h6 class="text-muted font-weight-normal">Potential growth</h6>
+                    <h6 class="text-muted font-weight-normal">All Orders</h6>
                   </div>
                 </div>
               </div>
+
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">$17.34</h3>
-                          <p class="text-success ml-2 mb-0 font-weight-medium">+11%</p>
+                          <h3 class="mb-0"><%=totalsales  %></h3>
+                          <!-- <p class="text-success ml-2 mb-0 font-weight-medium">+11%</p> -->
                         </div>
                       </div>
-                      <div class="col-3">
+                      <!-- <div class="col-3">
                         <div class="icon icon-box-success">
                           <span class="mdi mdi-arrow-top-right icon-item"></span>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
-                    <h6 class="text-muted font-weight-normal">Revenue current</h6>
+                    <h6 class="text-muted font-weight-normal">Total Sales</h6>
                   </div>
                 </div>
               </div>
+              
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">$12.34</h3>
-                          <p class="text-danger ml-2 mb-0 font-weight-medium">-2.4%</p>
+                          <h3 class="mb-0"><%=Allusers %></h3>
+                          <!-- <p class="text-danger ml-2 mb-0 font-weight-medium">-2.4%</p> -->
                         </div>
                       </div>
-                      <div class="col-3">
+                      <!-- <div class="col-3">
                         <div class="icon icon-box-danger">
                           <span class="mdi mdi-arrow-bottom-left icon-item"></span>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
-                    <h6 class="text-muted font-weight-normal">Daily Income</h6>
+                    <h6 class="text-muted font-weight-normal">Total Users</h6>
                   </div>
                 </div>
               </div>
+              
+
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">$31.53</h3>
-                          <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
+                          <h3 class="mb-0"><%= Allorderscount %></h3>
+                          <!-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> -->
                         </div>
                       </div>
-                      <div class="col-3">
+                      <!-- <div class="col-3">
                         <div class="icon icon-box-success ">
                           <span class="mdi mdi-arrow-top-right icon-item"></span>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
-                    <h6 class="text-muted font-weight-normal">Expense current</h6>
+                    <h6 class="text-muted font-weight-normal">Total Orders</h6>
                   </div>
                 </div>
               </div>
-            </div>
+
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h3 class="mb-0"><%=Allcancelledorderscount  %></h3>
+                          <!-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> -->
+                        </div>
+                      </div>
+                      <!-- <div class="col-3">
+                        <div class="icon icon-box-success ">
+                          <span class="mdi mdi-arrow-top-right icon-item"></span>
+                        </div>
+                      </div> -->
+                    </div>
+                    <h6 class="text-muted font-weight-normal">Total CancelOrders</h6>
+                  </div>
+                </div>
+              </div>
+            
+              </div>
+
+<!--categorycount-->
             <div class="row">
               <div class="col-md-4 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Transaction History</h4>
-                    <canvas id="transaction-history" class="transaction-chart"></canvas>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                    <h4 class="card-title">Category Counts</h4>
+
+                    <select id="timePeriod">
+                      <option value="daily">Daily</option>
+                      <option value="weekly">Weekly</option>
+                      <option value="monthly">Monthly</option>
+                      <option value="yearly">Yearly</option>
+                    </select>
+                    
+                    <canvas id="myChart" width="400" height="400"></canvas>
+
+                    <!-- <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                       <div class="text-md-center text-xl-left">
                         <h6 class="mb-1">Transfer to Paypal</h6>
-                        <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
-                      </div>
+                        <-- <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p> -->
+                      <!-- </div>
                       <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
                         <h6 class="font-weight-bold mb-0">$236</h6>
                       </div>
-                    </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                    </div> --> 
+                    <!-- <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                       <div class="text-md-center text-xl-left">
                         <h6 class="mb-1">Tranfer to Stripe</h6>
-                        <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
-                      </div>
+                        <-- <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p> -->
+                      <!-- </div>
                       <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
                         <h6 class="font-weight-bold mb-0">$593</h6>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
              
             </div>
-            <div class="row">
+            
+<!--payment-->
+     
+              <div class="row">
+                <div class="col-md-4 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Payment Counts</h4>
+                      <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                          <canvas id="myCharts"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+<!--salesreport-->
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Weekly Sales Report</h4>
+        <canvas id="myChartes" style="width:100%;max-width:600px"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+            <!-- <div class="row">
               <div class="col-sm-4 grid-margin">
                 <div class="card">
                   <div class="card-body">
@@ -456,8 +532,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row ">
+            </div> -->
+            <!-- <div class="row ">
               <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
@@ -594,7 +670,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
    
         </div>
      
@@ -614,6 +690,297 @@
     <script src="/assets1/js/settings.js"></script>
     <script src="/assets1/js/todolist.js"></script>
     <script src="/assets1/js/dashboard.js"></script>
+    <!--categorycount-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+     <!--paymentmethode count-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
-  </body>
+   
+     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+<!--categorycount-->
+
+<!-- <script>
+  async function categorydata() {
+    try {
+      const response = await fetch('/admin/categorydata');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const data = await response.json();
+  
+      // Extract data for the chart
+      const xValues = data.map(item => item.name);
+      const yValues = data.map(item => item.totalCount);
+      const backgroundColors = [
+        "#FF5733", // Change color for the first category
+        "#C70039", // Change color for the second category
+        "#FFC300", // Change color for the third category
+        "#DAF7A6", // Change color for the fourth category
+        "#1287A5"  // Change color for the fifth category
+      ];
+
+      const borderColor = "white"; // Change the border color
+      const borderWidth = 1; // Change the border width
+
+      new Chart("myChart", {
+        type: "doughnut",
+        data: {
+          labels: xValues,
+          datasets: [{
+            data: yValues,
+            backgroundColor: backgroundColors,
+            borderColor: borderColor,
+            borderWidth: borderWidth
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            // text: "Category Counts",
+            fontSize: 16, // Change the title font size
+            fontColor: "white" // Change the title font color
+          },
+          legend: {
+            display: true,
+            position: "right", // Change the legend position
+            labels: {
+              fontColor: "white" // Change the legend font color
+            }
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  
+  categorydata();
+</script> -->
+
+<script>
+  const timePeriodDropdown = document.getElementById('timePeriod');
+  const chartCanvas = document.getElementById('myChart');
+  const chartContext = chartCanvas.getContext('2d');
+  let chart = null;
+
+  // Function to update the chart based on the selected time period
+  async function updateChart(selectedTimePeriod) {
+    try {
+      const response = await fetch(`/admin/categorydata?timePeriod=${selectedTimePeriod}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+
+      if (chart) {
+        chart.destroy(); // Destroy the previous chart instance
+      }
+
+      // Extract data for the chart
+      const xValues = data.map(item => item.name);
+      const yValues = data.map(item => item.totalCount);
+      const backgroundColors = [
+        "#FF5733", "#C70039", "#FFC300", "#DAF7A6", "#1287A5"
+      ];
+      const borderColor = "white";
+      const borderWidth = 1;
+
+      chart = new Chart(chartContext, {
+        type: "doughnut",
+        data: {
+          labels: xValues,
+          datasets: [{
+            data: yValues,
+            backgroundColor: backgroundColors,
+            borderColor: borderColor,
+            borderWidth: borderWidth
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            fontSize: 16,
+            fontColor: "white"
+          },
+          legend: {
+            display: true,
+            position: "right",
+            labels: {
+              fontColor: "white"
+            }
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  // Add an event listener to the dropdown to trigger chart updates
+  timePeriodDropdown.addEventListener('change', () => {
+    const selectedTimePeriod = timePeriodDropdown.value;
+    updateChart(selectedTimePeriod);
+  });
+
+  // Initialize the chart with the default time period
+  updateChart(timePeriodDropdown.value);
+</script>
+
+
+
+
+
+<!--amountycount-->
+<script>
+  async function paymentmodedata() {
+    try {
+      const response = await fetch('/admin/paymentdata'); // Fetch data from your server
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const data = await response.json();
+
+      // Extract data for the chart
+      const xValues = Object.keys(data); // Payment modes as labels
+      const yValues = Object.values(data); // Payment mode counts as data
+      const barColors = [
+  "#ff5733", // Red
+  "#ffa933", // Orange
+  "#33ff57", // Green
+  "#3399ff", // Blue
+  "#9933ff", // Purple
+];
+
+
+      new Chart("myCharts", {
+        type: "pie",
+        data: {
+          labels: xValues,
+          datasets: [{
+            backgroundColor: barColors,
+            data: yValues
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            // text: "Payment Mode Distribution",
+            fontColor: "white",
+            fontSize: 18, // Set the title font size
+          },
+          legend: {
+            position: 'right',
+            fontColor: "white",
+            fontSize: 18, // Change the legend position to the right
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  paymentmodedata();
+</script>
+
+
+
+<!--sales report -->
+<!-- <script>
+  async function salesweeklydata() {
+    try {
+      const response = await fetch('/admin/weeklysalesreportdatachart'); // Fetch data from your server
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      const xValues = data.map((weekData) => weekData.startDate);
+      const yValues = data.map((weekData) => weekData.totalSales);
+
+      const chartCanvas = document.getElementById('myChartes');
+
+      new Chart(chartCanvas, {
+        type: "line",
+        data: {
+          labels: xValues,
+          datasets: [{
+            fill: false,
+            lineTension: 0,
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 2,
+            pointRadius: 6,
+            pointBackgroundColor: "rgba(75, 192, 192, 1)",
+            data: yValues
+          }]
+        },
+        options: {
+          legend: { display: false },
+          scales: {
+            yAxes: [{
+              ticks: {
+                min: Math.min(...yValues),
+                max: Math.max(...yValues),
+              }
+            }],
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  salesweeklydata();
+</script> -->
+ 
+<script>
+  async function salesWeeklyData() {
+    try {
+      const response = await fetch('/admin/weeklysalesreportdatachart'); // Fetch dynamic data from your server
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      const xValues = data.map((weekData) => weekData.startDate); // Use actual week start dates
+      const yValues = data.map((weekData) => weekData.totalSales); // Use actual total sales values
+      const barColors = ["red", "green", "blue", "orange", "brown"]; // Define colors
+
+      new Chart("myChartes", {
+        type: "bar",
+        data: {
+          labels: xValues,
+          datasets: [{
+            backgroundColor: barColors,
+            data: yValues
+          }]
+        },
+        options: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: "Weekly Sales Report" // Update the chart title
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+ salesWeeklyData();
+</script>
+
+
+</body>
 </html>

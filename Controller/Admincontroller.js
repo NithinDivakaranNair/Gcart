@@ -500,7 +500,38 @@ const adminlogin = (req, res) => {
 const adminhome = async (req, res) => {
   if (req.session.AdminId) {
     console.log("adminhome");
-    return res.render("Admin/Adminhomepage")
+   
+    //Allorderscount for 'OrderPending', 'OrderShipped', 'OrderDelivered'
+    const Allorderscount = await Ordercollection.countDocuments({
+      orderstatus: { $in: ['OrderPending', 'OrderShipped', 'OrderDelivered'] }
+    });
+    
+    //All cancelled order
+    const Allcancelledorderscount = await Ordercollection.countDocuments({
+      orderstatus: { $in: ['ordercancelled'] }
+    });
+    
+    //totalsale for  pending , delivery shipping
+    const Allorders=await Ordercollection.find({})
+    console.log(Allorders)
+    const totalsales = Allorders.reduce((total, order) => {
+      if (order.orderstatus !== 'ordercancelled') {
+        return total + order.totalAmount;
+      } else {
+        return total; // Exclude orders with 'OrderCancel' status
+      }
+    }, 0);
+
+    //All orders for allof
+    const Allorderstotal = await Ordercollection.countDocuments();
+
+  
+  
+    //Allusers
+    const Allusers = await signupcollection.countDocuments()
+
+
+    return res.render("Admin/Adminhomepage",{Allorderscount,totalsales,Allusers,Allcancelledorderscount,Allorderstotal})
   } else {
     return res.redirect("/adminlogin")
   }
@@ -740,6 +771,206 @@ const couponeditpage = async (req, res) => {
 }
 
 
+// const categorydatachart = async (req, res) => {
+//   try {
+//     const ALLOrdercollection = await Ordercollection.find({});
+//     const ALLcategory = await Categorycollection.find({});
+   
+//     // Create a map to store category counts
+//     const categoryCounts = new Map();
+
+//     // Initialize category counts with 0
+//     ALLcategory.forEach(category => {
+//       categoryCounts.set(category._id.toString(), 0);
+//     });
+
+//     // Iterate through orders to accumulate the item counts in each category
+//     ALLOrdercollection.forEach(order => {
+//       if (order.orderstatus !== "ordercancelled") {
+//         order.iteams.forEach(item => {
+//           if (item.CategoryId) {
+//             const categoryId = item.CategoryId.toString();
+//             const categoryCount = categoryCounts.get(categoryId);
+//             const itemCount = item.Count || 0;
+//             categoryCounts.set(categoryId, categoryCount + itemCount);
+//           }
+//         });
+//       }
+//     });
+
+//     // Prepare the result data
+//     const result = Array.from(categoryCounts).map(([categoryId, totalCount]) => {
+//       const category = ALLcategory.find(cat => cat._id.toString() === categoryId);
+//       return {
+//         categoryId,
+//         name: category ? category.Category : "Unknown",
+//         totalCount,
+//       };
+//     });
+    
+//     console.log('Category Counts:', result);
+    
+//     res.json(result);
+//   } catch (error) {
+//     console.error('Error:', error);
+//     res.status(500).json({ error: 'An error occurred while processing your request' });
+//   }
+// };
+
+const categorydatachart = async (req, res) => {
+  try {
+    const { timePeriod } = req.query; // Get the time period from the request query
+    const ALLOrdercollection = await Ordercollection.find({});
+    const ALLcategory = await Categorycollection.find({});
+   
+    // Create a map to store category counts for the selected time period
+    const categoryCounts = new Map();
+
+    // Initialize category counts with 0
+    ALLcategory.forEach(category => {
+      categoryCounts.set(category._id.toString(), 0);
+    });
+
+    // Define the date range based on the selected time period
+    const now = new Date();
+    const startDate = new Date();
+
+    if (timePeriod === 'daily') {
+      // For daily, set the start date to the beginning of the current day
+      startDate.setHours(0, 0, 0, 0);
+    } else if (timePeriod === 'weekly') {
+      // For weekly, set the start date to the beginning of the current week (Sunday)
+      startDate.setDate(now.getDate() - now.getDay());
+      startDate.setHours(0, 0, 0, 0);
+    } else if (timePeriod === 'monthly') {
+      // For monthly, set the start date to the beginning of the current month
+      startDate.setDate(1);
+      startDate.setHours(0, 0, 0, 0);
+    } else if (timePeriod === 'yearly') {
+      // For yearly, set the start date to the beginning of the current year
+      startDate.setMonth(0, 1);
+      startDate.setHours(0, 0, 0, 0);
+    }
+
+    // Iterate through orders to accumulate the item counts in each category
+    ALLOrdercollection.forEach(order => {
+      if (order.orderstatus !== "ordercancelled" && order.date >= startDate) {
+        order.iteams.forEach(item => {
+          if (item.CategoryId) {
+            const categoryId = item.CategoryId.toString();
+            const categoryCount = categoryCounts.get(categoryId);
+            const itemCount = item.Count || 0;
+            categoryCounts.set(categoryId, categoryCount + itemCount);
+          }
+        });
+      }
+    });
+
+    // Prepare the result data
+    const result = Array.from(categoryCounts).map(([categoryId, totalCount]) => {
+      const category = ALLcategory.find(cat => cat._id.toString() === categoryId);
+      return {
+        categoryId,
+        name: category ? category.Category : "Unknown",
+        totalCount,
+      };
+    });
+    
+    console.log('Category Counts:', result);
+    
+    res.json(result);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'An error occurred while processing your request' });
+  }
+};
+
+
+
+
+
+const paymentdatachart = async (req, res) => {
+  try {
+    // Assuming you have a mongoose Ordercollection model for fetching data
+    const orderdata = await Ordercollection.find({});
+
+    // Initialize an object to store payment mode counts
+    const paymentCounts = {};
+
+    // Iterate through the order data and count payment modes
+    orderdata.forEach((order) => {
+      const paymentMode = order.paymentmode && order.paymentmode.trim(); // Trim whitespace
+      if (paymentMode) {
+        paymentCounts[paymentMode] = (paymentCounts[paymentMode] || 0) + 1;
+      }
+    });
+
+    // Log payment mode counts for debugging
+    console.log('Payment Mode Counts:', paymentCounts);
+
+    // Return the payment mode counts as JSON response
+    res.json(paymentCounts);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'An error occurred while processing your request' });
+  }
+};
+
+
+
+
+const weeklysalesreportdatachart = async (req, res) => {
+  try {
+    const orders = await Ordercollection.find({});
+    const currentDate = new Date();
+
+    // Initialize an array to store weekly sales data
+    const weeklySalesData = [];
+
+    // Calculate the start of the current week (Sunday)
+    currentDate.setHours(0, 0, 0, 0);
+    currentDate.setDate(currentDate.getDate() - currentDate.getDay());
+
+    // Calculate the end of the current week (Saturday)
+    const endOfWeek = new Date(currentDate);
+    endOfWeek.setDate(endOfWeek.getDate() + 6);
+
+    // Calculate the start date for a year ago
+    const oneYearAgo = new Date(currentDate);
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+    // Loop through each week over the past year
+    while (currentDate >= oneYearAgo) {
+      const weeklyOrders = orders.filter((order) => {
+        const orderDate = new Date(order.date);
+        return orderDate >= currentDate && orderDate <= endOfWeek;
+      });
+
+      const weeklyTotalSales = weeklyOrders.reduce((total, order) => total + order.totalAmount, 0);
+
+      // Store the weekly sales data
+      weeklySalesData.push({
+        startDate: new Date(currentDate), // Start of the week
+        endDate: new Date(endOfWeek),     // End of the week
+        totalSales: weeklyTotalSales,
+      });
+
+      // Move to the previous week
+      currentDate.setDate(currentDate.getDate() - 7);
+      endOfWeek.setDate(endOfWeek.getDate() - 7);
+    }
+
+    console.log('Weekly Sales Data:', weeklySalesData);
+
+    // Return the weekly sales report data
+    res.json(weeklySalesData);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'An error occurred while processing your request' });
+  }
+};
+
+
 
 
 
@@ -782,6 +1013,11 @@ module.exports = {
   couponeditpage,
 
   updatecategorydetails,
-  updatecategorydata
+  updatecategorydata,
+
+  categorydatachart,
+  paymentdatachart,
+  weeklysalesreportdatachart,
+  
 
 }

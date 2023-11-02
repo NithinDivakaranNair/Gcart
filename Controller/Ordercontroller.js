@@ -7,11 +7,13 @@ const Ordercollection = require("../Model/OrderSchema")
 const CouponCollection = require("../Model/CouponSchema")
 const Prodectcollection = require("../Model/ProdectSchema")
 const nodemailer = require("nodemailer");    //Email sending module
+const pdfService=require('../service/pdf-service');
 
+const{KEY_ID,KEY_SECRET}=process.env
 const Razorpay = require('razorpay')//Razorpay
 var instance = new Razorpay({
-    key_id: 'rzp_test_GCcWdKrz1uFYwx',   
-    key_secret: 'wsM5ZRlx0XLkOtmq3BBMKDqv',
+    key_id: KEY_ID,   
+    key_secret: KEY_SECRET,
 });
 
 //order sucessful page  
@@ -331,8 +333,46 @@ const paypost = (req, res) => {
     })
 }
 
+//invoice
+const invoice =async (req, res, next) => {
+    try{
+        const userdetail = req.session.userId;
+        const Userid = userdetail._id;
+        
+        const latestOrder = await Ordercollection.findOne({ customerId: Userid }).sort({ date: -1 });
+console.log("latestOrder:",latestOrder)
+
+const orderdetail={
+    orderid:latestOrder._id,
+    username:latestOrder.CustomerName,
+    Mobilenumber:latestOrder.MobileNumber,
+    adress:latestOrder.address,
+    landmark:latestOrder.Landmark,
+    city:latestOrder.City,
+    pincode:latestOrder. Pincode,
+    alliteams:latestOrder. iteams,
+    alltotal:latestOrder. totalAmount,
+    paymentmode:latestOrder. paymentmode,
+    ordereddate:latestOrder. date,
+    orderid:latestOrder._id
+}
+    const stream = res.writeHead(200, {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment;filename=invoice.pdf',
+    });
+
+    pdfService.buildPDF(
+        (chunk) => stream.write(chunk),
+        () => stream.end(),orderdetail
+    );
 
 
+}catch (error) {
+    console.log("Error due to invoce:", error)
+    res.status(500).send("Error due to invoce");
+}
+    
+}
 
 
 
@@ -342,6 +382,7 @@ module.exports = {
     ordercanel,
     EachOrderdetailpage,
     paypost,
+    invoice
 
 }
 

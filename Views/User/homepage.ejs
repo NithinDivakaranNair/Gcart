@@ -253,7 +253,22 @@
     </div>
 </section>
 
-
+<section>
+    <!-- Pagination links -->
+<div class="pagination">
+    <% if (currentPage > 1) { %>
+        <a href="?page=<%= currentPage - 1 %>">Previous</a>
+    <% } %>
+    
+    <% for (let i = 1; i <= totalPages; i++) { %>
+        <a href="?page=<%= i %>" class="<%= i === currentPage ? 'current' : '' %>"><%= i %></a>
+    <% } %>
+    
+    <% if (currentPage < totalPages) { %>
+        <a href="?page=<%= currentPage + 1 %>">Next</a>
+    <% } %>
+</div>
+</section>
 
 
  <!--end prodect displaying-->

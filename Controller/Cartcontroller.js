@@ -147,18 +147,20 @@ const IteamRemoveCart = async (req, res) => {
 const addcouponcart = async (req, res) => {
     const userdetail = req.session.userId;
     const Userid = userdetail._id;
-    try {
+    try { 
+        console.log('coupon controller');
         const addedcoupon = req.body.coupon;
 
 
         /// check to coupon  not found
         const couponvalue = await CouponCollection.findOne({ CouponCode: addedcoupon })
+        console.log('couponvalue',couponvalue);
         if (!couponvalue) {
             return res.status(400).json("Coupon not found.");
         }
         if ((couponvalue.userid == Userid) || couponvalue.userid) {
-            return res.status(403).json("Coupon not found.");
-        }
+            return res.status(403).json("Coupon not found.");   
+        }    
         /// check to coupon is expire or not
         const currentDate = new Date();
         const couponExpirationDate = new Date(couponvalue.ExpirationDate);
@@ -167,6 +169,7 @@ const addcouponcart = async (req, res) => {
         }
         req.session.coupon = couponvalue.CouponCode; //this session using for order placing time add to order schema
         const discountamount = couponvalue.DiscountAmount;
+        console.log('discountamount',discountamount);
         return res.status(200).json(discountamount)
 
     } catch (error) {

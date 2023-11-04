@@ -48,7 +48,7 @@
     
           <a data-fslightbox="mygallery" class="rounded-4" target="_blank" data-type="image" href="">
          
-              <img id="mainImage" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/uploads/<%= prodectdata.Image[0] %>" />
+              <img id="mainImage" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"  src="/uploads/<%= prodectdata.Image[0] %>" data-zoom-image="/uploads/<%=prodectdata.Image[0]%>" alt="'nothing" />
           </a>
       </div>
 
@@ -335,18 +335,38 @@
 <%- include('./partials/footer.ejs') %>
 <!--footer-->
   
-<script src="https://cdn.jsdelivr.net/npm/fslightbox@2/dist/fslightbox.min.js"></script>
-
+  
+<!-- <script src="https://cdn.jsdelivr.net/npm/fslightbox@2/dist/fslightbox.min.js"></script> -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/2.2.3/jquery.elevatezoom.min.js" integrity="sha512-UH428GPLVbCa8xDVooDWXytY8WASfzVv3kxCvTAFkxD2vPjouf1I3+RJ2QcSckESsb7sI+gv3yhsgw9ZhM7sDw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    // Initialize the lightbox
-    const lightbox = new FsLightbox();
+  // Initialize the lightbox
+  // const lightbox = new FsLightbox();
 
-    // Function to change the main image
-    function changeMainImage(src) {
-        const mainImage = document.getElementById('mainImage');
-        mainImage.src = src;
-    }
+  // Function to change the main image
+
+  var active_ele = $('#mainImage');
+  active_ele.elevateZoom({
+    scrollZoom: true
+  })
+
+  function changeMainImage(src) {
+    console.log('src',src);
+      const mainImage = document.getElementById('mainImage');
+      mainImage.setAttribute("data-zoom-image", src);
+
+      mainImage.src = src;
+      active_ele.removeData('elevateZoom');
+      active_ele.elevateZoom({
+      scrollZoom: true
+  })
+  }
 </script>
+<script>
+
+
+</script>
+
   <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.magnific-popup.min.js"></script>

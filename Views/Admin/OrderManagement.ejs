@@ -173,7 +173,7 @@
 
 
     <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
+    <div class="container-fluid page-body-wrapper " style="margin-right: 200rem; position: relative;">
 
       <nav class="navbar p-0 fixed-top d-flex flex-row">
         <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
@@ -305,11 +305,12 @@
 
 
 
-      <div class="container mt-4">
+      <div class="container mt-4 "  > 
         <div class="my-5">
             <h1>Order Management</h1>
         </div>
-        <table class="table table-bordered table-striped">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped" >
             <thead class="thead-dark">
         <tr class="bg-light text-yellow">
                     <th>Date</th>
@@ -320,12 +321,16 @@
                     <th>Total</th>
                     <th>Payment Mode</th>
                     <th>Status</th>
+                    <th>Order Details</th>
                 </tr>
             </thead>
             <tbody>
-                <% orderdetails.forEach(data => { %>
+              
+              <% orderdetails.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(data => { %>
+
                   <tr class="text-white">
-                        <td><%= data.date.getDate() %>/<%= data.date.getMonth() + 1 %>/<%= data.date.getFullYear() %></td>
+                    <td><%= (new Date(data.date)).getDate() %>/<%= (new Date(data.date)).getMonth() + 1 %>/<%= (new Date(data.date)).getFullYear() %></td>
+
                         <td><%= data.customerId %></td>
                         <td><%= data.CustomerName %></td>
                         <td>
@@ -339,6 +344,7 @@
                         <td><%= data.totalAmount %></td>
                         <td><%= data.paymentmode %></td>
                         <td>
+                         
                           <% if (data.orderactionuser == true) { %>
                               <select class="form-select form-select-sm orderstatus" data-Orderid="<%= data._id %>" name="ORDERSTATUS">
                                   <option value="OrderPending" <%= data.orderstatus === 'OrderPending' ? 'selected' : '' %>>Order Pending</option>
@@ -346,15 +352,23 @@
                                   <option value="OrderDelivered" <%= data.orderstatus === 'OrderDelivered' ? 'selected' : '' %>>Order Delivered</option>
                                   <option value="OrderCancel" <%= data.orderstatus === 'OrderCancel' ? 'selected' : '' %>>Order Cancel</option>
                               </select>
-                          <% } else { %>
+                          
+                              <% } else if(data.orderstatus=='ordercancelled') { %>
                               <p>Order Cancelled by the user</p>
-                          <% } %>
+                          <% }else if(data.orderstatus=="Order is returned"){ %>
+                          <p>Order is returned</p>
+                          <%}%>
+                      </td>
+                      <td>
+                        <a href="/AdminEachOrderdetailpage/<%= data._id %>">More details</a>
                       </td>
                       
                     </tr>
                 <% }) %>
             </tbody>
         </table>
+        </div>
+       
     </div>
 
     </div>

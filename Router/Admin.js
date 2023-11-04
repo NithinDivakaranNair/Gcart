@@ -65,4 +65,8 @@ router.get("/admin/categorydata",admincontroller.categorydatachart)
 router.get("/admin/paymentdata",admincontroller.paymentdatachart)
 router.get("/admin/weeklysalesreportdatachart",admincontroller.weeklysalesreportdatachart)
 
+router.get("/exportOrdersToExcel",admincontroller.excelsheet)
+router.get("/AdminEachOrderdetailpage/:orderId",admincontroller.AdminEachOrderdetailpage)
+router.delete("/deleteimage",admincontroller.deleteimage)
+
 module.exports = router

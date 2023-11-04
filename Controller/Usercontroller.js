@@ -125,21 +125,19 @@ const home = async (req, res) => {
         Userlogin = true;
         const userdetail = req.session.userId;
         const Username = userdetail.username;
+
         const page = parseInt(req.query.page) || 1; // Current page, default to 1
-        const perPage = 6; // Number of products to display per page
-        const  categoryinfo = await Categorycollection.find({});  //category collection
-         console.log('categoryinfo:',categoryinfo);
-        let prodectinfo;
+        const perPage = 8; // Number of products to display per page
         const prodectCount = await Prodectcollection.countDocuments({}); // Total number of products
-
         const totalPages = Math.ceil(prodectCount / perPage);
-
-        if (page < 1 || page > totalPages) {
+       if (page < 1 || page > totalPages) {
             return res.status(404).send("Page not found");
         }
-
-        const skip = (page - 1) * perPage;
-
+       const skip = (page - 1) * perPage;
+        
+        const  categoryinfo = await Categorycollection.find({});  //category collection
+        console.log('categoryinfo:',categoryinfo);
+       let prodectinfo;
         let queryObject = {};
         let sortObject = {};
 
@@ -229,10 +227,52 @@ const mainhomepage = async (req, res) => {
   
      Userlogin = false;
         try {
-            const prodectinfo = await Prodectcollection.find({});  // updateing prodect and category in MainhomePage side
+
+            
+        const page = parseInt(req.query.page) || 1; // Current page, default to 1
+        const perPage = 8; // Number of products to display per page
+        const prodectCount = await Prodectcollection.countDocuments({}); // Total number of products
+        const totalPages = Math.ceil(prodectCount / perPage);
+       if (page < 1 || page > totalPages) {
+            return res.status(404).send("Page not found");
+        }
+       const skip = (page - 1) * perPage;
+
+       let queryObject = {};
+       let sortObject = {};
+
+       // If brand is provided, filter by brand
+       if (req.query.brand) {
+           queryObject.Brand = req.query.brand;
+       }
+
+       // If sort is provided, sort by the sort value
+       if (req.query.sort) {
+           const value = req.query.sort;
+           if (value === '1') {
+               sortObject.Price = -1;
+           } else {
+               sortObject.Price = 1;
+           }
+       }
+
+       // If price is provided, filter by price
+       if (req.query.sprice && req.query.eprice) {
+           const spriceValue = parseFloat(req.query.sprice); // Convert to a number
+           const epriceValue = parseFloat(req.query.eprice); // Convert to a number
+           queryObject.Price = { $gte: spriceValue, $lte: epriceValue };
+       }
+
+
+            // const prodectinfo = await Prodectcollection.find({});  // updateing prodect and category in MainhomePage side
+   const    prodectinfo = await Prodectcollection
+            .find(queryObject)
+            .sort(sortObject)
+            .skip(skip)
+            .limit(perPage);
             const categoryinfo = await Categorycollection.find({});
 
-            return res.render("User/Mainhomepage", { prodectinfo, categoryinfo, Userlogin, Username }); // that deatils are render in Mainhome Page
+            return res.render("User/Mainhomepage", { prodectinfo, categoryinfo, Userlogin, Username,totalPages,currentPage: page, }); // that deatils are render in Mainhome Page
         } catch (error) {
             console.error(error);
             return res.status(500).send("Error fetching product information.");
@@ -919,7 +959,8 @@ const { searchQuery } = req.query; // searched value store in paticular variable
   };
 
 
-//filter option in home
+
+  //filter option in home
 const filter=async(req,res)=>{
     const sortedvalue=req.body;
     console.log("sortedvalue")
@@ -948,7 +989,7 @@ module.exports = {
     categorybasedrender,
     oneprodectdetails,
 
-   userprofile,
+    userprofile,
 
     AddAddress,
     editAddress,

@@ -146,6 +146,8 @@
 
                 <div class="container">
                   <h2>Order History</h2>
+  <div class="table-responsive">
+
                   <table class="table table-striped">
                     <thead>
                       <tr>
@@ -160,52 +162,57 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% Allorders.sort((a, b)=> b.date - a.date).forEach(data => { %>
-
+                      <% Allorders.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(data => { %>
                         <tr>
                           <td class="small">
-                            <%=data.date.getDate()%>/ <%=data.date.getMonth()+1%>/<%=data.date.getFullYear()%>
+                            <%= new Date(data.date).getDate() %>/<%= new Date(data.date).getMonth() + 1 %>/<%= new Date(data.date).getFullYear() %>
                           </td>
                           <td class="small">
-                            <%=data._id%>
+                            <%= data._id %>
                           </td>
                           <td class="small">
-                            <% data.iteams.forEach((item)=>{ %>
-                              <%=item.Model%>(<%=item.Count %>No)
-                                <% }) %>
+                            <% data.iteams.forEach(item => { %>
+                              <%= item.Model %>(<%= item.Count %>No)
+                            <% }); %>
                           </td>
                           <!-- <td>2</td> -->
                           <td class="small">
-                            <%=data.totalAmount%>
+                            <%= data.totalAmount %>
                           </td>
                           <td>
                             <p class="text-danger">
-                              <%= data.orderstatus%>
+                              <%= data.orderstatus %>
                             </p>
                           </td>
                           <td>
-                            <!-- <form action="/ordercanel/%=data._id%>" method="get"> -->
-                            <% if(data.orderactionuser==false||data.orderstatus=='OrderCancel' ){%>
-                              <p class="live">Ordercancelled</p>
-                              <%}else{%>
-                                <button type="submit" id="Button"  data-Orderid="<%=data._id%>" onclick="return confirCancel();">Cancel Items</button>
-                                <% } %>
-
-                             
-                                  <!-- </form> -->
-
+                            <!-- <form action="/ordercancel/<%= data._id %>" method="get"> -->
+                            <% if (data.orderactionuser === false || data.orderstatus === 'OrderCancel') { %>
+                              <p class="live"><%=data.orderstatus%></p>
+                             <%}else if(data.orderstatus === 'OrderDelivered'){%>
+                              <button type="submit" id="Button" data-Orderid="<%= data._id %>" onclick="return confirmCancel();">Return Items</button>
+                            <% } else { %>
+                              <button type="submit" id="Button" data-Orderid="<%= data._id %>" onclick="return confirmCancel();">Cancel Items</button>
+                            <% } %>
+                            <!-- </form> -->
                           </td>
                           <td>
-
-                            <a href="/EachOrderdetailpage/<%=data._id%>">More details</a>
+                            <a href="/EachOrderdetailpage/<%= data._id %>">More details</a>
                           </td>
                         </tr>
-                        <% }) %>
+                      <% }); %>
                     </tbody>
+                    
                   </table>
+                  </div>
                 </div>
               </div>
 
+
+
+
+
+
+              
               <!--Wallet-->
               <div class="tab-pane fade" id="Wallets">
 
@@ -463,16 +470,15 @@
               },
             })
               .then((response) => {
-                if (!response.ok) {
-                  throw new Error("Network response was not ok");
-                }
-                let pee = document.createElement('p');
-                pee.classList.add('live');
-                pee.innerText = "Ordercancelled";
-                eve.target.replaceWith(pee);
                 return response.json();
               })
               .then((data) => {
+                     
+                let pee = document.createElement('p');
+                pee.classList.add('live');
+                pee.innerText = data.status;
+                eve.target.replaceWith(pee);
+            
                 // Handle the response from the controller here
 
                 // console.log(data);
@@ -485,7 +491,7 @@
         })
       </script>
 
-      <!-- <script><--address edit-->
+      <!-- <script> 
       function editAddress(addressId) {
       // Make a GET request to retrieve the address data
       fetch(`/editAddress/${addressId}`)
@@ -522,7 +528,7 @@
       });
       }
 
-      <!-- </script> --> -->
+      </script>  -->
 
   
   

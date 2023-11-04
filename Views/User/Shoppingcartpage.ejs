@@ -150,16 +150,18 @@
           <div class="col-lg-3">
             <div class="card mb-3 border shadow-0" style="background-color: lightyellow;">
               <div class="card-body" style="color: green;">
+               
                 <form id="couponadd">
                   <div class="form-group">
                     <label class="form-label">Have a coupon?</label>
                     <div class="input-group">
                       <input type="text" class="form-control border" id="couponid" name="" placeholder="Coupon code" />
-                      <button class="btn btn-light border" type="button" id="button">Apply</button>
+                      <button class="btn btn-light border" type="button" id="buttons">Apply</button>
                     </div>
                     <p class="text-danger" id="error-message"></p>
                   </div>
                 </form>
+             
               </div>
             </div>
 
@@ -183,10 +185,10 @@
                   <p class="mb-2 fw-bold" style="color: black; font-weight: bold;" id="totalDisplay">
                     <%= (totalprice - (totalprice*0.20)) %>/-
                   </p>
-                  <input type="hidden" id="TotalDisplay" value=<%=(totalprice - (totalprice*0.20)) %> id="total">
+                  <input type="hidden"  value=<%=(totalprice - (totalprice*0.20)) %> id="total">
                 </div>
                 <div class="mt-3">
-                  <a href="/checkoutpage">
+                  <a id="TotalDisplay" href="/checkoutpage">
 
                     <button id="checkoutButton" class="btn btn-success w-100 shadow-0 mb-2">CheckOut</button>
                   </a>
@@ -225,12 +227,14 @@
       <script>
         const error1 = document.getElementById('error-message')
         const coupon = document.getElementById('couponid')
-        const Botton = document.getElementById('button')
+        const Botton = document.getElementById('buttons')
         const displayTotal = document.getElementById('totalDisplay')
         const checkouttotal = document.getElementById('TotalDisplay')
-        const total = document.getElementById('total')
-        let totalAmount = Number(total.value)
+        let totalAmount = document.getElementById('total').value
+
+        // let totalAmount = Number(total.value)
         Botton.addEventListener("click", (eve) => {
+          console.log('total',total);
           const data = coupon.value;
           fetch("/addcouponcart", {
             method: "POST", // Use "POST" or "GET" depending on your requirements
@@ -269,8 +273,8 @@
               throw new Error("Invalid coupon amount");
             } else {
               totalAmount = totalAmount - data;
-              console.log(totalAmount);
-              checkouttotal.href = `/checkoutpage/${totalAmount}`<!-- value assign in url---->
+              console.log('totalAmount href',totalAmount);
+              checkouttotal.href = `/checkoutpage?totalAmount=${totalAmount}`<!-- value assign in url---->
               displayTotal.innerText = totalAmount;
               Botton.disabled = true;
             }

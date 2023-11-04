@@ -294,25 +294,29 @@
         <input type="text" id="Discount" name="Discount" value="<%=prodect.Discount%>" readonly>%
     </div>
 
-      <div class="mb-3">
-        <label for="CurrentImages" class="form-label text-white">Current Images</label>
-        <ul>
-            <% if (prodect && prodect.Image && prodect.Image.length > 0) { %>
-                <% prodect.Image.forEach((image) => { %>
-                  <% console.log('Image:', prodect.Image) %>
-                    <li> <img src="/uploads/<%=image %>"  alt="Current Image" width="200"></li>
-                <% }); %>
-            <% } else { %>
-                <li>No current images available</li>
-            <% } %>
-        </ul>
-    </div>
-    
-
-      <div class="mb-3">
-          <label for="NewImages" class="form-label text-white">New Images</label>
-          <input type="file" class="form-control" id="Image" name="Image"  value="<%=prodect.Image%>" multiple >
-      </div>
+    <div class="mb-3">
+      <label for="CurrentImages" class="form-label text-white">Current Images</label>
+      <ul>
+          <% if (prodect && prodect.Image && prodect.Image.length > 0) { %>
+              <% prodect.Image.forEach((image, index) => { %>
+                  <li>
+                      <img src="/uploads/<%= image %>" alt="Current Image" width="200">
+                      <button type="button" class="delete-image" data-prodect="<%=prodect._id %>" data-index="<%= index %>">Delete</button>
+                      <input type="file" class="form-control" name="Image" multiple>
+                  </li>
+              <% }); %>
+          <% } else { %>
+              <li>No current images available</li>
+          <% } %>
+      </ul>
+  </div>
+  
+  <!-- Separate "New Images" option -->
+  <div class="mb-3">
+      <label for="NewImages" class="form-label text-white">New Images</label>
+      <input type="file" class="form-control" name="Image" multiple>
+  </div>
+  
 
       <button type="submit" class="btn btn-success">Submit</button>
   </form>
@@ -335,7 +339,8 @@
     <script src="/assets1/js/settings.js"></script>
     <script src="/assets1/js/todolist.js"></script>
      <script src="/assets1/js/dashboard.js"></script>
-     <script>
+    
+    <script>
       // Get references to the input fields
       const priceInput = document.getElementById('Price');
       const offerPriceInput = document.getElementById('OfferPrice');
@@ -363,5 +368,41 @@
           }
       }
   </script>
-  </body>
+  
+
+  <!-- ... Your existing HTML ... -->
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".delete-image").forEach((button) => {
+        button.addEventListener("click", async function () {
+          const index = button.getAttribute("data-index");
+          const productid=button.getAttribute("data-prodect");
+  
+          try {
+            const response = await fetch(`/deleteimage?index=${index}&prodectid=${productid}`, {
+              method: "DELETE",
+            });
+  
+            if (response.ok) {
+              // Remove the image's <li> element from the DOM
+              button.parentElement.remove();
+            } else {
+              throw new Error("Failed to delete the image.");
+            }
+          } catch (error) {
+            console.error(error);
+            alert("Failed to delete the image.");
+          }
+        });
+      });
+    });
+  </script>
+  
+
+
+
+
+</body>
 </html>

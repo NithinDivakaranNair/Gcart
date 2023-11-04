@@ -1,3 +1,6 @@
+
+const moment=require('moment')
+
 const Admincollection = require("../Model/AdminSchema")
 const signupcollection = require("../Model/UserSchema")
 const Prodectcollection = require("../Model/ProdectSchema")
@@ -266,7 +269,7 @@ const prodectdata = async (req, res) => {
 const prodectdetails = async (req, res) => {
   try {
     const prodectinfo = await Prodectcollection.find({});
-    console.log("prodectinfo:", prodectinfo);
+   
  
     return res.render("Admin/AdminProdectManage", { iteam: prodectinfo });
   } catch (error) {
@@ -359,10 +362,6 @@ const updateprodectdetails = async (req, res) => {
   try {
     const prodect = await Prodectcollection.findOne({ _id: prodectId })
     const Cdetails = await Categorycollection.find(); //All category stored in  'Cdetails' variable
-
-    console.log(Cdetails)
-
-    console.log('prodect:', prodect)
     if (!prodect) {
       return res.status(404).send("prodect not found");
     }
@@ -418,19 +417,23 @@ const updateprodectdata = async (req, res) => {
     if (Discount !== existingProduct.Discount) {
       updatedFields.Discount = Discount;
     }
+    
 
     // Handle image updates if needed (assuming 'Image' is an array of image filenames)
+    let newImages=[]
     if (req.files && req.files.length > 0) {
-      const newImages = req.files.map((file) => file.filename);
-      updatedFields.Image = newImages;
+     newImages = req.files.map((file) => file.filename);
     }
 
     // Update the product with the changed fields
-    const updatedProduct = await Prodectcollection.findByIdAndUpdate(
-      productId,
-      updatedFields,
-      { new: true }
+    const updatedProduct = await Prodectcollection.updateOne(
+      { _id: productId },
+      {
+        $set: updatedFields, // Update other fields
+        $push: { Image: { $each: newImages } }, // Push new images into the 'Image' array
+      }
     );
+    console.log(newImages)
 
   ///Category updated with the largest discount
   const largestDiscountResult = await Prodectcollection.aggregate([
@@ -771,6 +774,8 @@ const couponeditpage = async (req, res) => {
 }
 
 
+///categorydatachart
+
 // const categorydatachart = async (req, res) => {
 //   try {
 //     const ALLOrdercollection = await Ordercollection.find({});
@@ -850,11 +855,14 @@ const categorydatachart = async (req, res) => {
       // For yearly, set the start date to the beginning of the current year
       startDate.setMonth(0, 1);
       startDate.setHours(0, 0, 0, 0);
+    } else {
+      // Handle invalid timePeriod values
+      throw new Error('Invalid time period');
     }
 
     // Iterate through orders to accumulate the item counts in each category
     ALLOrdercollection.forEach(order => {
-      if (order.orderstatus !== "ordercancelled" && order.date >= startDate) {
+      if (order.orderstatus !== "ordercancelled" && new Date(order.date) >= startDate) {
         order.iteams.forEach(item => {
           if (item.CategoryId) {
             const categoryId = item.CategoryId.toString();
@@ -887,7 +895,7 @@ const categorydatachart = async (req, res) => {
 
 
 
-
+//Paymentdatachart
 
 const paymentdatachart = async (req, res) => {
   try {
@@ -917,7 +925,7 @@ const paymentdatachart = async (req, res) => {
 };
 
 
-
+//weekly sales report
 
 const weeklysalesreportdatachart = async (req, res) => {
   try {
@@ -971,9 +979,134 @@ const weeklysalesreportdatachart = async (req, res) => {
 };
 
 
+//exelsheet
+const excel = require('exceljs'); // Import the exceljs library
+const stream = require('stream'); // Import the stream module
+
+const excelsheet = async (req, res) => {
+  try {
+    const startDate = req.query.startDate;
+    const endDate = req.query.endDate;
+    console.log();
+
+    // Fetch orders from your database with date filtering
+    const query = { date: { $gte: startDate, $lte: endDate } };
+    console.log("query:",query)
+    const allOrders = await Ordercollection.find(query);
+   console.log("allOrdersdate:",allOrders)
+
+    if (!allOrders) {
+      return res.status(404).send("No orders found");
+    }
+
+    // Create a new Excel workbook and worksheet
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Orders");
+console.log("worksheet:",worksheet)
+    // Define the columns for your worksheet
+    worksheet.columns = [
+      { header: "Order ID", key: "id", width: 12 },
+      { header: "Customer Name", key: "customerName", width: 20 },
+      { header: "Delivery Address", key: "deliveryAddress", width: 30 },
+      { header: "Mobile Number", key: "mobileNumber", width: 15 },
+      { header: "Alternate Number", key: "alternateNumber", width: 15 },
+      { header: "Total Amount", key: "totalAmount", width: 15 },
+      { header: "Payment Mode", key: "paymentMode", width: 20 },
+      { header: "Order Status", key: "orderStatus", width: 15 },
+      { header: "Order Date", key: "orderDate", width: 20 },
+      { header: "Item Details", key: "itemDetails", width: 50 }, // Combined item details
+      // Add more columns as needed
+    ];
+
+    allOrders.forEach((order) => {
+      const itemDetails = order.iteams.map((item) => {
+        const priceString = item.OfferPrice ? `Offer Price: ${item.OfferPrice}` : `Price: ${item.Price}`;
+        return `Model: ${item.Model}, Count: ${item.Count}, ${priceString}`;
+      }).join("/");
+
+      worksheet.addRow({
+        id: order._id,
+        customerName: order.CustomerName,
+        deliveryAddress: order.address.Address,
+        mobileNumber: order.address.MobileNumber,
+        alternateNumber: order.address.AternateNumber,
+        totalAmount: order.totalAmount,
+        paymentMode: order.paymentmode,
+        orderStatus: order.orderstatus,
+        orderDate: order.date,
+        itemDetails,
+      });
+    });
+
+    // Create a Stream object
+    const streamifier = new stream.PassThrough();
+
+    // Pipe the Excel workbook to the stream
+    await workbook.xlsx.write(streamifier);
+
+    // Set response headers for Excel file download
+    res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    res.setHeader("Content-Disposition", "attachment; filename=orders.xlsx");
+
+    // Pipe the stream to the Express response
+    streamifier.pipe(res);
+  } catch (error) {
+    console.error("Error due to excel:", error);
+    res.status(500).send("Error due to excel");
+  }
+};
 
 
 
+
+
+// Admin each order detail displaying page
+
+const AdminEachOrderdetailpage=async(req,res)=>{
+
+  const OrderId = req.params.orderId;
+  try {
+      const data = await Ordercollection.findOne({ _id: OrderId })
+  
+      return res.render("Admin/AdminEachorderdetails", { data})
+  }
+  catch (error) {
+      console.log("Error due to one prodect detailing time:", error)
+      return res.status(500).send("Error fetching product information.");
+
+  }
+}
+
+
+//delete image 
+const deleteimage=async (req,res)=>{
+
+try{
+  const prodectid=req.query.prodectid;
+const imageIndex=req.query.index;
+
+console.log('detals:',prodectid,imageIndex)
+const product = await Prodectcollection.findById(prodectid)
+
+if (!product) {
+  return res.status(404).send("Product not found.");
+}
+
+if (imageIndex < 0 || imageIndex >= product.Image.length) {
+  return res.status(400).send("Invalid image index.");
+}
+
+product.Image.splice(imageIndex, 1);
+
+await product.save();
+
+res.status(200).send("Image deleted successfully.");
+}catch (error) {
+  console.log("Error due to image delete time:", error)
+  return res.status(500).send("Error due to image delete time.");
+
+}
+}
 
 
 module.exports = {
@@ -1019,5 +1152,7 @@ module.exports = {
   paymentdatachart,
   weeklysalesreportdatachart,
   
-
+  excelsheet,
+  AdminEachOrderdetailpage,
+  deleteimage
 }

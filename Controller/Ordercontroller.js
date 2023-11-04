@@ -131,7 +131,7 @@ const ordersuccessfulPOST = async (req, res) => {
                     Coupon: coupon
                 });
                 await newOrder.save();
-
+                req.session.order=newOrder;
                 res.redirect("/ordersucessful");
                 await CartCollection.deleteMany({ UserId: customerId });
             } catch (error) {
@@ -152,6 +152,8 @@ const ordersuccessfulPOST = async (req, res) => {
         console.log("addressvxccxcvxc:",address)
         try {
             const cartinf = await CartCollection.find({ UserId: customerId })
+            
+
             // Save the order with the total amount to your database using the Order model
             const newOrder = new Ordercollection({
                 customerId,
@@ -164,7 +166,7 @@ const ordersuccessfulPOST = async (req, res) => {
             });
             console.log("addres7878787:",newOrder)
             await newOrder.save();
-
+            req.session.order=newOrder;
             res.redirect("/ordersucessful");
             await CartCollection.deleteMany({ UserId: customerId });
         } catch (error) {
@@ -203,7 +205,7 @@ const ordersuccessfulPOST = async (req, res) => {
                 Coupon: coupon
             });
             await newOrder.save();
-
+            req.session.order=newOrder;
             res.redirect("/ordersucessful");
             await CartCollection.deleteMany({ UserId: customerId });
         } catch (error) {
@@ -267,7 +269,7 @@ const ordercanel = async (req, res) => {
 
             const updateorderstatusinfo = await Ordercollection.updateOne({ _id: orderid }, { $set: { orderactionuser: false, orderstatus: "ordercancelled" } })
             console.log('updateorderstatusinfo:', updateorderstatusinfo)
-
+       //wallet amount update
             const Walletdetails = await Walletcollection.findOne({ customerid: Orderdetails.customerId })
             console.log('Walletdetails:', Walletdetails)
             const walletamount = Walletdetails.Amount;
@@ -276,11 +278,34 @@ const ordercanel = async (req, res) => {
             const totalamount = walletamount + orderamount;
             const updatedwalletamount = await Walletcollection.updateOne({ customerid: Orderdetails.customerId }, { $set: { Amount: totalamount } })
             console.log('updatedwalletamount:', updatedwalletamount)
-            return res.status(200).json("success")
+            return res.status(200).json({"status":"ordercancelled"})
+       
+       
+        }else if(Orderdetails.orderstatus == "OrderDelivered"){
+            const updateorderstatusinfo = await Ordercollection.updateOne({ _id: orderid }, { $set: { orderactionuser: false, orderstatus: "Order is returned" } })
+            console.log('updateorderstatusinfo:', updateorderstatusinfo)  
+          
+            //wallet amount update
+          const Walletdetails = await Walletcollection.findOne({ customerid: Orderdetails.customerId })
+          console.log('Walletdetails:', Walletdetails)
+          const walletamount = Walletdetails.Amount;
 
+
+          const totalamount = walletamount + orderamount;
+          const updatedwalletamount = await Walletcollection.updateOne({ customerid: Orderdetails.customerId }, { $set: { Amount: totalamount } })
+          console.log('updatedwalletamount:', updatedwalletamount)
+          return res.status(200).json({"status":"Order is returned"})
+     
+        
+        
+        }else{
+            return res.status(404).json("error")
         }
+            
 
-        return res.status(404).json("error")
+        
+
+       
     } catch (error) {
         console.log("Error due to ordercanel time:", error);
         res.status(500).send("Error  due to ordercanel time");
@@ -338,8 +363,10 @@ const invoice =async (req, res, next) => {
     try{
         const userdetail = req.session.userId;
         const Userid = userdetail._id;
-        
-        const latestOrder = await Ordercollection.findOne({ customerId: Userid }).sort({ date: -1 });
+        const orderdata=  req.session.order;
+        console.log('orderdata:',orderdata)
+        console.log('orderdataid:',orderdata._id)
+        const latestOrder = await Ordercollection.findById(orderdata._id);
 console.log("latestOrder:",latestOrder)
 
 const orderdetail={

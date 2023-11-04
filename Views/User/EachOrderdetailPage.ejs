@@ -140,9 +140,12 @@
                             </div>
                             <div class="col-md-10">
                               <div class="d-flex justify-content-around mb-1">
-                                <% if (selectedorderdetails.orderactionuser == false) { %>
+                                <% if (selectedorderdetails.orderstatus == "ordercancelled") { %>
                                 <p class="text-dark mt-1 mb-0 small ms-xl-5">Order Canceled</p>
-                                <% } else { %>
+                               <%console.log("selectedorderdetails.orderstatus:",selectedorderdetails.orderstatus)  %>
+                                <% } else if(selectedorderdetails.orderstatus=="Order is returned") { %>
+                                  <p class="text-dark mt-1 mb-0 small ms-xl-5">Order is returned</p>
+                                  <% }else{ %>
                                 <p class="text-dark mt-1 mb-0 small ms-xl-5"><%= selectedorderdetails.orderstatus %></p>
                                 <% } %>
                               </div>
@@ -206,7 +209,7 @@
                       </div>
           
                       <div class="d-flex justify-content-between">
-                        <p class="text-muted mb-0">Invoice Date : <%=selectedorderdetails.date.getDate()%>/ <%=selectedorderdetails.date.getMonth()+1%>/<%=selectedorderdetails.date.getFullYear()%></p>
+                        <p class="text-muted mb-0">Invoice Date : <%= new Date(selectedorderdetails.date).getDate() %>/<%= new Date(selectedorderdetails.date).getMonth() + 1 %>/<%= new Date(selectedorderdetails.date).getFullYear() %></p>
                         <!-- <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p> -->
                       </div>
           

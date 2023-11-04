@@ -7,10 +7,10 @@ const ProdectSchema = new mongoose.Schema({
     Model: String,
     Image: Array,
     Description: String,
-    Quantity:Number,
+    Quantity: Number,
     Price: Number,
-    OfferPrice:Number,
-    Discount:Number,
+    OfferPrice: Number,
+    Discount: Number,
 })
 
 const prodectcollection = mongoose.model("Prodects", ProdectSchema)

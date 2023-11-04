@@ -7,37 +7,31 @@ const Ordercollection = require("../Model/OrderSchema")
 const CouponCollection = require("../Model/CouponSchema")
 const Prodectcollection = require("../Model/ProdectSchema")
 const nodemailer = require("nodemailer");    //Email sending module
-const pdfService=require('../service/pdf-service');
+const pdfService = require('../service/pdf-service');
 
-const{KEY_ID,KEY_SECRET}=process.env
+const { KEY_ID, KEY_SECRET } = process.env
 const Razorpay = require('razorpay')//Razorpay
 var instance = new Razorpay({
-    key_id: KEY_ID,   
+    key_id: KEY_ID,
     key_secret: KEY_SECRET,
 });
 
 //order sucessful page  
 const ordersucessful = async (req, res) => {
-    console.log('ordersucessful');
+
     try {
         const Userlogin = true;
         const userdetail = req.session.userId;
         const Userid = userdetail._id;
-        
-// Find the latest order for the user and decrease the  prodect quandity
+
+        // Find the latest order for the user and decrease the  prodect quandity
         const latestOrder = await Ordercollection.findOne({ customerId: Userid }).sort({ date: -1 });
-        
+
         if (latestOrder) {
-            console.log('Latest Order:', latestOrder);
-        
             latestOrder.iteams.forEach(async (item) => {
                 const productId = item.ProdectId;
                 const productCount = item.Count;
-        
-                // Debug output
-                console.log("productId:", productId);
-                console.log("productCount:", productCount);
-        
+
                 // Use await inside this loop to ensure each product is updated before moving to the next one.
                 await Prodectcollection.findByIdAndUpdate(
                     { _id: productId },
@@ -47,9 +41,6 @@ const ordersucessful = async (req, res) => {
         } else {
             console.log('No orders found for the user.');
         }
-        
-
-
 
         const Username = userdetail.username ? userdetail.username : " ";
         const categoryinfo = await Categorycollection.find({});
@@ -108,8 +99,6 @@ const ordersuccessfulPOST = async (req, res) => {
         var instance = new Razorpay({ key_id: 'rzp_test_GCcWdKrz1uFYwx', key_secret: 'wsM5ZRlx0XLkOtmq3BBMKDqv' })
 
         instance.payments.fetch(payorderid).then(async (data) => {
-            console.log("paydetails", data)
-            // return res.json(data)
             const addressId = data.notes.address;
             const address = await AddressCollection.findById(addressId)
             const userdetails = req.session.userId;
@@ -117,7 +106,7 @@ const ordersuccessfulPOST = async (req, res) => {
             const CustomerName = userdetails.username;
             const paymentmode = data.notes.paymethode;
             const totalAmount = data.notes.totalamount;
-            console.log("address:",addressId)
+
             try {
                 const cartinf = await CartCollection.find({ UserId: customerId })
                 // Save the order with the total amount to your database using the Order model
@@ -131,7 +120,7 @@ const ordersuccessfulPOST = async (req, res) => {
                     Coupon: coupon
                 });
                 await newOrder.save();
-                req.session.order=newOrder;
+                req.session.order = newOrder;
                 res.redirect("/ordersucessful");
                 await CartCollection.deleteMany({ UserId: customerId });
             } catch (error) {
@@ -148,11 +137,8 @@ const ordersuccessfulPOST = async (req, res) => {
         const CustomerName = userdetails.username;
         const paymentmode = req.body.paymentMethod;
         const totalAmount = req.body.totalAmount;
-        console.log("address:",addressId)
-        console.log("addressvxccxcvxc:",address)
         try {
             const cartinf = await CartCollection.find({ UserId: customerId })
-            
 
             // Save the order with the total amount to your database using the Order model
             const newOrder = new Ordercollection({
@@ -164,9 +150,9 @@ const ordersuccessfulPOST = async (req, res) => {
                 paymentmode,
                 Coupon: coupon
             });
-            console.log("addres7878787:",newOrder)
+
             await newOrder.save();
-            req.session.order=newOrder;
+            req.session.order = newOrder;
             res.redirect("/ordersucessful");
             await CartCollection.deleteMany({ UserId: customerId });
         } catch (error) {
@@ -181,11 +167,11 @@ const ordersuccessfulPOST = async (req, res) => {
         const CustomerName = userdetails.username;
         const paymentmode = req.body.paymentMethod;
         const totalAmount = req.body.totalAmount;
-        console.log("address:",addressId)
+
         try {
             const cartinf = await CartCollection.find({ UserId: customerId })
             const walletinfo = await Walletcollection.find({ customerid: customerId })
-            console.log("walletinfo:", walletinfo)
+
             if (walletinfo[0].Amount < Number(totalAmount)) {
                 return res.redirect("back");
             }
@@ -205,7 +191,7 @@ const ordersuccessfulPOST = async (req, res) => {
                 Coupon: coupon
             });
             await newOrder.save();
-            req.session.order=newOrder;
+            req.session.order = newOrder;
             res.redirect("/ordersucessful");
             await CartCollection.deleteMany({ UserId: customerId });
         } catch (error) {
@@ -258,54 +244,41 @@ const ordersuccessfulPOST = async (req, res) => {
 const ordercanel = async (req, res) => {
 
     const orderid = req.body.ORDERid
-    console.log("orderid:", orderid)
     try {
-
         const Orderdetails = await Ordercollection.findById(orderid)
-        console.log('Orderdetails:', Orderdetails)
         const orderamount = Orderdetails.totalAmount;
-        console.log('orderamount:', orderamount)
+
         if ((Orderdetails.orderstatus == "OrderPending") || (Orderdetails.orderstatus == "OrderShipped")) {
 
             const updateorderstatusinfo = await Ordercollection.updateOne({ _id: orderid }, { $set: { orderactionuser: false, orderstatus: "ordercancelled" } })
-            console.log('updateorderstatusinfo:', updateorderstatusinfo)
-       //wallet amount update
+
+            //wallet amount update
             const Walletdetails = await Walletcollection.findOne({ customerid: Orderdetails.customerId })
-            console.log('Walletdetails:', Walletdetails)
+
             const walletamount = Walletdetails.Amount;
 
 
             const totalamount = walletamount + orderamount;
             const updatedwalletamount = await Walletcollection.updateOne({ customerid: Orderdetails.customerId }, { $set: { Amount: totalamount } })
-            console.log('updatedwalletamount:', updatedwalletamount)
-            return res.status(200).json({"status":"ordercancelled"})
-       
-       
-        }else if(Orderdetails.orderstatus == "OrderDelivered"){
+
+            return res.status(200).json({ "status": "ordercancelled" })
+
+
+        } else if (Orderdetails.orderstatus == "OrderDelivered") {
             const updateorderstatusinfo = await Ordercollection.updateOne({ _id: orderid }, { $set: { orderactionuser: false, orderstatus: "Order is returned" } })
-            console.log('updateorderstatusinfo:', updateorderstatusinfo)  
-          
+
             //wallet amount update
-          const Walletdetails = await Walletcollection.findOne({ customerid: Orderdetails.customerId })
-          console.log('Walletdetails:', Walletdetails)
-          const walletamount = Walletdetails.Amount;
+            const Walletdetails = await Walletcollection.findOne({ customerid: Orderdetails.customerId })
+            const walletamount = Walletdetails.Amount;
 
+            const totalamount = walletamount + orderamount;
+            const updatedwalletamount = await Walletcollection.updateOne({ customerid: Orderdetails.customerId }, { $set: { Amount: totalamount } })
 
-          const totalamount = walletamount + orderamount;
-          const updatedwalletamount = await Walletcollection.updateOne({ customerid: Orderdetails.customerId }, { $set: { Amount: totalamount } })
-          console.log('updatedwalletamount:', updatedwalletamount)
-          return res.status(200).json({"status":"Order is returned"})
-     
-        
-        
-        }else{
+            return res.status(200).json({ "status": "Order is returned" })
+        } else {
             return res.status(404).json("error")
         }
-            
 
-        
-
-       
     } catch (error) {
         console.log("Error due to ordercanel time:", error);
         res.status(500).send("Error  due to ordercanel time");
@@ -323,11 +296,8 @@ const EachOrderdetailpage = async (req, res) => {
     try {
         const orderid = req.params.orderid;
         const Userlogin = true;
-
         const userdetail = req.session.userId;
-
         const Username = userdetail.username;
-        console.log('Username:', Username)
 
         const categoryinfo = await Categorycollection.find({});
         const selectedorderdetails = await Ordercollection.findById(orderid)
@@ -343,7 +313,7 @@ const EachOrderdetailpage = async (req, res) => {
 
 //pay
 const paypost = (req, res) => {
-    console.log(req.body.totalAmount);
+
     instance.orders.create({
         amount: req.body.totalAmount,
         currency: "INR",
@@ -353,52 +323,47 @@ const paypost = (req, res) => {
             key2: "value2"
         }
     }).then((data) => {
-        console.log("dta:", data)
+
         return res.json(data)
     })
 }
 
 //invoice
-const invoice =async (req, res, next) => {
-    try{
+const invoice = async (req, res, next) => {
+    try {
         const userdetail = req.session.userId;
         const Userid = userdetail._id;
-        const orderdata=  req.session.order;
-        console.log('orderdata:',orderdata)
-        console.log('orderdataid:',orderdata._id)
+        const orderdata = req.session.order;
         const latestOrder = await Ordercollection.findById(orderdata._id);
-console.log("latestOrder:",latestOrder)
 
-const orderdetail={
-    orderid:latestOrder._id,
-    username:latestOrder.CustomerName,
-    Mobilenumber:latestOrder.MobileNumber,
-    adress:latestOrder.address,
-    landmark:latestOrder.Landmark,
-    city:latestOrder.City,
-    pincode:latestOrder. Pincode,
-    alliteams:latestOrder. iteams,
-    alltotal:latestOrder. totalAmount,
-    paymentmode:latestOrder. paymentmode,
-    ordereddate:latestOrder. date,
-    orderid:latestOrder._id
-}
-    const stream = res.writeHead(200, {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': 'attachment;filename=invoice.pdf',
-    });
+        const orderdetail = {
+            orderid: latestOrder._id,
+            username: latestOrder.CustomerName,
+            Mobilenumber: latestOrder.MobileNumber,
+            adress: latestOrder.address,
+            landmark: latestOrder.Landmark,
+            city: latestOrder.City,
+            pincode: latestOrder.Pincode,
+            alliteams: latestOrder.iteams,
+            alltotal: latestOrder.totalAmount,
+            paymentmode: latestOrder.paymentmode,
+            ordereddate: latestOrder.date,
+            orderid: latestOrder._id
+        }
+        const stream = res.writeHead(200, {
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': 'attachment;filename=invoice.pdf',
+        });
 
-    pdfService.buildPDF(
-        (chunk) => stream.write(chunk),
-        () => stream.end(),orderdetail
-    );
+        pdfService.buildPDF(
+            (chunk) => stream.write(chunk),
+            () => stream.end(), orderdetail
+        );
+    } catch (error) {
+        console.log("Error due to invoce:", error)
+        res.status(500).send("Error due to invoce");
+    }
 
-
-}catch (error) {
-    console.log("Error due to invoce:", error)
-    res.status(500).send("Error due to invoce");
-}
-    
 }
 
 

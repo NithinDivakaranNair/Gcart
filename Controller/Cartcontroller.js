@@ -9,10 +9,9 @@ const CouponCollection = require("../Model/CouponSchema")
 //cartpagepageGET methode
 const cartpagedetails = async (req, res) => {
     const userdetails = req.session.userId;
-    // const id = userdetails._id;
     const Userlogin = true;
-
     const Username = userdetails.username ? userdetails.username : " ";
+
     try {
         const categoryinfo = await Categorycollection.find({});
         const cartinfo = await CartCollection.find({ UserId: userdetails._id })
@@ -27,7 +26,7 @@ const cartpagedetails = async (req, res) => {
         })
 
 
-        return res.render("User/Shoppingcartpage", { Userlogin, categoryinfo, cartinfo, totalprice, Username })
+        return res.render("User/Shoppingcartpage", { Username, Userlogin, categoryinfo, cartinfo, totalprice })
     } catch (error) {
         console.log("Error due to cart detail displaying time:", error)
         return res.status(500).send("Error due to cart detail displaying time")
@@ -38,10 +37,9 @@ const cartpagedetails = async (req, res) => {
 //cartpagepagepost methode
 const cartpage = async (req, res) => {
 
-    try { 
+    try {
         const ProdectId = req.params.prodectId;
         const prodectdetails = await Prodectcollection.findOne({ _id: ProdectId })
-        console.log("prodectdetails:", prodectdetails)
         const userdetails = req.session.userId
         const UserId = userdetails._id;
 
@@ -91,7 +89,7 @@ const cartpage = async (req, res) => {
 
 const CartPluseButton = async (req, res) => {
     const ProdectId = req.params.prodectId;
-    // console.log('product id', ProdectId);
+
     try {
         const existingCartItem = await CartCollection.findOne({ ProdectId });
         if (existingCartItem) {
@@ -129,7 +127,6 @@ const CartMinusebutton = async (req, res) => {
 //remove  prodect the cart 
 const IteamRemoveCart = async (req, res) => {
     const prodectid = req.params.iteam;
-    console.log('prodectid:', prodectid)
     try {
 
         const DeleteCartiteam = await CartCollection.findOneAndRemove({ ProdectId: prodectid })
@@ -147,20 +144,18 @@ const IteamRemoveCart = async (req, res) => {
 const addcouponcart = async (req, res) => {
     const userdetail = req.session.userId;
     const Userid = userdetail._id;
-    try { 
-        console.log('coupon controller');
+    try {
         const addedcoupon = req.body.coupon;
-
 
         /// check to coupon  not found
         const couponvalue = await CouponCollection.findOne({ CouponCode: addedcoupon })
-        console.log('couponvalue',couponvalue);
+
         if (!couponvalue) {
             return res.status(400).json("Coupon not found.");
         }
         if ((couponvalue.userid == Userid) || couponvalue.userid) {
-            return res.status(403).json("Coupon not found.");   
-        }    
+            return res.status(403).json("Coupon not found.");
+        }
         /// check to coupon is expire or not
         const currentDate = new Date();
         const couponExpirationDate = new Date(couponvalue.ExpirationDate);
@@ -169,7 +164,7 @@ const addcouponcart = async (req, res) => {
         }
         req.session.coupon = couponvalue.CouponCode; //this session using for order placing time add to order schema
         const discountamount = couponvalue.DiscountAmount;
-        console.log('discountamount',discountamount);
+
         return res.status(200).json(discountamount)
 
     } catch (error) {

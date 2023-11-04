@@ -1,5 +1,5 @@
 
-const moment=require('moment')
+const moment = require('moment')
 
 const Admincollection = require("../Model/AdminSchema")
 const signupcollection = require("../Model/UserSchema")
@@ -18,7 +18,7 @@ const addcategorys = (req, res) => {
 //Categorydata add to mongodb
 const categorydata = async (req, res) => {
   try {
-    // Destructure request body
+
     const { Category, Description } = req.body;
 
     // Normalize the category name by converting it to lowercase and removing spaces
@@ -39,18 +39,14 @@ const categorydata = async (req, res) => {
 
     // Create a new category document
     const newCategory = new Categorycollection({
-      Category: normalizedCategory, // Store the normalized category name
+      Category: normalizedCategory,
       Image,
       Description,
     });
 
-    // Save the new category to the database
     await newCategory.save();
-
-    // Redirect to a success page or send a success response
     return res.redirect("/categorydetails");
   } catch (error) {
-    // Handle errors gracefully by sending an error response and logging the error
     console.error("Error during category data insertion:", error);
     return res.status(500).send("Error during category data insertion");
   }
@@ -125,14 +121,13 @@ const deletecategory = async (req, res) => {
   }
 }
 
+
 //update updatecategorydetails page for admin
 const updatecategorydetails = async (req, res) => {
   const catergoryId = req.params.categoryId;
-  console.log('catergoryId;', catergoryId)
   try {
     const category = await Categorycollection.findOne({ _id: catergoryId })
 
-    console.log('category:', category)
     if (!category) {
       return res.status(404).send("category not found");
     }
@@ -148,18 +143,13 @@ const updatecategorydetails = async (req, res) => {
 //update updatecategorydata detail data
 const updatecategorydata = async (req, res) => {
   const categoryId = req.params.categoryId;
-  console.log("updated data:", categoryId);
-  console.log("body:", req.body);
   const { Category, Description } = req.body;
 
   let Image = req.file ? req.file.filename : req.body.Image; // Use the new filename if a file is uploaded, otherwise use the existing value
-
-  console.log("Category:", Category);
-  console.log("Image:", Image);
-  console.log("Description:", Description);
-
   try {
+
     const updatedData = await Categorycollection.findByIdAndUpdate(
+
       categoryId,
       { Category, Image, Description },
       { new: true }
@@ -183,8 +173,6 @@ const updatecategorydata = async (req, res) => {
 const addprodects = async (req, res) => {
   try {
     const Cdetails = await Categorycollection.find(); //All category stored in  'Cdetails' variable
-
-    console.log(Cdetails)
     return res.render("Admin/Addprodects", { Cdetails }) //then render the add prodect page
 
   } catch (error) {
@@ -199,11 +187,8 @@ const addprodects = async (req, res) => {
 //Prodectdata add to mongodb
 const prodectdata = async (req, res) => {
   try {
-    console.log(req.body);
-
     const { Category, Brand, Model, Description, Quantity, Price, OfferPrice, Discount } = req.body; // req.body data destructured process
     const Image = req.files.map((file) => file.filename);
-    console.log('Image:', Image);
 
     // Save the new product
     const newProdects = new Prodectcollection({
@@ -269,8 +254,8 @@ const prodectdata = async (req, res) => {
 const prodectdetails = async (req, res) => {
   try {
     const prodectinfo = await Prodectcollection.find({});
-   
- 
+
+
     return res.render("Admin/AdminProdectManage", { iteam: prodectinfo });
   } catch (error) {
     console.error(error);
@@ -283,7 +268,7 @@ const prodectdetails = async (req, res) => {
 //prodect search
 const prodectsearch = async (req, res) => {
   const { searchQuery } = req.query; // searched value store in paticular variable , used for destructure methode
-  console.log(searchQuery);
+
   try {
     // Check if the searchQuery is empty
     if (!searchQuery) {
@@ -310,8 +295,6 @@ const prodectsearch = async (req, res) => {
 
 //DELETE PRODECT ITEAMS
 const deleteprodect = async (req, res) => {
-  console.log("deleteprodect");
-
   const prodectId = req.params.prodectId; // deleting prodect id stored in 'ProdectId' variable
   try {
     const DeleteProdect = await Prodectcollection.findByIdAndRemove(prodectId) // find the prodect with prodectid and delete from database
@@ -358,7 +341,6 @@ const deleteprodect = async (req, res) => {
 //update prodect detail page for admin
 const updateprodectdetails = async (req, res) => {
   const prodectId = req.params.prodectId;
-  console.log('prodectId;', prodectId)
   try {
     const prodect = await Prodectcollection.findOne({ _id: prodectId })
     const Cdetails = await Categorycollection.find(); //All category stored in  'Cdetails' variable
@@ -387,7 +369,7 @@ const updateprodectdata = async (req, res) => {
     }
 
     // Extract the fields submitted in the form
-    const { Category, Brand, Model, Description, Quantity, Price,OfferPrice,Discount } = req.body;
+    const { Category, Brand, Model, Description, Quantity, Price, OfferPrice, Discount } = req.body;
 
     // Create an object to store the updated fields
     const updatedFields = {};
@@ -417,12 +399,12 @@ const updateprodectdata = async (req, res) => {
     if (Discount !== existingProduct.Discount) {
       updatedFields.Discount = Discount;
     }
-    
+
 
     // Handle image updates if needed (assuming 'Image' is an array of image filenames)
-    let newImages=[]
+    let newImages = []
     if (req.files && req.files.length > 0) {
-     newImages = req.files.map((file) => file.filename);
+      newImages = req.files.map((file) => file.filename);
     }
 
     // Update the product with the changed fields
@@ -433,38 +415,38 @@ const updateprodectdata = async (req, res) => {
         $push: { Image: { $each: newImages } }, // Push new images into the 'Image' array
       }
     );
-    console.log(newImages)
 
-  ///Category updated with the largest discount
-  const largestDiscountResult = await Prodectcollection.aggregate([
-    {
-      $match: {
-        Category: Category
-      }
-    },
-    {
-      $group: {
-        _id: null,
-        maxDiscount: {
-          $max: "$Discount"
+
+    ///Category updated with the largest discount
+    const largestDiscountResult = await Prodectcollection.aggregate([
+      {
+        $match: {
+          Category: Category
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          maxDiscount: {
+            $max: "$Discount"
+          }
         }
       }
+    ]);
+
+    if (largestDiscountResult.length > 0) {
+      const largestDiscount = largestDiscountResult[0].maxDiscount;
+      console.log(`The largest discount in the '${Category}' category is: `, largestDiscount);
+
+      // Update the category with the largest discount
+      const catdiscountmax = await Categorycollection.updateOne(
+        { Category },
+        { $set: { Discount: largestDiscount } }
+      );
+      console.log('Category updated with the largest discount.');
+    } else {
+      console.log(`No data found for the largest discount in the '${Category}' category.`);
     }
-  ]);
-
-  if (largestDiscountResult.length > 0) {
-    const largestDiscount = largestDiscountResult[0].maxDiscount;
-    console.log(`The largest discount in the '${Category}' category is: `, largestDiscount);
-
-    // Update the category with the largest discount
-    const catdiscountmax = await Categorycollection.updateOne(
-      { Category },
-      { $set: { Discount: largestDiscount } }
-    );
-    console.log('Category updated with the largest discount.');
-  } else {
-    console.log(`No data found for the largest discount in the '${Category}' category.`);
-  }
 
 
     return res.redirect("/prodectdetails");
@@ -493,7 +475,6 @@ const adminlogin = (req, res) => {
   } else if (req.session.adminpassword) {
     return res.render("Admin/Adminlogin", { msg: "Invalide Password" })
   } else {
-    console.log("adminlogin");
     res.render("Admin/Adminlogin")
   }
 }
@@ -502,21 +483,18 @@ const adminlogin = (req, res) => {
 //AdminHomepage
 const adminhome = async (req, res) => {
   if (req.session.AdminId) {
-    console.log("adminhome");
-   
     //Allorderscount for 'OrderPending', 'OrderShipped', 'OrderDelivered'
     const Allorderscount = await Ordercollection.countDocuments({
       orderstatus: { $in: ['OrderPending', 'OrderShipped', 'OrderDelivered'] }
     });
-    
+
     //All cancelled order
     const Allcancelledorderscount = await Ordercollection.countDocuments({
       orderstatus: { $in: ['ordercancelled'] }
     });
-    
+
     //totalsale for  pending , delivery shipping
-    const Allorders=await Ordercollection.find({})
-    console.log(Allorders)
+    const Allorders = await Ordercollection.find({})
     const totalsales = Allorders.reduce((total, order) => {
       if (order.orderstatus !== 'ordercancelled') {
         return total + order.totalAmount;
@@ -524,21 +502,16 @@ const adminhome = async (req, res) => {
         return total; // Exclude orders with 'OrderCancel' status
       }
     }, 0);
-
     //All orders for allof
     const Allorderstotal = await Ordercollection.countDocuments();
-
-  
-  
     //Allusers
     const Allusers = await signupcollection.countDocuments()
-
-
-    return res.render("Admin/Adminhomepage",{Allorderscount,totalsales,Allusers,Allcancelledorderscount,Allorderstotal})
+    return res.render("Admin/Adminhomepage", { Allorderscount, totalsales, Allusers, Allcancelledorderscount, Allorderstotal })
   } else {
     return res.redirect("/adminlogin")
   }
 }
+
 
 //Adminlogout
 const adminlogout = (req, res) => {
@@ -595,17 +568,15 @@ const AdminUserpage = async (req, res) => {
 //user block
 const userblock = async (req, res) => {
   const userid = req.params.userId
-  console.log('userid:', userid)
   try {
     const userdata = await signupcollection.findOne({ _id: userid })
-    console.log('userdata:', userdata)
     if (!userdata) {
       return res.status(404).send("user is not found")
     }
     userdata.block = true;
 
     await userdata.save();
-    console.log('userdata:', userdata)
+
     req.session.userblock = true;
     return res.redirect("/AdminUserpage")
   }
@@ -622,7 +593,7 @@ const userunblock = async (req, res) => {
   try {
     const userid = req.params.userId;
     const userdata = await signupcollection.findOne({ _id: userid })
-    console.log('userdata:', userdata)
+
     if (!userdata) {
       return res.status(404).send("user is not found")
     }
@@ -630,7 +601,6 @@ const userunblock = async (req, res) => {
 
     await userdata.save();
     req.session.userblock = false;
-    console.log('userdata:', userdata)
     return res.redirect("/AdminUserpage")
   }
   catch (error) {
@@ -658,11 +628,8 @@ const OrderManagPage = async (req, res) => {
 const Updateorderstatus = async (req, res) => {
   const orderStatus = req.body.selectedValue;
   const orderid = req.body.ORDERid;
-  console.log('orderStatus:', orderStatus)
-  console.log('userid:', req.body.orderid);
   try {
     const updateorderstatusinfo = await Ordercollection.updateOne({ _id: orderid }, { $set: { orderstatus: orderStatus } })
-    console.log(updateorderstatusinfo);
     return res.status(200).json("updated")
   } catch (error) {
     console.log("error due to orderstatus update:", error)
@@ -708,7 +675,6 @@ const coupondata = async (req, res) => {
       Description,
 
     });
-    console.log('newcoupon:', newcoupon)
     await newcoupon.save(); // Store the product details in the product database
     return res.redirect("/CouponManagent");
   } catch (error) {
@@ -724,7 +690,6 @@ const deletecoupon = async (req, res) => {
   const couponId = req.params.couponid; // deleting prodect id stored in 'ProdectId' variable
   try {
     const DeleteCoupon = await Couponcollection.findByIdAndRemove(couponId) // find the prodect with prodectid and delete from database
-    console.log("DeleteCoupon:", DeleteCoupon)
     if (!DeleteCoupon) {
       return res.status(404).send("prodect not found")
     }
@@ -739,7 +704,6 @@ const deletecoupon = async (req, res) => {
 //Edit  Coupon admin
 const Editcoupon = async (req, res) => {
   const couponId = req.params.couponid;
-  console.log("editcouponId:", couponId)
   const { CouponCode, DiscountAmount, ExpirationDate, Description } = req.body;
   try {
     const updatedcoupon = await Couponcollection.findByIdAndUpdate(couponId, { CouponCode, DiscountAmount, ExpirationDate, Description }, { new: true })
@@ -762,7 +726,7 @@ const couponeditpage = async (req, res) => {
 
   try {
     const coupon = await Couponcollection.findOne({ _id: couponId })
-    console.log("page couponId:", coupon)
+
     if (!coupon) {
       return res.status(404).send("coupon not found");
     }
@@ -780,7 +744,7 @@ const couponeditpage = async (req, res) => {
 //   try {
 //     const ALLOrdercollection = await Ordercollection.find({});
 //     const ALLcategory = await Categorycollection.find({});
-   
+
 //     // Create a map to store category counts
 //     const categoryCounts = new Map();
 
@@ -812,9 +776,9 @@ const couponeditpage = async (req, res) => {
 //         totalCount,
 //       };
 //     });
-    
+
 //     console.log('Category Counts:', result);
-    
+
 //     res.json(result);
 //   } catch (error) {
 //     console.error('Error:', error);
@@ -827,7 +791,7 @@ const categorydatachart = async (req, res) => {
     const { timePeriod } = req.query; // Get the time period from the request query
     const ALLOrdercollection = await Ordercollection.find({});
     const ALLcategory = await Categorycollection.find({});
-   
+
     // Create a map to store category counts for the selected time period
     const categoryCounts = new Map();
 
@@ -883,9 +847,7 @@ const categorydatachart = async (req, res) => {
         totalCount,
       };
     });
-    
-    console.log('Category Counts:', result);
-    
+
     res.json(result);
   } catch (error) {
     console.error('Error:', error);
@@ -912,9 +874,6 @@ const paymentdatachart = async (req, res) => {
         paymentCounts[paymentMode] = (paymentCounts[paymentMode] || 0) + 1;
       }
     });
-
-    // Log payment mode counts for debugging
-    console.log('Payment Mode Counts:', paymentCounts);
 
     // Return the payment mode counts as JSON response
     res.json(paymentCounts);
@@ -968,8 +927,6 @@ const weeklysalesreportdatachart = async (req, res) => {
       endOfWeek.setDate(endOfWeek.getDate() - 7);
     }
 
-    console.log('Weekly Sales Data:', weeklySalesData);
-
     // Return the weekly sales report data
     res.json(weeklySalesData);
   } catch (error) {
@@ -987,13 +944,13 @@ const excelsheet = async (req, res) => {
   try {
     const startDate = req.query.startDate;
     const endDate = req.query.endDate;
-    console.log();
+
 
     // Fetch orders from your database with date filtering
     const query = { date: { $gte: startDate, $lte: endDate } };
-    console.log("query:",query)
+
     const allOrders = await Ordercollection.find(query);
-   console.log("allOrdersdate:",allOrders)
+
 
     if (!allOrders) {
       return res.status(404).send("No orders found");
@@ -1002,7 +959,7 @@ const excelsheet = async (req, res) => {
     // Create a new Excel workbook and worksheet
     let workbook = new excel.Workbook();
     let worksheet = workbook.addWorksheet("Orders");
-console.log("worksheet:",worksheet)
+
     // Define the columns for your worksheet
     worksheet.columns = [
       { header: "Order ID", key: "id", width: 12 },
@@ -1062,50 +1019,48 @@ console.log("worksheet:",worksheet)
 
 // Admin each order detail displaying page
 
-const AdminEachOrderdetailpage=async(req,res)=>{
+const AdminEachOrderdetailpage = async (req, res) => {
 
   const OrderId = req.params.orderId;
   try {
-      const data = await Ordercollection.findOne({ _id: OrderId })
-  
-      return res.render("Admin/AdminEachorderdetails", { data})
+    const data = await Ordercollection.findOne({ _id: OrderId })
+
+    return res.render("Admin/AdminEachorderdetails", { data })
   }
   catch (error) {
-      console.log("Error due to one prodect detailing time:", error)
-      return res.status(500).send("Error fetching product information.");
+    console.log("Error due to one prodect detailing time:", error)
+    return res.status(500).send("Error fetching product information.");
 
   }
 }
 
 
 //delete image 
-const deleteimage=async (req,res)=>{
+const deleteimage = async (req, res) => {
 
-try{
-  const prodectid=req.query.prodectid;
-const imageIndex=req.query.index;
+  try {
+    const prodectid = req.query.prodectid;
+    const imageIndex = req.query.index;
+    const product = await Prodectcollection.findById(prodectid)
 
-console.log('detals:',prodectid,imageIndex)
-const product = await Prodectcollection.findById(prodectid)
+    if (!product) {
+      return res.status(404).send("Product not found.");
+    }
 
-if (!product) {
-  return res.status(404).send("Product not found.");
-}
+    if (imageIndex < 0 || imageIndex >= product.Image.length) {
+      return res.status(400).send("Invalid image index.");
+    }
 
-if (imageIndex < 0 || imageIndex >= product.Image.length) {
-  return res.status(400).send("Invalid image index.");
-}
+    product.Image.splice(imageIndex, 1);
 
-product.Image.splice(imageIndex, 1);
+    await product.save();
 
-await product.save();
+    res.status(200).send("Image deleted successfully.");
+  } catch (error) {
+    console.log("Error due to image delete time:", error)
+    return res.status(500).send("Error due to image delete time.");
 
-res.status(200).send("Image deleted successfully.");
-}catch (error) {
-  console.log("Error due to image delete time:", error)
-  return res.status(500).send("Error due to image delete time.");
-
-}
+  }
 }
 
 
@@ -1151,7 +1106,7 @@ module.exports = {
   categorydatachart,
   paymentdatachart,
   weeklysalesreportdatachart,
-  
+
   excelsheet,
   AdminEachOrderdetailpage,
   deleteimage

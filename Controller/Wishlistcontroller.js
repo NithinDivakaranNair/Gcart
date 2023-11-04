@@ -8,8 +8,6 @@ const WishlistCollection = require("../Model/WishlistSchema")
 ///wishlistdisplaying
 const wishlistdisplay = async (req, res) => {
     const userdetails = req.session.userId;
-    console.log('userdetails:', userdetails)
-    // const id = userdetails._id;
     const Userlogin = true;
 
     const Username = userdetails.username ? userdetails.username : " ";
@@ -27,12 +25,11 @@ const wishlistdisplay = async (req, res) => {
 //wishlist database data add methode
 const wishlistpost = async (req, res) => {
     const userdetail = req.session.userId;
-    console.log('userdetail:', userdetail)
     const UserId = userdetail._id;
     try {
         const ProdectId = req.params.prodectid;
         const prodectdetails = await Prodectcollection.findOne({ _id: ProdectId })
-        const { Category, Price, Brand, Model, Description, Image,OfferPrice } = prodectdetails;
+        const { Category, Price, Brand, Model, Description, Image, OfferPrice } = prodectdetails;
         const categoryinfo = await Categorycollection.findOne({ Category: prodectdetails.Category });
         const CategoryId = categoryinfo._id;
 
@@ -65,7 +62,7 @@ const wishlistpost = async (req, res) => {
 ///remove the data in wishlist
 const Removewishlist = async (req, res) => {
     const prodectId = req.params.prodectid;
-    console.log("ProdectId:", prodectId)  //req.params used to Category Id stored in particulr variable 
+
     try {
         // find the category with categoryid and delete from database
         const deletewishdata = await WishlistCollection.findOneAndRemove({ ProdectId: prodectId })

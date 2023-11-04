@@ -9,4 +9,4 @@ const AdminSchema = new mongoose.Schema({
 
 const AdminCollection = mongoose.model("Admin1", AdminSchema);
 
-module.exports = AdminCollection;
+module.exports = AdminCollection; 

@@ -10,7 +10,7 @@ const CategorySchema = new mongoose.Schema({
    },
    Image: String,
    Description: String,
-   Discount:Number,
+   Discount: Number,
 })
 
 const categorycollection = mongoose.model("Category", CategorySchema)

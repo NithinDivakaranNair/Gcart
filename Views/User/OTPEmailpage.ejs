@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <!-- Add Bootstrap CSS link -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -14,7 +16,7 @@
                 <div class="card">
                     <div class="card-header text-center">
                         <h1>OTP Validation</h1>
-                        
+
                     </div>
                     <div class="card-body">
                         <form action="/EmailPost" method="post">
@@ -23,14 +25,16 @@
                                     <label for="Email" class="font-weight-bold text-primary">Enter Email Id:</label>
                                     <input type="text" class="form-control" id="Email" name="Emailid" required>
                                 </div>
-                                
-                              
+
+
                             </div>
-                            <p class="text-danger"> <%= locals.msg %> </p>
+                            <p class="text-danger">
+                                <%= locals.msg %>
+                            </p>
                             <button type="submit" class="btn btn-success btn-block mt-3">Submit</button>
                         </form>
-                     
-                     </div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,4 +45,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

@@ -148,20 +148,20 @@
         </li>
 
 
-        
+
         <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="#coupon-management" aria-expanded="false"
-              aria-controls="coupon-management">
-              <span class="menu-title">COUPON MANAGEMENT</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="coupon-management">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/CouponManagent">Coupon details</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Addnewcoupon">Add New Coupon</a></li>
-              </ul>
-            </div>
-          </li>
+          <a class="nav-link" data-toggle="collapse" href="#coupon-management" aria-expanded="false"
+            aria-controls="coupon-management">
+            <span class="menu-title">COUPON MANAGEMENT</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="coupon-management">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="/CouponManagent">Coupon details</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/Addnewcoupon">Add New Coupon</a></li>
+            </ul>
+          </div>
+        </li>
 
         </li>
       </ul>
@@ -305,32 +305,35 @@
 
 
 
-   
-<div class="container mt-5">
-  <div class="my-5">
-    <h1>Add New Coupon</h1>
-</div>
-    <form action="/coupondata" method="post">
-        <div class="form-group">
+
+      <div class="container mt-5">
+        <div class="my-5">
+          <h1>Add New Coupon</h1>
+        </div>
+        <form action="/coupondata" method="post">
+          <div class="form-group">
             <label for="couponCode">Coupon Code</label>
-            <input type="text" class="form-control text-white" id="couponCode" name="CouponCode" placeholder="Enter Coupon Code" required>
-        </div>
-        <div class="form-group">
+            <input type="text" class="form-control text-white" id="couponCode" name="CouponCode"
+              placeholder="Enter Coupon Code" required>
+          </div>
+          <div class="form-group">
             <label for="discountAmount">Discount Amount</label>
-            <input type="text" class="form-control text-white" id="discountAmount" name="DiscountAmount" placeholder="Enter Discount Amount" required>
-        </div>
-        <div class="form-group">
+            <input type="text" class="form-control text-white" id="discountAmount" name="DiscountAmount"
+              placeholder="Enter Discount Amount" required>
+          </div>
+          <div class="form-group">
             <label for="expirationDate">Expiration Date</label>
             <input type="date" class="form-control text-white" id="expirationDate" name="ExpirationDate" required>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label for="description">Description</label>
-            <textarea class="form-control text-white"  id="description" name="Description" rows="3" placeholder="Enter Coupon Description"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Create Coupon</button>
-    </form>
-</div>
-    
+            <textarea class="form-control text-white" id="description" name="Description" rows="3"
+              placeholder="Enter Coupon Description"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Create Coupon</button>
+        </form>
+      </div>
+
 
     </div>
     <!-- Prodect details end-->
@@ -351,7 +354,7 @@
   <script src="/assets1/js/todolist.js"></script>
   <script src="/assets1/js/dashboard.js"></script>
 
- 
+
 
 
 

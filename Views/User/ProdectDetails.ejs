@@ -1,88 +1,95 @@
-
 <!DOCTYPE html>
 <html lang="zxx">
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Ashion Template">
-    <meta name="keywords" content="Ashion, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Gcart</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ashion Template">
+  <meta name="keywords" content="Ashion, unica, creative, html">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Gcart</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-    <link rel="stylesheet" href="/https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Css Styles -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+  <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    
-    <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css"> 
- 
+
+  <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">
+
 </head>
 
 <body>
 
   <!--header-->
   <%- include('./partials/header.ejs') %>
-  <!-- include('./partials/header.ejs',{categoryinfo})  -->
-  <!--header-->  
-  
-  <!-- content -->
-  <section class="py-5">
-    <div class="container">
-      
-      <div class="row gx-5">
-<!--image addind section-->
-    <aside class="col-lg-6">
-      <div class="border rounded-4 mb-3 d-flex justify-content-center">
-    
-          <a data-fslightbox="mygallery" class="rounded-4" target="_blank" data-type="image" href="">
-         
-              <img id="mainImage" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"  src="/uploads/<%= prodectdata.Image[0] %>" data-zoom-image="/uploads/<%=prodectdata.Image[0]%>" alt="'nothing" />
-          </a>
-      </div>
+    <!-- include('./partials/header.ejs',{categoryinfo})  -->
+    <!--header-->
 
-      <div class="d-flex justify-content-center mb-3">
-        
-          
- <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[0] %>"  onclick="changeMainImage('/uploads/<%= prodectdata.Image[0] %>')" />
-       
- <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[1] %>"  onclick="changeMainImage('/uploads/<%= prodectdata.Image[1] %>')" />
-        
- <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[2] %>" onclick="changeMainImage('/uploads/<%= prodectdata.Image[2] %>')" />
+    <!-- content -->
+    <section class="py-5">
+      <div class="container">
 
- <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[3] %>"  onclick="changeMainImage('/uploads/<%= prodectdata.Image[3] %>')" />
-     
- <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[4] %>" onclick="changeMainImage('/uploads/<%= prodectdata.Image[4] %>')" />
-        
-      </div>
-    </aside>
+        <div class="row gx-5">
+          <!--image addind section-->
+          <aside class="col-lg-6">
+            <div class="border rounded-4 mb-3 d-flex justify-content-center">
 
-    
-        <main class="col-lg-6">
-          <div class="ps-lg-3">
-            
-          
-          <div>
-              <h3 class="title text-dark font-weight-bold">
+              <a data-fslightbox="mygallery" class="rounded-4" target="_blank" data-type="image" href="">
+
+                <img id="mainImage" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
+                  src="/uploads/<%= prodectdata.Image[0] %>" data-zoom-image="/uploads/<%=prodectdata.Image[0]%>"
+                  alt="'nothing" />
+              </a>
+            </div>
+
+            <div class="d-flex justify-content-center mb-3">
+
+
+              <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[0] %>"
+                onclick="changeMainImage('/uploads/<%= prodectdata.Image[0] %>')" />
+
+              <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[1] %>"
+                onclick="changeMainImage('/uploads/<%= prodectdata.Image[1] %>')" />
+
+              <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[2] %>"
+                onclick="changeMainImage('/uploads/<%= prodectdata.Image[2] %>')" />
+
+              <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[3] %>"
+                onclick="changeMainImage('/uploads/<%= prodectdata.Image[3] %>')" />
+
+              <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[4] %>"
+                onclick="changeMainImage('/uploads/<%= prodectdata.Image[4] %>')" />
+
+            </div>
+          </aside>
+
+
+          <main class="col-lg-6">
+            <div class="ps-lg-3">
+
+
+              <div>
+                <h3 class="title text-dark font-weight-bold">
                   <%= prodectdata.Model %>
-              </h3>
-          </div>
-          
-        
-          
-          
-            <!-- <div class="d-flex flex-row my-3">
+                </h3>
+              </div>
+
+
+
+
+              <!-- <div class="d-flex flex-row my-3">
               <div class="text-warning mb-1 me-2">
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star"></i>
@@ -96,52 +103,63 @@
               <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders</span>
               <span class="text-success ms-2">In stock</span>
             </div> -->
-   <!-- Discount Sticker -->
+              <!-- Discount Sticker -->
 
-            <div class="mb-5">
-              <span class="text-muted">Rs-</span>
-              <% if (prodectdata.Discount ) { %>
-                
-              <span class="h5"><%= prodectdata.OfferPrice %>/-(OfferPrice)</span><br>
-              <span class="h6 text-danger">Price: <s><%= prodectdata.Price %></s>/-</span>
+              <div class="mb-5">
+                <span class="text-muted">Rs-</span>
+                <% if (prodectdata.Discount ) { %>
 
-            <span>
-               
-                    <div class="offer-sticker position-absolute top-0 end-0 rounded-pill bg-primary text-white px-2 py-1">
-                        <%= prodectdata.Discount %>% OFF
+                  <span class="h5">
+                    <%= prodectdata.OfferPrice %>/-(OfferPrice)
+                  </span><br>
+                  <span class="h6 text-danger">Price: <s>
+                      <%= prodectdata.Price %>
+                    </s>/-</span>
+
+                  <span>
+
+                    <div
+                      class="offer-sticker position-absolute top-0 end-0 rounded-pill bg-primary text-white px-2 py-1">
+                      <%= prodectdata.Discount %>% OFF
                     </div>
-                <% }else{%>
-                 
-                  <span class="h5"><%= prodectdata.Price %>/-</span>
-                  <% } %>
-              </span>
-            </div>
-  
-            <!-- <p>
+                    <% }else{%>
+
+                      <span class="h5">
+                        <%= prodectdata.Price %>/-
+                      </span>
+                      <% } %>
+                  </span>
+              </div>
+
+              <!-- <p>
            
             </p> -->
-  
-            <div class="row">
-             
-              <dt class="col-3">Brand</dt>
-              <dd class="col-9">   <%= prodectdata.Brand %></dd>
-             
-              <dt class="col-3">Spec:</dt>
-              <dd class="col-9"><%= prodectdata.Description %></dd>
 
-              <dt class="col-3">Num:</dt>
-              <dd class="col-9">
-                <!-- <div class="count-container">
+              <div class="row">
+
+                <dt class="col-3">Brand</dt>
+                <dd class="col-9">
+                  <%= prodectdata.Brand %>
+                </dd>
+
+                <dt class="col-3">Spec:</dt>
+                <dd class="col-9">
+                  <%= prodectdata.Description %>
+                </dd>
+
+                <dt class="col-3">Num:</dt>
+                <dd class="col-9">
+                  <!-- <div class="count-container">
                <button class="decrease">-</button>
               <span class="count">1</span>
               <button class="increase">+</button>
               </div> -->
-            </dd>
-            </div>
-            
-            <hr />
-  
-            <!-- <div class="row mb-4">
+                </dd>
+              </div>
+
+              <hr />
+
+              <!-- <div class="row mb-4">
               <div class="col-md-4 col-6">
                 <label class="mb-2">Size</label>
                 <select class="form-select border border-secondary" style="height: 35px;">
@@ -164,24 +182,27 @@
                 </div>
               </div>
             </div> -->
-            <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
-            <a href="/cartpage/<%=prodectdata._id%>" class="btn btn-primary shadow-0"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
-            <a href="/wishlistpost/<%=prodectdata._id%>" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>
-          </div>
-        </main> 
+              <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
+              <a href="/cartpage/<%=prodectdata._id%>" class="btn btn-primary shadow-0"> <i
+                  class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
+              <a href="/wishlistpost/<%=prodectdata._id%>"
+                class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i
+                  class="me-1 fa fa-heart fa-lg"></i> Save </a>
+            </div>
+          </main>
+        </div>
+
       </div>
-   
-    </div>
-  </section>
-  <!-- content -->
-  
-  <!-- <section class="bg-light border-top py-4">
+    </section>
+    <!-- content -->
+
+    <!-- <section class="bg-light border-top py-4">
     <div class="container">
       <div class="row gx-4">
         <div class="col-lg-8 mb-4">
           <div class="border rounded-2 px-3 py-2 bg-white"> -->
-            <!-- Pills navs -->
-            <!-- <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+    <!-- Pills navs -->
+    <!-- <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
               <li class="nav-item d-flex" role="presentation">
                 <a class="nav-link d-flex align-items-center justify-content-center w-100 active" id="ex1-tab-1" data-mdb-toggle="pill" href="#ex1-pills-1" role="tab" aria-controls="ex1-pills-1" aria-selected="true">Specification</a>
               </li>
@@ -195,10 +216,10 @@
                 <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-4" data-mdb-toggle="pill" href="#ex1-pills-4" role="tab" aria-controls="ex1-pills-4" aria-selected="false">Seller profile</a>
               </li>
             </ul> -->
-            <!-- Pills navs -->
-  
-            <!-- Pills content -->
-            <!-- <div class="tab-content" id="ex1-content">
+    <!-- Pills navs -->
+
+    <!-- Pills content -->
+    <!-- <div class="tab-content" id="ex1-content">
               <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel" aria-labelledby="ex1-tab-1">
                 <p>
                   With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -265,8 +286,8 @@
                 officia deserunt mollit anim id est laborum.
               </div>
             </div> -->
-            <!-- Pills content -->
-          <!-- </div>
+    <!-- Pills content -->
+    <!-- </div>
         </div>
         <div class="col-lg-4">
           <div class="px-0 border rounded-2 shadow-0">
@@ -325,72 +346,72 @@
       </div> -->
     <!-- </div>
   </section> -->
- 
-  
 
 
 
-  
- <!--footer-->
-<%- include('./partials/footer.ejs') %>
-<!--footer-->
-  
-  
-<!-- <script src="https://cdn.jsdelivr.net/npm/fslightbox@2/dist/fslightbox.min.js"></script> -->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/2.2.3/jquery.elevatezoom.min.js" integrity="sha512-UH428GPLVbCa8xDVooDWXytY8WASfzVv3kxCvTAFkxD2vPjouf1I3+RJ2QcSckESsb7sI+gv3yhsgw9ZhM7sDw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-  // Initialize the lightbox
-  // const lightbox = new FsLightbox();
-
-  // Function to change the main image
-
-  var active_ele = $('#mainImage');
-  active_ele.elevateZoom({
-    scrollZoom: true
-  })
-
-  function changeMainImage(src) {
-    console.log('src',src);
-      const mainImage = document.getElementById('mainImage');
-      mainImage.setAttribute("data-zoom-image", src);
-
-      mainImage.src = src;
-      active_ele.removeData('elevateZoom');
-      active_ele.elevateZoom({
-      scrollZoom: true
-  })
-  }
-</script>
-<script>
-
-
-</script>
-
-  <script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/jquery.countdown.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/jquery.nicescroll.min.js"></script>
-<script src="js/main.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 
-<!-- <script> -->
-  <!-- // Get references to the HTML elements using querySelectorAll
+    <!--footer-->
+    <%- include('./partials/footer.ejs') %>
+      <!--footer-->
+
+
+      <!-- <script src="https://cdn.jsdelivr.net/npm/fslightbox@2/dist/fslightbox.min.js"></script> -->
+      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/2.2.3/jquery.elevatezoom.min.js"
+        integrity="sha512-UH428GPLVbCa8xDVooDWXytY8WASfzVv3kxCvTAFkxD2vPjouf1I3+RJ2QcSckESsb7sI+gv3yhsgw9ZhM7sDw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+      <script>
+        // Initialize the lightbox
+        // const lightbox = new FsLightbox();
+
+        // Function to change the main image
+
+        var active_ele = $('#mainImage');
+        active_ele.elevateZoom({
+          scrollZoom: true
+        })
+
+        function changeMainImage(src) {
+          console.log('src', src);
+          const mainImage = document.getElementById('mainImage');
+          mainImage.setAttribute("data-zoom-image", src);
+
+          mainImage.src = src;
+          active_ele.removeData('elevateZoom');
+          active_ele.elevateZoom({
+            scrollZoom: true
+          })
+        }
+      </script>
+
+
+      <script src="js/jquery-3.3.1.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery.magnific-popup.min.js"></script>
+      <script src="js/jquery-ui.min.js"></script>
+      <script src="js/mixitup.min.js"></script>
+      <script src="js/jquery.countdown.min.js"></script>
+      <script src="js/jquery.slicknav.js"></script>
+      <script src="js/owl.carousel.min.js"></script>
+      <script src="js/jquery.nicescroll.min.js"></script>
+      <script src="js/main.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+      <!-- <script> -->
+      <!-- // Get references to the HTML elements using querySelectorAll
   const decreaseButtons = document.querySelectorAll('.decrease');
 
   const increaseButtons = document.querySelectorAll('.increase');
 
   const countElements = document.querySelectorAll('.count'); -->
-<!-- 
+      <!-- 
 // Event listener for the decrease button
   decreaseButtons.forEach((button,i)=> {
       button.addEventListener('click', function() {
@@ -403,7 +424,7 @@
       });
   }); -->
 
-<!-- // Event listener for the increase button
+      <!-- // Event listener for the increase button
   increaseButtons.forEach((button,i)=>{
       button.addEventListener('click', function() {
         let value = countElements[i].textContent
@@ -413,11 +434,11 @@
           });
   }); -->
 
-  
-<!-- </script> -->
+
+      <!-- </script> -->
 
 
 
 </body>
 
-</html> 
+</html>

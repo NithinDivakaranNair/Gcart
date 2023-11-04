@@ -55,7 +55,7 @@ router.get("/CartPluseButton/:prodectId", authentication.BlockAuthenticationHome
 router.get("/CartMinusebutton/:prodectId", authentication.BlockAuthenticationHomepage, cartcontroller.CartMinusebutton)
 
 router.get("/checkoutpage", authentication.BlockAuthenticationHomepage, checkoutcontroller.checkoutpage)
-router.get("/IteamRemoveCart/:iteam", authentication.BlockAuthenticationHomepage, cartcontroller.IteamRemoveCart) 
+router.get("/IteamRemoveCart/:iteam", authentication.BlockAuthenticationHomepage, cartcontroller.IteamRemoveCart)
 
 router.get("/userprofile", authentication.BlockAuthenticationHomepage, usercontroller.userprofile)
 router.post("/Updateuserdetails/:userid", authentication.BlockAuthenticationHomepage, usercontroller.Updateuserdetails)
@@ -63,7 +63,7 @@ router.post("/UpdatePassword/:userid", authentication.BlockAuthenticationHomepag
 
 
 router.post("/AddAddress", authentication.BlockAuthenticationHomepage, usercontroller.AddAddress)
-router.get("/editAddress/:id",authentication.BlockAuthenticationHomepage, usercontroller.editAddress)
+router.get("/editAddress/:id", authentication.BlockAuthenticationHomepage, usercontroller.editAddress)
 router.post("/editAddressData/:id", usercontroller.editAddressData)
 router.get("/deleteaddress/:id", usercontroller.deleteaddress)
 

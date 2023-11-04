@@ -100,7 +100,7 @@
                                     data-price="<%= data.OfferPrice || data.Price %>">
                                     <div class="input-group">
                                       <div class="input-group-prepend">
-                                        <button class="decrebutton btn" 
+                                        <button class="decrebutton btn"
                                           style="background-color: #00ff00; color: #ffffff;">-</button>
                                       </div>
                                       <span style="font-size: 10px; color: #333;">
@@ -108,7 +108,7 @@
                                           class="count form-control form-control-sm" min="1" style="width: 40px;">
                                       </span>
                                       <div class="input-group-append">
-                                        <button class="incrbutton btn" 
+                                        <button class="incrbutton btn"
                                           style="background-color: #00ff00; color: #ffffff;">+</button>
                                       </div>
                                     </div>
@@ -147,55 +147,61 @@
           </div>
 
           <!-- Summary -->
+
           <div class="col-lg-3">
-            <div class="card mb-3 border shadow-0" style="background-color: lightyellow;">
-              <div class="card-body" style="color: green;">
-               
-                <form id="couponadd">
-                  <div class="form-group">
-                    <label class="form-label">Have a coupon?</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control border" id="couponid" name="" placeholder="Coupon code" />
-                      <button class="btn btn-light border" type="button" id="buttons">Apply</button>
+            <!--coupon-->
+            <%if(totalprice){%>
+              <div class="card mb-3 border shadow-0" style="background-color: lightyellow;">
+                <div class="card-body" style="color: green;">
+
+                  <form id="couponadd">
+                    <div class="form-group">
+                      <label class="form-label">Have a coupon?</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control border" id="couponid" name=""
+                          placeholder="Coupon code" />
+                        <button class="btn btn-light border" type="button" id="buttons">Apply</button>
+                      </div>
+                      <p class="text-danger" id="error-message"></p>
                     </div>
-                    <p class="text-danger" id="error-message"></p>
+                  </form>
+
+                </div>
+              </div>
+
+              <div class="card shadow-0 border" style="background-color: lightyellow;">
+                <div class="card-body" style="color: green;">
+                  <h6 class="mb-3">Price Details</h6>
+                  <div class="d-flex justify-content-between">
+                    <p class="mb-2" style="color: black;">Total price:</p>
+                    <p class="price_container mb-2" id="totalpricess" data-totalprice="<%= totalprice %>"
+                      style="color: black; font-weight: bold;">
+                      <%= totalprice %>/-
+                    </p>
                   </div>
-                </form>
-             
-              </div>
-            </div>
+                  <div class="d-flex justify-content-between">
+                    <p class="mb-2" style="color: black;">Discount:</p>
+                    <p class="mb-2 text-success" style="color: black; font-weight: bold;">20%</p>
+                  </div>
+                  <hr />
+                  <div class="d-flex justify-content-between">
+                    <p class="mb-2" style="color: black;">Total Amount:</p>
+                    <p class="mb-2 fw-bold" style="color: black; font-weight: bold;" id="totalDisplay">
+                      <%= (totalprice - (totalprice*0.20)) %>/-
+                    </p>
+                    <input type="hidden" value=<%=(totalprice - (totalprice*0.20)) %> id="total">
+                  </div>
+                  <div class="mt-3">
+                    <a id="TotalDisplay" href="/checkoutpage">
 
-            <div class="card shadow-0 border" style="background-color: lightyellow;">
-              <div class="card-body" style="color: green;">
-                <h6 class="mb-3">Price Details</h6>
-                <div class="d-flex justify-content-between">
-                  <p class="mb-2" style="color: black;">Total price:</p>
-                  <p class="price_container mb-2" id="totalpricess" data-totalprice="<%= totalprice %>"
-                    style="color: black; font-weight: bold;">
-                    <%= totalprice %>/-
-                  </p>
-                </div>
-                <div class="d-flex justify-content-between">
-                  <p class="mb-2" style="color: black;">Discount:</p>
-                  <p class="mb-2 text-success" style="color: black; font-weight: bold;">20%</p>
-                </div>
-                <hr />
-                <div class="d-flex justify-content-between">
-                  <p class="mb-2" style="color: black;">Total Amount:</p>
-                  <p class="mb-2 fw-bold" style="color: black; font-weight: bold;" id="totalDisplay">
-                    <%= (totalprice - (totalprice*0.20)) %>/-
-                  </p>
-                  <input type="hidden"  value=<%=(totalprice - (totalprice*0.20)) %> id="total">
-                </div>
-                <div class="mt-3">
-                  <a id="TotalDisplay" href="/checkoutpage">
+                      <button id="checkoutButton" class="btn btn-success w-100 shadow-0 mb-2">CheckOut</button>
+                    </a>
 
-                    <button id="checkoutButton" class="btn btn-success w-100 shadow-0 mb-2">CheckOut</button>
-                  </a>
-
+                  </div>
                 </div>
               </div>
-            </div>
+              <%}%>
+
           </div>
           <!-- Summary -->
         </div>
@@ -234,7 +240,7 @@
 
         // let totalAmount = Number(total.value)
         Botton.addEventListener("click", (eve) => {
-          console.log('total',total);
+          console.log('total', total);
           const data = coupon.value;
           fetch("/addcouponcart", {
             method: "POST", // Use "POST" or "GET" depending on your requirements
@@ -273,7 +279,7 @@
               throw new Error("Invalid coupon amount");
             } else {
               totalAmount = totalAmount - data;
-              console.log('totalAmount href',totalAmount);
+              console.log('totalAmount href', totalAmount);
               checkouttotal.href = `/checkoutpage?totalAmount=${totalAmount}`<!-- value assign in url---->
               displayTotal.innerText = totalAmount;
               Botton.disabled = true;

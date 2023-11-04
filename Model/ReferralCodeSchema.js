@@ -1,8 +1,8 @@
 
 const mongoose = require('mongoose')
 
-const ReferralCodeSchema = new mongoose.Schema ({
-  
+const ReferralCodeSchema = new mongoose.Schema({
+
     userId: {
         type: String,
         required: true,
@@ -36,13 +36,13 @@ const ReferralCodeSchema = new mongoose.Schema ({
     },
     referredUser: {
         type: String,
-       
+
     },
 
-  });
-  
+});
 
-  
+
+
 const ReferralCodecollection = mongoose.model("ReferralCodedetails", ReferralCodeSchema)
 
 module.exports = ReferralCodecollection;

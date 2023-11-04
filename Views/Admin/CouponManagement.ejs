@@ -148,20 +148,20 @@
         </li>
 
 
-        
+
         <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="#coupon-management" aria-expanded="false"
-              aria-controls="coupon-management">
-              <span class="menu-title">COUPON MANAGEMENT</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="coupon-management">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/CouponManagent">Coupon details</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/Addnewcoupon">Add New Coupon</a></li>
-              </ul>
-            </div>
-          </li>
+          <a class="nav-link" data-toggle="collapse" href="#coupon-management" aria-expanded="false"
+            aria-controls="coupon-management">
+            <span class="menu-title">COUPON MANAGEMENT</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="coupon-management">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="/CouponManagent">Coupon details</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/Addnewcoupon">Add New Coupon</a></li>
+            </ul>
+          </div>
+        </li>
 
         </li>
       </ul>
@@ -308,43 +308,52 @@
       <div class="container mt-4">
         <div class="my-5">
           <h1>Coupon Management</h1>
-      </div>
-      <table class="table table-bordered table-striped">
-       
-            <thead>
-                <tr>
-                    <th>Coupon Code</th>
-                    <th>Discount Amount</th>
-                    <th>Expiration Date</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            <% Allcoupons.forEach((data)=>{ %>
-                <tr class="text-white">
-                    <td><%=data.CouponCode %></td>
-                    <td><%=data.DiscountAmount %></td>
-                    <td><%= data.ExpirationDate.getDate() %>/<%= data.ExpirationDate.getMonth() + 1 %>/<%= data.ExpirationDate.getFullYear() %></td>
-                    <td><%=data.Description %></td>
-                    <td>
-                    
-                        
-                        <form action="/couponeditpage/<%= data._id %>" method="post">
-                          <button class="btn btn-primary">Edit</button>
-                      </form>
+        </div>
+        <table class="table table-bordered table-striped">
 
-                    <form action="/deletecoupon/<%= data._id %>" method="post">
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
-                  </td>
-                </tr>
-             <% }) %>
+          <thead>
+            <tr>
+              <th>Coupon Code</th>
+              <th>Discount Amount</th>
+              <th>Expiration Date</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% Allcoupons.forEach((data)=>{ %>
+              <tr class="text-white">
+                <td>
+                  <%=data.CouponCode %>
+                </td>
+                <td>
+                  <%=data.DiscountAmount %>
+                </td>
+                <td>
+                  <%= data.ExpirationDate.getDate() %>/<%= data.ExpirationDate.getMonth() + 1 %>/<%=
+                        data.ExpirationDate.getFullYear() %>
+                </td>
+                <td>
+                  <%=data.Description %>
+                </td>
+                <td>
+
+
+                  <form action="/couponeditpage/<%= data._id %>" method="post">
+                    <button class="btn btn-primary">Edit</button>
+                  </form>
+
+                  <form action="/deletecoupon/<%= data._id %>" method="post">
+                    <button class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
+              </tr>
+              <% }) %>
                 <!-- Add more rows for additional coupons as needed -->
-            </tbody>
+          </tbody>
         </table>
-    </div>
-    
+      </div>
+
 
     </div>
     <!-- Prodect details end-->
@@ -365,7 +374,7 @@
   <script src="/assets1/js/todolist.js"></script>
   <script src="/assets1/js/dashboard.js"></script>
 
- 
+
 
 
 

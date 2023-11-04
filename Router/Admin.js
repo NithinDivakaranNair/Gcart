@@ -61,12 +61,12 @@ router.post("/deletecoupon/:couponid", admincontroller.deletecoupon)
 router.post("/Editcoupon/:couponid", admincontroller.Editcoupon)
 router.post("/couponeditpage/:couponid", admincontroller.couponeditpage)
 
-router.get("/admin/categorydata",admincontroller.categorydatachart)
-router.get("/admin/paymentdata",admincontroller.paymentdatachart)
-router.get("/admin/weeklysalesreportdatachart",admincontroller.weeklysalesreportdatachart)
+router.get("/admin/categorydata", admincontroller.categorydatachart)
+router.get("/admin/paymentdata", admincontroller.paymentdatachart)
+router.get("/admin/weeklysalesreportdatachart", admincontroller.weeklysalesreportdatachart)
 
-router.get("/exportOrdersToExcel",admincontroller.excelsheet)
-router.get("/AdminEachOrderdetailpage/:orderId",admincontroller.AdminEachOrderdetailpage)
-router.delete("/deleteimage",admincontroller.deleteimage)
+router.get("/exportOrdersToExcel", admincontroller.excelsheet)
+router.get("/AdminEachOrderdetailpage/:orderId", admincontroller.AdminEachOrderdetailpage)
+router.delete("/deleteimage", admincontroller.deleteimage)
 
 module.exports = router

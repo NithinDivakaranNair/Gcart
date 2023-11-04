@@ -2,108 +2,127 @@
 <html lang="zxx">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Ashion Template">
-    <meta name="keywords" content="Ashion, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Gcart</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="Ashion Template">
+  <meta name="keywords" content="Ashion, unica, creative, html">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Gcart</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/stylesheet/userdetails.css" type="text/css">
-     <link rel="stylesheet" href="/stylesheet/Eachorderdetailpage.css" type="text/css"> 
-    <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">
-  
+  <!-- Css Styles -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+  <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="/stylesheet/userdetails.css" type="text/css"> -->
+  <link rel="stylesheet" href="/stylesheet/Eachorderdetailpage.css" type="text/css">
+  <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">
+
 </head>
 
-<body> 
+<body>
 
+  <!--header-->
+  <%- include('./partials/header.ejs') %>
     <!--header-->
-   <%- include('./partials/header.ejs') %>
-        <!--header-->
-     
-        <main class="container light-style flex-grow-1 container-p-y">
-        <section class="h-10 gradient-custom">
-            <div class="container py-5 h-100">
-              <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-lg-10 col-xl-8">
-                  <div class="card" style="border-radius: 10px;">
-                    <div class="card-header px-4 py-5">
-                      <h4 class="text-dark mb-0">Order Details</h4>
-                      <p class="lead fw-normal mb-0" style="color: #12020e;">Oder Id:<%=selectedorderdetails._id%></p>
-                    </div>
-                    <div class="card-body p-4">
-                      <div class="d-flex justify-content-between align-items-center mb-4">
-                        
-                        <!-- <p class="small text-muted mb-0">Receipt Voucher : 1KAU9-84UIL</p> -->
-                      </div>
-                      <div class="d-flex justify-content-between align-items-center mb-4">
-                        <p class="lead fw-normal mb-0" style="color: #090709;">
-                          Name: <%= selectedorderdetails.address.Name %><br>
-                          Address: <%= selectedorderdetails.address.Address %>
-                        </p>
-                        
-                        <!-- <p class="small text-muted mb-0">Receipt Voucher : 1KAU9-84UIL</p> -->
-                      </div>
-                      
-                   
-                      <div class="card shadow mb-4">
-                        <div class="card-body">
-                          <% selectedorderdetails.iteams.forEach((item) => { %>
-                          <div class="row">
-                            <div class="col-md-2 mb-2">
-                              <img src="/uploads/<%= item.Image[0] %>" style="height: 60px; width: 60px;" alt="Phone">
-                            </div>
-                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-dark mb-0"><%= item.Model %></p>
-                            </div>
-                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-dark mb-0 small"><%= item.Description %></p>
-                            </div>
-                          
-                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <% if (item.OfferPrice) { %>
-                              <p class="text-dark mb-0 small"><%= item.OfferPrice.toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %></p>
-                              <% } else { %>
-                              <p class="text-dark mb-0 small"><%= item.Price.toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %></p>
-                              <% } %>
-                            </div>
-                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-dark mb-0 small"><%= item.Count %></p>
-                            </div>
-                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <% if (item.OfferPrice) { %>
-                                  <p class="text-dark mb-0 small"><%= (item.OfferPrice * item.Count).toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %></p>
-                              <% } else { %>
-                                  <p class="text-dark mb-0 small"><%= (item.Price * item.Count).toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %></p>
-                              <% } %>
+
+    <main class="container light-style flex-grow-1 container-p-y">
+      <section class="h-10 gradient-custom">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-10 col-xl-8">
+              <div class="card" style="border-radius: 10px;">
+                <div class="card-header px-4 py-5">
+                  <h4 class="text-dark mb-0">Order Details</h4>
+                  <p class="lead fw-normal mb-0" style="color: #12020e;">Oder Id:<%=selectedorderdetails._id%>
+                  </p>
+                </div>
+                <div class="card-body p-4">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <!-- <p class="small text-muted mb-0">Receipt Voucher : 1KAU9-84UIL</p> -->
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <p class="lead fw-normal mb-0" style="color: #090709;">
+                      Name: <%= selectedorderdetails.address.Name %><br>
+                        Address: <%= selectedorderdetails.address.Address %>
+                    </p>
+
+                    <!-- <p class="small text-muted mb-0">Receipt Voucher : 1KAU9-84UIL</p> -->
+                  </div>
+
+
+                  <div class="card shadow mb-4">
+                    <div class="card-body">
+                      <% selectedorderdetails.iteams.forEach((item)=> { %>
+                        <div class="row">
+                          <div class="col-md-2 mb-2">
+                            <img src="/uploads/<%= item.Image[0] %>" style="height: 60px; width: 60px;" alt="Phone">
                           </div>
-                          
-                            
-                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-dark mb-0 small"><%= item.Brand %></p>
-                            </div>
+                          <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                            <p class="text-dark mb-0">
+                              <%= item.Model %>
+                            </p>
                           </div>
-                          <% }) %>
-                      
+                          <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                            <p class="text-dark mb-0 small">
+                              <%= item.Description %>
+                            </p>
+                          </div>
+
+                          <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                            <% if (item.OfferPrice) { %>
+                              <p class="text-dark mb-0 small">
+                                <%= item.OfferPrice.toLocaleString('en-IN', { style: 'currency' , currency: 'INR' }) %>
+                              </p>
+                              <% } else { %>
+                                <p class="text-dark mb-0 small">
+                                  <%= item.Price.toLocaleString('en-IN', { style: 'currency' , currency: 'INR' }) %>
+                                </p>
+                                <% } %>
+                          </div>
+                          <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                            <p class="text-dark mb-0 small">
+                              <%= item.Count %>
+                            </p>
+                          </div>
+                          <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                            <% if (item.OfferPrice) { %>
+                              <p class="text-dark mb-0 small">
+                                <%= (item.OfferPrice * item.Count).toLocaleString('en-IN', { style: 'currency' ,
+                                  currency: 'INR' }) %>
+                              </p>
+                              <% } else { %>
+                                <p class="text-dark mb-0 small">
+                                  <%= (item.Price * item.Count).toLocaleString('en-IN', { style: 'currency' ,
+                                    currency: 'INR' }) %>
+                                </p>
+                                <% } %>
+                          </div>
+
+
+                          <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                            <p class="text-dark mb-0 small">
+                              <%= item.Brand %>
+                            </p>
+                          </div>
+                        </div>
+                        <% }) %>
+
 
 
                           <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
-                         
+
                           <div class="row">
                             <div class="col-md-6 text-center d-flex justify-content-center align-items-center">
                               <p class="fw-bold mb-0">Discount</p>
@@ -117,45 +136,51 @@
                               <p class="fw-bold mb-0">Delivery Charge</p>
                             </div>
                             <div class="col-md-6 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-dark mb-0 small"><%=(50).toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) %>+</p>
+                              <p class="text-dark mb-0 small"><%=(50).toLocaleString('en-IN', { style: 'currency' ,
+                                  currency: 'INR' }) %>+</p>
                             </div>
                           </div>
-                          
-                        <% if(selectedorderdetails.Coupon){ %>
-                          <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
-                          <div class="row">
-                            <div class="col-md-6 text-center d-flex justify-content-center align-items-center">
-                              <p class="fw-bold mb-0">Applied Coupon</p>
-                            </div>
-                            <div class="col-md-6 text-center d-flex justify-content-center align-items-center">
-                              <p class="text-dark mb-0 small"><%= selectedorderdetails.Coupon %>-</p>
-                            </div>
-                          </div>
-                          <% } %>
-                          <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
-                      
-                          <div class="row d-flex align-items-center">
-                            <div class="col-md-2 fw-bold mb-0">
-                              <p class="fw-bold mb-0">Order Status:</p>
-                            </div>
-                            <div class="col-md-10">
-                              <div class="d-flex justify-content-around mb-1">
-                                <% if (selectedorderdetails.orderstatus == "ordercancelled") { %>
-                                <p class="text-dark mt-1 mb-0 small ms-xl-5">Order Canceled</p>
-                               <%console.log("selectedorderdetails.orderstatus:",selectedorderdetails.orderstatus)  %>
-                                <% } else if(selectedorderdetails.orderstatus=="Order is returned") { %>
-                                  <p class="text-dark mt-1 mb-0 small ms-xl-5">Order is returned</p>
-                                  <% }else{ %>
-                                <p class="text-dark mt-1 mb-0 small ms-xl-5"><%= selectedorderdetails.orderstatus %></p>
-                                <% } %>
+
+                          <% if(selectedorderdetails.Coupon){ %>
+                            <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+                            <div class="row">
+                              <div class="col-md-6 text-center d-flex justify-content-center align-items-center">
+                                <p class="fw-bold mb-0">Applied Coupon</p>
+                              </div>
+                              <div class="col-md-6 text-center d-flex justify-content-center align-items-center">
+                                <p class="text-dark mb-0 small">
+                                  <%= selectedorderdetails.Coupon %>-
+                                </p>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-             
-                      <!-- <div class="card shadow-0 border mb-4">
+                            <% } %>
+                              <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+
+                              <div class="row d-flex align-items-center">
+                                <div class="col-md-2 fw-bold mb-0">
+                                  <p class="fw-bold mb-0">Order Status:</p>
+                                </div>
+                                <div class="col-md-10">
+                                  <div class="d-flex justify-content-around mb-1">
+                                    <% if (selectedorderdetails.orderstatus=="ordercancelled" ) { %>
+                                      <p class="text-dark mt-1 mb-0 small ms-xl-5">Order Canceled</p>
+                                      <%console.log("selectedorderdetails.orderstatus:",selectedorderdetails.orderstatus)
+                                        %>
+                                        <% } else if(selectedorderdetails.orderstatus=="Order is returned" ) { %>
+                                          <p class="text-dark mt-1 mb-0 small ms-xl-5">Order is returned</p>
+                                          <% }else{ %>
+                                            <p class="text-dark mt-1 mb-0 small ms-xl-5">
+                                              <%= selectedorderdetails.orderstatus %>
+                                            </p>
+                                            <% } %>
+                                  </div>
+                                </div>
+                              </div>
+                    </div>
+                  </div>
+
+
+                  <!-- <div class="card shadow-0 border mb-4">
                         <div class="card-body">
                           <div class="row">
                             <div class="col-md-2">
@@ -197,68 +222,72 @@
                           </div>
                         </div>
                       </div> -->
-          
-                      <div class="d-flex justify-content-between pt-2">
-                        <p class="fw-bold mb-0">Order Details</p>
-                        <!-- <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> <=selectedorderdetails.totalAmount%></p> -->
-                      </div>
-                     
-                      <div class="d-flex justify-content-between pt-2">
-                        <p class="text-muted mb-0">Invoice Number : 788152</p>
-                        <!-- <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p> -->
-                      </div>
-          
-                      <div class="d-flex justify-content-between">
-                        <p class="text-muted mb-0">Invoice Date : <%= new Date(selectedorderdetails.date).getDate() %>/<%= new Date(selectedorderdetails.date).getMonth() + 1 %>/<%= new Date(selectedorderdetails.date).getFullYear() %></p>
-                        <!-- <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p> -->
-                      </div>
-          
-                      <div class="d-flex justify-content-between mb-5">
-                        <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
-                        <!-- <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p> -->
-                      </div>
-                    </div>
-                    <div class="card-footer border-0 px-4 py-5"
-                      style="background-color: #ee1909; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-                      <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
-                        paid:   <%= selectedorderdetails.totalAmount.toLocaleString('en-IN', { style: 'currency' , currency: 'INR' }) %></span></h5>
-                    </div>
+
+                  <div class="d-flex justify-content-between pt-2">
+                    <p class="fw-bold mb-0">Order Details</p>
+                    <!-- <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> <=selectedorderdetails.totalAmount%></p> -->
                   </div>
+
+                  <div class="d-flex justify-content-between pt-2">
+                    <p class="text-muted mb-0">Invoice Number : 788152</p>
+                    <!-- <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p> -->
+                  </div>
+
+                  <div class="d-flex justify-content-between">
+                    <p class="text-muted mb-0">Invoice Date : <%= new Date(selectedorderdetails.date).getDate() %>/<%=
+                          new Date(selectedorderdetails.date).getMonth() + 1 %>/<%= new
+                            Date(selectedorderdetails.date).getFullYear() %>
+                    </p>
+                    <!-- <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p> -->
+                  </div>
+
+                  <div class="d-flex justify-content-between mb-5">
+                    <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
+                    <!-- <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p> -->
+                  </div>
+                </div>
+                <div class="card-footer border-0 px-4 py-5"
+                  style="background-color: #ee1909; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                  <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+                    paid: <%= selectedorderdetails.totalAmount.toLocaleString('en-IN', { style: 'currency' ,
+                      currency: 'INR' }) %></span></h5>
                 </div>
               </div>
             </div>
-          </section>
-    
-        </main>
- 
- 
- 
- 
-          <!--footer-->
-  <%- include('./partials/footer.ejs') %> 
-            <!--footer-->
+          </div>
+        </div>
+      </section>
+
+    </main>
 
 
-           
 
-            <!-- Js Plugins -->
-            <script src="js/jquery-3.3.1.min.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <script src="js/jquery.magnific-popup.min.js"></script>
-            <script src="js/jquery-ui.min.js"></script>
-            <script src="js/mixitup.min.js"></script>
-            <script src="js/jquery.countdown.min.js"></script>
-            <script src="js/jquery.slicknav.js"></script>
-            <script src="js/owl.carousel.min.js"></script>
-            <script src="js/jquery.nicescroll.min.js"></script>
-            <script src="js/main.js"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-           
-            
+
+    <!--footer-->
+    <%- include('./partials/footer.ejs') %>
+      <!--footer-->
+
+
+
+
+      <!-- Js Plugins -->
+      <script src="js/jquery-3.3.1.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery.magnific-popup.min.js"></script>
+      <script src="js/jquery-ui.min.js"></script>
+      <script src="js/mixitup.min.js"></script>
+      <script src="js/jquery.countdown.min.js"></script>
+      <script src="js/jquery.slicknav.js"></script>
+      <script src="js/owl.carousel.min.js"></script>
+      <script src="js/jquery.nicescroll.min.js"></script>
+      <script src="js/main.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
+
+
 </body>
 
 </html>

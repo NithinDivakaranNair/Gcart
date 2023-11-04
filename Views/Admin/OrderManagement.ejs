@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/assets1/vendors/owl-carousel-2/owl.theme.default.min.css">
   <link rel="stylesheet" href="/assets1/css/style.css">
   <link rel="shortcut icon" href="/assets1/images/favicon.png" />
-  
+
 </head>
 
 <body>
@@ -305,71 +305,90 @@
 
 
 
-      <div class="container mt-4 "  > 
+      <div class="container mt-4 ">
         <div class="my-5">
-            <h1>Order Management</h1>
+          <h1>Order Management</h1>
         </div>
         <div class="table-responsive">
-          <table class="table table-bordered table-striped" >
+          <table class="table table-bordered table-striped">
             <thead class="thead-dark">
-        <tr class="bg-light text-yellow">
-                    <th>Date</th>
-                    <th>Customer ID</th>
-                    <th>Customer Name</th>
-                    <th>Address</th>
-                    <th>Items</th>
-                    <th>Total</th>
-                    <th>Payment Mode</th>
-                    <th>Status</th>
-                    <th>Order Details</th>
-                </tr>
+              <tr class="bg-light text-yellow">
+                <th>Date</th>
+                <th>Customer ID</th>
+                <th>Customer Name</th>
+                <th>Address</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Payment Mode</th>
+                <th>Status</th>
+                <th>Order Details</th>
+              </tr>
             </thead>
             <tbody>
-              
-              <% orderdetails.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(data => { %>
 
-                  <tr class="text-white">
-                    <td><%= (new Date(data.date)).getDate() %>/<%= (new Date(data.date)).getMonth() + 1 %>/<%= (new Date(data.date)).getFullYear() %></td>
+              <% orderdetails.sort((a, b)=> new Date(b.date) - new Date(a.date)).forEach(data => { %>
 
-                        <td><%= data.customerId %></td>
-                        <td><%= data.CustomerName %></td>
-                        <td>
-                            <p><%= data.address.Address %><br><%= data.address.Landmark %></p>
-                        </td>
-                        <td>
-                            <% data.iteams.forEach((item) => { %>
-                                <%= item.Model %>(<%= item.Count %>Nos)<br>
-                            <% }) %>
-                        </td>
-                        <td><%= data.totalAmount %></td>
-                        <td><%= data.paymentmode %></td>
-                        <td>
-                         
-                          <% if (data.orderactionuser == true) { %>
-                              <select class="form-select form-select-sm orderstatus" data-Orderid="<%= data._id %>" name="ORDERSTATUS">
-                                  <option value="OrderPending" <%= data.orderstatus === 'OrderPending' ? 'selected' : '' %>>Order Pending</option>
-                                  <option value="OrderShipped" <%= data.orderstatus === 'OrderShipped' ? 'selected' : '' %>>Order Shipped</option>
-                                  <option value="OrderDelivered" <%= data.orderstatus === 'OrderDelivered' ? 'selected' : '' %>>Order Delivered</option>
-                                  <option value="OrderCancel" <%= data.orderstatus === 'OrderCancel' ? 'selected' : '' %>>Order Cancel</option>
-                              </select>
-                          
-                              <% } else if(data.orderstatus=='ordercancelled') { %>
-                              <p>Order Cancelled by the user</p>
-                          <% }else if(data.orderstatus=="Order is returned"){ %>
+                <tr class="text-white">
+                  <td>
+                    <%= (new Date(data.date)).getDate() %>/<%= (new Date(data.date)).getMonth() + 1 %>/<%= (new
+                          Date(data.date)).getFullYear() %>
+                  </td>
+
+                  <td>
+                    <%= data.customerId %>
+                  </td>
+                  <td>
+                    <%= data.CustomerName %>
+                  </td>
+                  <td>
+                    <p>
+                      <%= data.address.Address %><br>
+                        <%= data.address.Landmark %>
+                    </p>
+                  </td>
+                  <td>
+                    <% data.iteams.forEach((item)=> { %>
+                      <%= item.Model %>(<%= item.Count %>Nos)<br>
+                          <% }) %>
+                  </td>
+                  <td>
+                    <%= data.totalAmount %>
+                  </td>
+                  <td>
+                    <%= data.paymentmode %>
+                  </td>
+                  <td>
+
+                    <% if (data.orderactionuser==true) { %>
+                      <select class="form-select form-select-sm orderstatus" data-Orderid="<%= data._id %>"
+                        name="ORDERSTATUS">
+                        <option value="OrderPending" <%=data.orderstatus==='OrderPending' ? 'selected' : '' %>>Order
+                          Pending</option>
+                        <option value="OrderShipped" <%=data.orderstatus==='OrderShipped' ? 'selected' : '' %>>Order
+                          Shipped</option>
+                        <option value="OrderDelivered" <%=data.orderstatus==='OrderDelivered' ? 'selected' : '' %>>Order
+                          Delivered</option>
+                        <option value="OrderCancel" <%=data.orderstatus==='OrderCancel' ? 'selected' : '' %>>Order
+                          Cancel</option>
+                      </select>
+
+                      <% } else if(data.orderstatus=='ordercancelled' ) { %>
+                        <p>Order Cancelled by the user</p>
+                        <% }else if(data.orderstatus=="Order is returned" ){ %>
                           <p>Order is returned</p>
                           <%}%>
-                      </td>
-                      <td>
-                        <a href="/AdminEachOrderdetailpage/<%= data._id %>">More details</a>
-                      </td>
-                      
-                    </tr>
+                  </td>
+                  <td>
+                    <a href="/AdminEachOrderdetailpage/<%= data._id %>">More details</a>
+                  </td>
+
+                </tr>
                 <% }) %>
             </tbody>
-        </table>
+          </table>
         </div>
-       
-    </div>
+
+      </div>
 
     </div>
     <!-- Prodect details end-->
@@ -391,45 +410,45 @@
   <script src="/assets1/js/dashboard.js"></script>
 
   <script>
-// Get a reference to the select element
+    // Get a reference to the select element
     const selectElements = document.querySelectorAll(".orderstatus");
-    
-    console.log('selectElements:',selectElements)
-    
+
+    console.log('selectElements:', selectElements)
+
     selectElements.forEach((selectElement) => {           // Add an event listener to detect changes in the select element
       selectElement.addEventListener("change", () => {
-    
+
         const orderdata = selectElement.getAttribute("data-Orderid")    // Get the selected value
-      const selectedValue = selectElement.value;
-      const ORDERid = orderdata
-     const data = { selectedValue, ORDERid };     // Create an object to send to the controller
-       
-     fetch("/Updateorderstatus", {           // Use the Fetch API to send the data to the controller
-        method: "POST",                     // Use "POST" or "GET" depending on your requirements
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
+        const selectedValue = selectElement.value;
+        const ORDERid = orderdata
+        const data = { selectedValue, ORDERid };     // Create an object to send to the controller
+
+        fetch("/Updateorderstatus", {           // Use the Fetch API to send the data to the controller
+          method: "POST",                     // Use "POST" or "GET" depending on your requirements
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
-        .then((data) => {
-          // Handle the response from the controller here
-          console.log(data);
-        })
-        .catch((error) => {
-          console.error("Fetch error:", error);
-        });
-    });
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // Handle the response from the controller here
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+          });
+      });
     })
   </script>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </body>
 

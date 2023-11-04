@@ -49,12 +49,7 @@ const login = (req, res) => {
 // }
 
 
-
-
-
-
 let Userlogin;
-
 let Username;
 
 //user homepage
@@ -124,7 +119,7 @@ const home = async (req, res) => {
     try {
         Userlogin = true;
         const userdetail = req.session.userId;
-        const Username = userdetail.username;
+         Username = userdetail.username;
 
         const page = parseInt(req.query.page) || 1; // Current page, default to 1
         const perPage = 8; // Number of products to display per page
@@ -136,7 +131,7 @@ const home = async (req, res) => {
        const skip = (page - 1) * perPage;
         
         const  categoryinfo = await Categorycollection.find({});  //category collection
-        console.log('categoryinfo:',categoryinfo);
+    
        let prodectinfo;
         let queryObject = {};
         let sortObject = {};
@@ -175,7 +170,7 @@ const home = async (req, res) => {
             const newwallet = new Walletcollection({
                 customerid: userdetail._id,
             });
-            console.log("newwallet:", newwallet);
+           
             await newwallet.save();
         }
 
@@ -185,7 +180,7 @@ const home = async (req, res) => {
             Userlogin,
             Username,
             totalPages,
-            currentPage: page,
+           currentPage: page,
         });
     } catch (error) {
         console.error(error);
@@ -265,7 +260,7 @@ const mainhomepage = async (req, res) => {
 
 
             // const prodectinfo = await Prodectcollection.find({});  // updateing prodect and category in MainhomePage side
-   const    prodectinfo = await Prodectcollection
+       const prodectinfo = await Prodectcollection
             .find(queryObject)
             .sort(sortObject)
             .skip(skip)
@@ -308,8 +303,7 @@ const mainhomepage = async (req, res) => {
 
 const logout = (req, res) => {
    Userlogin = false;
-    console.log("destroy");
-    req.session.destroy();  //Destroying Session
+ req.session.destroy();  //Destroying Session
     return res.redirect("/login")
 }
 
@@ -409,8 +403,7 @@ const signup = (req, res) => {
 // }
 const signupdata = async (req, res) => {
     try {
-        console.log(req.body);
-        const { username, email, password, confirmpassword } = req.body; //decoding the data in body and destructing
+      const { username, email, password, confirmpassword } = req.body; //decoding the data in body and destructing
         const checkinguser = await signupcollection.findOne({ email }); //checking email in  current user database
 
         if (password !== confirmpassword) {//checking two passwords in the body
@@ -446,24 +439,20 @@ const signupdata = async (req, res) => {
             await newUser.save() // Saving in database
      
         const id=await signupcollection.findOne({referralCode:referralCode})
-        console.log("iiddd:",id)
-        if (id) {
-
-
-            const newReferraldetail = new ReferralCodecollection({
+       
+     if (id) {
+           const newReferraldetail = new ReferralCodecollection({
                 userId: id._id,
                 code: id.referralCode,
-                
-            });
+                 });
 
-            console.log("newReferraldeatail:", newReferraldetail);
             await newReferraldetail.save();
             console.log("Referral code created successfully");
         } else {
             console.log("User not found for referral code creation.");
         }
-    }
- return res.redirect("/EmailEnteringPage")
+       }
+        return res.redirect("/EmailEnteringPage")
     }
     catch (error) {
         console.log(error);
@@ -479,15 +468,12 @@ const loginpost = async (req, res) => {
     try {
         const { lusername, lpassword, } = req.body; //decoding the data in body and destructing
         const user = await signupcollection.findOne({ username: lusername }) //checking  username in  current user database
-        console.log("loginpost:", user._id)
         const userId = user._id;
     
         const VERIFYuser = user.verify;
         req.session.VERIFYuser = user;
 
-        console.log('VERIFYuser:', VERIFYuser)
-
-        if (!user) { // user name validation
+  if (!user) { // user name validation
             req.session.user = true;
             return res.redirect("/login")
         }
@@ -510,10 +496,8 @@ const loginpost = async (req, res) => {
         }
         //create session for  current User //
         req.session.userId = user
-        console.log('loginpost:',req.session.userId )
-        return res.redirect("/login")
-        
-    }
+       return res.redirect("/login")
+        }
     catch (error) {
         console.error("error during login:", error)
         return res.status(500).send("Error during login")
@@ -548,11 +532,9 @@ const EmailEnteringPage = (req, res) => {
 const EmailPost = async (req, res) => {
 
     const emailId = req.body.Emailid;
-    console.log("Emai:", emailId);
-    const checkingEmail = await signupcollection.findOne({ email: emailId }); //find email from current  User and Assign the perticular variable
-    console.log("checkingEmail:", checkingEmail)
-
-    if (checkingEmail) {//condition OK  
+ const checkingEmail = await signupcollection.findOne({ email: emailId }); //find email from current  User and Assign the perticular variable
+  
+  if (checkingEmail) {
         try {
             const transporter = nodemailer.createTransport({
                 service: "gmail", // Use your email service provider (e.g., Gmail, SMTP)
@@ -610,9 +592,7 @@ const EmailPost = async (req, res) => {
 
 //OTP entering Page
 const otp = (req, res) => {
-  
-        return res.render("User/otppage", { msg: "Invalid OTP" })
-
+  return res.render("User/otppage", { msg: "Invalid OTP" })
 }
 
 
@@ -656,9 +636,7 @@ const OTPPost = async (req, res) => {
 
 //New password entering Page
 const Newpassword = (req, res) => {
- 
-        return res.render("User/NewPassword", { msg: "Password not Matching" })
-  
+ return res.render("User/NewPassword", { msg: "Password not Matching" })
 }
 
 
@@ -682,9 +660,7 @@ const NewpasswordPost = async (req, res) => {
         if (newpassword == conformpassword) { // verifing  for newpassword and conform password
 
             const Email = req.session.email // Current user Email id is stored(Email Posting time) in this session and assign in vaperticular variable("Email"),this methode is using for New password adding for curren User
-            console.log('Email Id:', Email)
-
-            const saltRounds = 10;
+           const saltRounds = 10;
             const hashedPassword = await bcrypt.hash(newpassword, saltRounds);
 
             const update = await signupcollection.updateOne({ email: Email }, { $set: { password: hashedPassword } }) //New password added to current User data base
@@ -706,6 +682,8 @@ const NewpasswordPost = async (req, res) => {
 //category based rendering field
 const categorybasedrender = async (req, res) => {
     const Id = req.params.CategoryId;
+    const userdetail = req.session.userId;
+     Username = userdetail.username;
     const categoryId = await Categorycollection.findOne({ _id: Id })
     try {
         const prodectinfo = await Prodectcollection.find({ Category: categoryId.Category });  //prodect colleection
@@ -740,7 +718,6 @@ const oneprodectdetails = async (req, res) => {
 const AddAddress = async (req, res) => {
     const addressdetails = req.body
     try {
-        console.log("addressdetails:", req.body)
         const { name, mobilenumber, address, landmark, alternatenumber, city, pincode } = addressdetails;
         const userdetails = req.session.userId
         const userId = userdetails._id;
@@ -754,7 +731,7 @@ const AddAddress = async (req, res) => {
             City: city,
             Pincode: pincode
         })
-        console.log(newaddressdetails)
+       
         await newaddressdetails.save();
        return res.redirect("back")
     }
@@ -852,7 +829,7 @@ const userprofile = async (req, res) => {
         const Allorders = await Ordercollection.find({ customerId: userdetail._id })
          const  categoryinfo = await Categorycollection.find({});
          const walletdetails=await Walletcollection.find({ customerid: userdetail._id })
-       console.log('walletdetails:',walletdetails)
+      
         if(req.session.password){
            return res.render("User/Userfulldetails", { categoryinfo, Userlogin, AllAddress, userdetails, Allorders, Username ,walletdetails,msg: "Old Password not correct"})
         }else if( req.session.repeatpassword){
@@ -872,9 +849,9 @@ const userprofile = async (req, res) => {
 // Update user details
 const Updateuserdetails=async(req,res)=>{
     const userId=req.params.userid
-    console.log('userId:',userId)
+   
     const{username,email}=req.body;
-    console.log('username,email:',username,email)
+  
     try{
         const updateddata = await signupcollection.findByIdAndUpdate(userId, {username,email}, { new: true })
         if (!updateddata) {
@@ -895,9 +872,9 @@ const Updateuserdetails=async(req,res)=>{
 //update user password Postmethode
 const UpdatePassword=async(req,res)=>{  
     const userId=req.params.userid
-    console.log('UserId:',userId)
+    
     const{currentpassword,newpassword,repeatedpassword}=req.body;
-    console.log('Currentpassword,Newpassword,Nepeatedpassword:',currentpassword,newpassword,repeatedpassword)
+    
     try{
         const user=await signupcollection.findById(userId)
         const PasswordMatch = await bcrypt.compare(currentpassword, user.password)
@@ -927,8 +904,18 @@ const UpdatePassword=async(req,res)=>{
 //prodect search in home page
 const prodectsearch = async (req, res) => {
 const { searchQuery } = req.query; // searched value store in paticular variable , used for destructure methode
-    console.log(searchQuery);
+   
     try {
+
+        const page = parseInt(req.query.page) || 1; // Current page, default to 1
+        const perPage = 8; // Number of products to display per page
+        const prodectCount = await Prodectcollection.countDocuments({}); // Total number of products
+        const totalPages = Math.ceil(prodectCount / perPage);
+       if (page < 1 || page > totalPages) {
+            return res.status(404).send("Page not found");
+        }
+       const skip = (page - 1) * perPage;
+
       // Check if the searchQuery is empty
       if (!searchQuery) {
         return res.redirect("back");
@@ -942,16 +929,20 @@ const { searchQuery } = req.query; // searched value store in paticular variable
 
   
       // Perform a search using MongoDB
-      const prodectinfo = await Prodectcollection.find({  // serched value is Search all field
-        $or: [
-          { Category: { $regex: searchQuery, $options: "i" } },
-          { Brand: { $regex: searchQuery, $options: "i" } },
-          { Model: { $regex: searchQuery, $options: "i" } },
-          { Description: { $regex: searchQuery, $options: "i" } },
-        ]
-      });
+      const prodectinfo = await Prodectcollection
+  .find({
+    $or: [
+      { Category: { $regex: searchQuery, $options: "i" } },
+      { Brand: { $regex: searchQuery, $options: "i" } },
+      { Model: { $regex: searchQuery, $options: "i" } },
+      { Description: { $regex: searchQuery, $options: "i" } },
+    ]
+  })
+  .skip(skip) // Calculate the number of documents to skip
+  .limit(perPage); // Limit the number of results per page
+
   
-      return res.render("User/homepage", { prodectinfo,Userlogin,Username,categoryinfo });    // Render the search results in Prodect list
+      return res.render("User/homepage", { prodectinfo,Userlogin,Username,categoryinfo, currentPage: page,totalPages });    // Render the search results in Prodect list
     } catch (error) {
       console.error(error);
       res.status(500).send("Data searching error");
@@ -963,9 +954,7 @@ const { searchQuery } = req.query; // searched value store in paticular variable
   //filter option in home
 const filter=async(req,res)=>{
     const sortedvalue=req.body;
-    console.log("sortedvalue")
-
-}
+    }
 
 
 

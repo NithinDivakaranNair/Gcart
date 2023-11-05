@@ -493,6 +493,10 @@ const adminhome = async (req, res) => {
       orderstatus: { $in: ['ordercancelled'] }
     });
 
+    //All return order
+    const Allreturnorder=await Ordercollection .countDocuments({
+      orderstatus: { $in: ['Order is returned'] }})
+
     //totalsale for  pending , delivery shipping
     const Allorders = await Ordercollection.find({})
     const totalsales = Allorders.reduce((total, order) => {
@@ -506,7 +510,7 @@ const adminhome = async (req, res) => {
     const Allorderstotal = await Ordercollection.countDocuments();
     //Allusers
     const Allusers = await signupcollection.countDocuments()
-    return res.render("Admin/Adminhomepage", { Allorderscount, totalsales, Allusers, Allcancelledorderscount, Allorderstotal })
+    return res.render("Admin/Adminhomepage", { Allorderscount, totalsales, Allusers, Allcancelledorderscount, Allorderstotal,Allreturnorder })
   } else {
     return res.redirect("/adminlogin")
   }

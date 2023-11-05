@@ -23,9 +23,9 @@ const ordersucessful = async (req, res) => {
         const Userlogin = true;
         const userdetail = req.session.userId;
         const Userid = userdetail._id;
-
+const order= req.session.order;
         // Find the latest order for the user and decrease the  prodect quandity
-        const latestOrder = await Ordercollection.findOne({ customerId: Userid }).sort({ date: -1 });
+        const latestOrder = await Ordercollection.findById(order._id);
 
         if (latestOrder) {
             latestOrder.iteams.forEach(async (item) => {

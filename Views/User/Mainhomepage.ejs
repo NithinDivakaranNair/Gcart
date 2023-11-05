@@ -7,7 +7,7 @@
     <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ashion | Template</title>
+    <title>Gcart</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
@@ -130,8 +130,8 @@
                             Sort By
                         </button>
                         <div class="dropdown-menu" aria-labelledby="sortDropdown">
-                            <a class="sort-dropdown-item" href="/home?sort=0" data-sort="lowToHigh">Low to High</a>
-                            <a class="sort-dropdown-item" href="/home?sort=1" data-sort="highToLow">High to Low</a>
+                            <a class="sort-dropdown-item" href="/mainhomepage?sort=0" data-sort="lowToHigh">Low to High</a>
+                            <a class="sort-dropdown-item" href="/mainhomepage?sort=1" data-sort="highToLow">High to Low</a>
                         </div>
                     </div>
                 </div>
@@ -147,7 +147,7 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="brandDropdown">
                             <% prodectinfo.forEach(data=> { %>
-                                <a class="dropdown-items" href="/home?brand=<%=data.Brand %>" data-brand="brand1">
+                                <a class="dropdown-items" href="/mainhomepage?brand=<%=data.Brand %>" data-brand="brand1">
                                     <%=data.Brand %>
                                 </a>
                                 <% }) %>
@@ -164,11 +164,11 @@
                             Price
                         </button>
                         <div class="dropdown-menu" aria-labelledby="priceDropdown">
-                            <a class="dropdown-items" href="/home?sprice=0&eprice=2000" data-price="under20">2000 and
+                            <a class="dropdown-items" href="/mainhomepage?sprice=0&eprice=2000" data-price="under20">2000 and
                                 under</a>
-                            <a class="dropdown-items" href="/home?sprice=2000&eprice=5000" data-price="20to50">5000 -
+                            <a class="dropdown-items" href="/mainhomepage?sprice=2000&eprice=5000" data-price="20to50">5000 -
                                 2000</a>
-                            <a class="dropdown-items" href="/home?sprice=5000&eprice=100000" data-price="50plus">Over
+                            <a class="dropdown-items" href="/mainhomepage?sprice=5000&eprice=100000" data-price="50plus">Over
                                 5000</a>
                         </div>
                     </div>

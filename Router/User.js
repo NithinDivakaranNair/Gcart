@@ -11,8 +11,7 @@ const multer = require('multer') //require multer middleware module
 
 const authentication = require("../Middilewares/authentication")
 
-// const app = express();
-// app.use(bodyParser.json());
+
 
 // multer middleware
 const storage = multer.diskStorage({
@@ -45,39 +44,39 @@ router.post("/OTPPost", usercontroller.OTPPost)
 router.get("/Newpassword", authentication.NewpasswordAuthentication, usercontroller.Newpassword)
 router.post("/NewpasswordPost", usercontroller.NewpasswordPost)
 
-router.get("/categorybasedrender/:CategoryId", authentication.BlockAuthenticationHomepage, usercontroller.categorybasedrender) //category based rendering route
+router.get("/categorybasedrender/:CategoryId",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, usercontroller.categorybasedrender) //category based rendering route
 
-router.get("/oneprodectdetails/:prodectId", authentication.BlockAuthenticationHomepage, usercontroller.oneprodectdetails)
+router.get("/oneprodectdetails/:prodectId",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, usercontroller.oneprodectdetails)
 
-router.get("/cartpage/:prodectId", authentication.BlockAuthenticationHomepage, authentication.HomepageAuthentication, cartcontroller.cartpage)
-router.get("/cartpagedetails", authentication.BlockAuthenticationHomepage, cartcontroller.cartpagedetails)
-router.get("/CartPluseButton/:prodectId", authentication.BlockAuthenticationHomepage, cartcontroller.CartPluseButton)
-router.get("/CartMinusebutton/:prodectId", authentication.BlockAuthenticationHomepage, cartcontroller.CartMinusebutton)
+router.get("/cartpage/:prodectId", authentication.HomepageAuthentication,authentication.BlockAuthenticationHomepage,  cartcontroller.cartpage)
+router.get("/cartpagedetails",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, cartcontroller.cartpagedetails)
+router.get("/CartPluseButton/:prodectId",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, cartcontroller.CartPluseButton)
+router.get("/CartMinusebutton/:prodectId",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, cartcontroller.CartMinusebutton)
 
-router.get("/checkoutpage", authentication.BlockAuthenticationHomepage, checkoutcontroller.checkoutpage)
-router.get("/IteamRemoveCart/:iteam", authentication.BlockAuthenticationHomepage, cartcontroller.IteamRemoveCart)
+router.get("/checkoutpage",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, checkoutcontroller.checkoutpage)
+router.get("/IteamRemoveCart/:iteam",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, cartcontroller.IteamRemoveCart)
 
-router.get("/userprofile", authentication.BlockAuthenticationHomepage, usercontroller.userprofile)
-router.post("/Updateuserdetails/:userid", authentication.BlockAuthenticationHomepage, usercontroller.Updateuserdetails)
-router.post("/UpdatePassword/:userid", authentication.BlockAuthenticationHomepage, usercontroller.UpdatePassword)
+router.get("/userprofile",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, usercontroller.userprofile)
+router.post("/Updateuserdetails/:userid",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, usercontroller.Updateuserdetails)
+router.post("/UpdatePassword/:userid",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, usercontroller.UpdatePassword)
 
 
-router.post("/AddAddress", authentication.BlockAuthenticationHomepage, usercontroller.AddAddress)
-router.get("/editAddress/:id", authentication.BlockAuthenticationHomepage, usercontroller.editAddress)
+router.post("/AddAddress",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, usercontroller.AddAddress)
+router.get("/editAddress/:id",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, usercontroller.editAddress)
 router.post("/editAddressData/:id", usercontroller.editAddressData)
 router.get("/deleteaddress/:id", usercontroller.deleteaddress)
 
 
 
-router.get("/ordersucessful", ordercontroller.ordersucessful)
+router.get("/ordersucessful",authentication.HomepageAuthentication, ordercontroller.ordersucessful)
 router.post("/ordersuccessfulPOST", authentication.BlockAuthenticationHomepage, ordercontroller.ordersuccessfulPOST)
 router.post("/ordercanel", ordercontroller.ordercanel)
-router.get("/EachOrderdetailpage/:orderid", authentication.BlockAuthenticationHomepage, ordercontroller.EachOrderdetailpage)
+router.get("/EachOrderdetailpage/:orderid",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, ordercontroller.EachOrderdetailpage)
 
 router.post("/paypost", ordercontroller.paypost)
 
-router.get("/wishlistpost/:prodectid", wishlistcontroller.wishlistpost)
-router.get("/wishlistdisplay", authentication.BlockAuthenticationHomepage, wishlistcontroller.wishlistdisplay)
+router.get("/wishlistpost/:prodectid",authentication.HomepageAuthentication, wishlistcontroller.wishlistpost)
+router.get("/wishlistdisplay",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, wishlistcontroller.wishlistdisplay)
 
 router.get("/Removewishlist/:prodectid", wishlistcontroller.Removewishlist)
 

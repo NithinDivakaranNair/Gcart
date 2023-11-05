@@ -116,7 +116,7 @@
 
 
 
-<!--end filter-->  
+<!--category offer-->  
 <div class="container mt-4">
     <h2>Category Offers</h2>
     <div class="row">
@@ -130,10 +130,10 @@
                 <div class="card-body">
                     <h5 class="card-title" style="color: rgb(7, 9, 0); font-size: 1.5rem;"><%= data.Category %></h5>
                  <div class="card-text">
-    <p class="text-success"><strong>Save up to <%= data.Discount %>%</strong></p>
-</div>
+         <p class="text-success"><strong>Save up to <%= data.Discount %>%</strong></p>
+             </div>
 
-<a href="/categorybasedrender/<%= data._id %>" class="btn btn-success">Shop Now</a>
+             <a href="/categorybasedrender/<%= data._id %>" class="btn btn-success">Shop Now</a>
 
                 </div>
             </div>
@@ -141,6 +141,8 @@
         <% }) %>
     </div>
 </div>
+
+
 <!--sort-->
 <div class="container mt-5" >
     <div class="section-title">
@@ -153,8 +155,8 @@
             Sort By
         </button>
         <div class="dropdown-menu" aria-labelledby="sortDropdown">
-            <a class="sort-dropdown-item" href="/home?sort=0" data-sort="lowToHigh">Low to High</a>
-            <a class="sort-dropdown-item" href="/home?sort=1" data-sort="highToLow">High to Low</a>
+            <a class="sort-dropdown-item" href="/home?page=<%= currentPage %>&sort=0" data-sort="lowToHigh">Low to High</a>
+            <a class="sort-dropdown-item" href="/home?page=<%= currentPage %>&sort=1" data-sort="highToLow">High to Low</a>
         </div>
     </div>
 </div>
@@ -183,14 +185,9 @@
                                 </div>
                             </div>
                             <a href="#">Filter</a> -->
-                       
-                     <!-- </div>     -->
+                        <!-- </div>     -->
 
-
-
-
-
-                        <!-- Brand  -->
+  <!-- Brand  -->
                         <div class="sidebar__categories">
                             <div class="section-title">
                                 <h4>Brands</h4>
@@ -270,7 +267,7 @@
                    
                         
 
-                     <!-- Price-based  -->
+<!-- Price-based  -->
                         <div class="sidebar__sizes">
                             <div class="section-title">
                                 <h4>Shop by price</h4>
@@ -301,9 +298,9 @@
                                         Price
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="priceDropdown">
-                                        <a class="dropdown-items" href="/home?sprice=0&eprice=2000" data-price="under20">2000 and under</a>
-                                        <a class="dropdown-items" href="/home?sprice=2000&eprice=5000" data-price="20to50">5000 - 2000</a>
-                                        <a class="dropdown-items" href="/home?sprice=5000&eprice=100000" data-price="50plus">Over 5000</a>
+                                        <a class="dropdown-items" href="/home?page=<%= currentPage %>&sprice=0&eprice=1000" data-price="under20"> under and 1000 </a>
+                                        <a class="dropdown-items" href="//home?page=<%= currentPage %>&sprice=1000&eprice=2000" data-price="20to50">1000 - 2000</a>
+                                        <a class="dropdown-items" href="//home?page=<%= currentPage %>&sprice=2000&eprice=60000" data-price="50plus">Over 60000</a>
                                     </div>
                                 </div>
                             </div>
@@ -332,7 +329,9 @@
                                 </div>
                             </div> -->
                             
-                    
+                            <a href="/home">
+                                <button class="" type="button">Clear</button>
+                            </a>              
                     </div>
                 </div>
                 
@@ -345,9 +344,37 @@
         <h3>All Products</h3>
         <div class="row">
             <% prodectinfo.forEach(data => { %>
+
+                <% if(data.Quantity<=0){ %>
+                    <div class="col-lg-4 col-md-7 col-sm-7 d-flex">
+                        <a href="/oneprodectdetails/<%= data._id %>">
+                            <div class="card w-100 my-1 shadow-2-strong position-relative">
+                                <img src="/uploads/<%= data.Image[0] %>" alt="Product Image" width="200" height="210" />
+                                <div class="card-body d-flex flex-column">
+                                    <h6><a href="#"><%= data.Brand %></a></h6>
+                                    <h6><a href="#"><%= data.Model %></a></h6>
+                                    <h6><a href="#"><%= data.Description %></a></h6>
+                    
+                                    <!-- Add the 'bg-blur' class to blur the background -->
+                                    <div class="label stockout stockblue bg-blur">
+                                        <span class="text-danger font-weight-bold" style="font-size: medium;">Out Of Stock</span>
+                                    </div>
+                                    
+                                    
+                    
+                                    <div class="offer__price text-primary">
+                                        <span class="font-weight-bold text-dark"> Price: ₹<%= data.Price %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                <%}else{%>
+                
                 <div class="col-lg-4 col-md-7 col-sm-7 d-flex">
                     <a href="/oneprodectdetails/<%= data._id %>">
-                        <div class="card w-100 my-2 shadow-2-strong position-relative">
+                        <div class="card w-100 my-1 shadow-2-strong position-relative">
                             <!-- Discount Sticker -->
                             <% if (data.Discount > 0) { %>
                                 <div class="offer-sticker position-absolute top-0 end-0 rounded-pill bg-primary text-white px-2 py-1">
@@ -370,9 +397,11 @@
                                 </div>
                                 
                                 <!-- Display the offer price -->
-                                <div class="offer__price text-danger">
+                                <div class="offer__price text-danger text-light bg-dark">
                                     <span class="font-weight-bold">Offer Price: ₹<%= data.OfferPrice %></span>
                                 </div>
+                                
+                                
                                 
                                 <% }else{ %>
                                     <div class="offer__price text-primary">
@@ -394,6 +423,7 @@
                         </div>
                     </a>
                 </div>
+                <% } %>
             <% }) %>
         </div>
     </div>
@@ -510,30 +540,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    <!--start filter--> 
-
-  
- 
-
-
-
-
-
-
- <!--end prodect displaying-->
-
-        <section class="trend spad">
+ <section class="trend spad">
             <div class="container">
                 <div class="row">
 

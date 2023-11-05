@@ -18,7 +18,7 @@ const nodemailer = require("nodemailer");    //Email sending module
 
 //login
 const login = (req, res) => {
-    console.log('loginpage:')
+   
         if (req.session.user) {
             return res.render("User/loginpage", { msg: "Invalid username " })
         } else if (req.session.passwordMatch) {
@@ -115,21 +115,22 @@ let Username;
    
 
 const home = async (req, res) => {
-    console.log('homepage:');
+
     try {
         Userlogin = true;
         const userdetail = req.session.userId;
          Username = userdetail.username;
-
+//pagination process start
         const page = parseInt(req.query.page) || 1; // Current page, default to 1
-        const perPage = 8; // Number of products to display per page
+        const perPage = 9; // Number of products to display per page
         const prodectCount = await Prodectcollection.countDocuments({}); // Total number of products
         const totalPages = Math.ceil(prodectCount / perPage);
        if (page < 1 || page > totalPages) {
             return res.status(404).send("Page not found");
         }
        const skip = (page - 1) * perPage;
-        
+//pagination process start   
+
         const  categoryinfo = await Categorycollection.find({});  //category collection
     
        let prodectinfo;
@@ -161,10 +162,10 @@ const home = async (req, res) => {
         prodectinfo = await Prodectcollection
             .find(queryObject)
             .sort(sortObject)
-            .skip(skip)
-            .limit(perPage);
+            .skip(skip)//pagination skip
+            .limit(perPage);//pagination page
 
-        // wallet creation
+        // wallet creation start
         const wallet = await Walletcollection.findOne({ customerid: userdetail._id });
         if (!wallet) {
             const newwallet = new Walletcollection({
@@ -173,14 +174,15 @@ const home = async (req, res) => {
            
             await newwallet.save();
         }
+        // wallet creation end
 
         return res.render("User/homepage", {
             prodectinfo,
             categoryinfo,
             Userlogin,
             Username,
-            totalPages,
-           currentPage: page,
+            totalPages,//pagination
+           currentPage: page,//pagination
         });
     } catch (error) {
         console.error(error);
@@ -222,8 +224,6 @@ const mainhomepage = async (req, res) => {
   
      Userlogin = false;
         try {
-
-            
         const page = parseInt(req.query.page) || 1; // Current page, default to 1
         const perPage = 8; // Number of products to display per page
         const prodectCount = await Prodectcollection.countDocuments({}); // Total number of products

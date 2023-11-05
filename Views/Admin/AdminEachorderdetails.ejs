@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+  <title>Gcart</title>
   <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="/assets1/vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="/assets1/vendors/jvectormap/jquery-jvectormap.css">
@@ -242,7 +242,7 @@
         </div>
         <div class="row">
           <div class="col-md-6">
-            <h2>Order Information</h2>
+            <h3>Order Information</h3>
             <p>Date: <%= (new Date(data.date)).toLocaleDateString() %>
             </p>
             <p>Customer ID: <%= data.customerId %>
@@ -252,7 +252,7 @@
             <!-- Add more order information here -->
           </div>
           <div class="col-md-6">
-            <h2>Shipping Address</h2>
+            <h3>Shipping Address</h3>
             <p>
               <%= data.address.Address %>
             </p>
@@ -264,7 +264,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <h2>Ordered Items</h2>
+            <h3>Ordered Items</h3>
             <ul>
               <% data.iteams.forEach((item)=> { %>
                 <li>
@@ -276,7 +276,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <h2>Payment Details</h2>
+            <h3>Payment Details</h3>
             <p>Total Amount: <%= data.totalAmount %>
             </p>
             <p>Payment Mode: <%= data.paymentmode %>

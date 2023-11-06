@@ -827,6 +827,8 @@ const userprofile = async (req, res) => {
        const userdetails = await signupcollection.findById({ _id: userdetail._id })
         const AllAddress = await AddressCollection.find({ UserId: userdetail._id })
         const Allorders = await Ordercollection.find({ customerId: userdetail._id })
+        .sort({  createddate: -1 }) // Sort in descending order (latest first)
+        .exec();
          const  categoryinfo = await Categorycollection.find({});
          const walletdetails=await Walletcollection.find({ customerid: userdetail._id })
       

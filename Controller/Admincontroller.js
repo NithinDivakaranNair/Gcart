@@ -253,7 +253,9 @@ const prodectdata = async (req, res) => {
 //Display prodectdetails
 const prodectdetails = async (req, res) => {
   try {
-    const prodectinfo = await Prodectcollection.find({});
+    const prodectinfo = await Prodectcollection.find({})
+    .sort({  createddate: -1 }) // Sort in descending order (latest first)
+    .exec();
 
 
     return res.render("Admin/AdminProdectManage", { iteam: prodectinfo });
@@ -618,7 +620,9 @@ const userunblock = async (req, res) => {
 //admin ordermanagement
 const OrderManagPage = async (req, res) => {
   try {
-    const orderdetails = await Ordercollection.find({});
+    const orderdetails = await Ordercollection.find({})
+    .sort({  createddate: -1 }) // Sort in descending order (latest first)
+    .exec();
     return res.render("Admin/OrderManagement", { orderdetails })
   } catch (error) {
     console.log("error due to ordermangepage:", error)

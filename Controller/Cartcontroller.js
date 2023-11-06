@@ -89,6 +89,8 @@ const cartpage = async (req, res) => {
 
 const CartPluseButton = async (req, res) => {
     const ProdectId = req.params.prodectId;
+const prodect=await Prodectcollection({_id:ProdectId})
+const quandity=prodect.quandity;
 
     try {
         const existingCartItem = await CartCollection.findOne({ ProdectId });

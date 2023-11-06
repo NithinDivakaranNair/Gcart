@@ -22,6 +22,10 @@ const OrderSchema = new mongoose.Schema({
     Coupon: String,
     orderstatus: { type: String, default: "OrderPending" },
     orderactionuser: { type: Boolean, default: true },
+    createddate:{
+        type: Date, // Store the date as a string
+        default: Date.now
+    }
 })
 
 

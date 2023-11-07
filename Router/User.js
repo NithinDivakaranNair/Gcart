@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }); // stored image detail
 
 
-
+router.get('/',(req,res)=>res.redirect('/mainhomepage'))
 router.get("/mainhomepage", authentication.LoginAuthentication, usercontroller.mainhomepage)
 router.get("/signup", authentication.SignUpAuthentication, usercontroller.signup)
 router.post("/signup", usercontroller.signupdata)

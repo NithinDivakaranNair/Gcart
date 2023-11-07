@@ -50,7 +50,7 @@ router.get("/oneprodectdetails/:prodectId",authentication.HomepageAuthentication
 
 router.get("/cartpage/:prodectId", authentication.HomepageAuthentication,authentication.BlockAuthenticationHomepage,  cartcontroller.cartpage)
 router.get("/cartpagedetails",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, cartcontroller.cartpagedetails)
-router.get("/CartPluseButton/:prodectId",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, cartcontroller.CartPluseButton)
+router.get("/CartPluseButton/:prodectId/:quantity",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, cartcontroller.CartPluseButton)
 router.get("/CartMinusebutton/:prodectId",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, cartcontroller.CartMinusebutton)
 
 router.get("/checkoutpage",authentication.HomepageAuthentication, authentication.BlockAuthenticationHomepage, checkoutcontroller.checkoutpage)
@@ -88,7 +88,7 @@ router.post("/addcouponcart", cartcontroller.addcouponcart)
 
 router.get("/invoice", ordercontroller.invoice)
 
-
+// router.get("/errorpage", usercontroller.errorpage)
 
 module.exports = router
 

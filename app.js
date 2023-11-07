@@ -30,6 +30,11 @@ app.use(session({
 app.use("/", userrouter);
 app.use("/", adminrouter);
 
+
+app.get('*',(req,res)=>{
+  res.render("User/404page")
+})
+
 // Connect to MongoDB
 // mongoose.connect('mongodb://0.0.0.0/miniproj', {
 mongoose.connect('mongodb+srv://nithindivakarannair92:nithin92@cluster0.vqzoeie.mongodb.net/Gcart?retryWrites=true&w=majority', {

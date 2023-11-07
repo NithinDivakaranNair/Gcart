@@ -93,7 +93,11 @@ const ordersuccessfulPOST = async (req, res) => {
     const userdetail = req.session.userId;
     const Userid = userdetail._id;
     const coupon = req.session.coupon;
-    const updatecoupon = await CouponCollection.updateOne({ CouponCode: coupon }, { $set: { userid: Userid } })
+    const updatedUser = await signupcollection.findOneAndUpdate(
+        { _id: Userid },
+        { $set: { coupon: coupon } },
+        { new: true } // This option returns the updated document
+      );
     if (req.body.razorpay_payment_id) {
         const payorderid = req.body.razorpay_payment_id
         var instance = new Razorpay({ key_id: 'rzp_test_GCcWdKrz1uFYwx', key_secret: 'wsM5ZRlx0XLkOtmq3BBMKDqv' })

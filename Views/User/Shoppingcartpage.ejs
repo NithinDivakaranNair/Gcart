@@ -24,6 +24,8 @@
   <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
   <link rel="stylesheet" href="/css/style.css" type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
 
   <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">
@@ -96,7 +98,7 @@
                               </td>
                               <% } %>
                                 <td>
-                                  <div class="count_container" data-productid="<%= data.ProdectId %>" 
+                                  <div class="count_container" data-productid="<%= data.ProdectId %>"
                                     data-price="<%= data.OfferPrice || data.Price %>">
                                     <div class="input-group">
                                       <div class="input-group-prepend">
@@ -229,6 +231,7 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
       <script>
         const error1 = document.getElementById('error-message')
@@ -373,6 +376,7 @@ fetch(url, {
           const priceinput = product.querySelector('.total-price')
           const container = product.querySelector('.count_container')
           const Pricecontainer = product.querySelector('.price_container')
+
           const AAmount = priceinput.textContent
 
 
@@ -397,6 +401,8 @@ fetch(url, {
               });
               // window.location.reload()
               if (response.status === 200) {
+                incrementbutton.style.display = 'block';
+
                 updateTotalPricem();
               }
             }
@@ -419,6 +425,12 @@ fetch(url, {
 
             if (response.status === 200) {
               updateTotalPrice();
+            }
+             else if (response.status === 400) {
+              console.log('toast');
+              toastr.info('Insuficent stock!');
+              incrementbutton.style.display = 'none';
+
             }
           });
           // Implement this function to update the total price based on the updated quantity

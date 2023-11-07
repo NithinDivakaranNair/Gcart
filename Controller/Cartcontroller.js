@@ -89,20 +89,22 @@ const cartpage = async (req, res) => {
 
 const CartPluseButton = async (req, res) => {
     const ProdectId = req.params.prodectId;
-    const cartquandity=req.params.quantity;
-const prodect=await Prodectcollection({_id:ProdectId})
+    const cartquandity= parseInt(req.params.quantity);
+const prodect=await Prodectcollection.findOne({_id:ProdectId})
 const ProdectQuandity=prodect.Quantity;
-
+console.log('cartquandity:',cartquandity,'ProdectQuandity:',ProdectQuandity);
     try {
-        if(cartquandity<ProdectQuandity){
+        if(cartquandity<=ProdectQuandity){
+            console.log('oneee');
         const existingCartItem = await CartCollection.findOne({ ProdectId });
         if (existingCartItem) {
             existingCartItem.Count += 1; // You can adjust this as needed
             await existingCartItem.save();
             return res.status(200).json("success");
         }
-    
+      
     }else{
+        console.log('twooo',typeof(cartquandity));
         return res.status(400).json("outoff stock");
   
 
@@ -163,7 +165,7 @@ const addcouponcart = async (req, res) => {
         if (!couponvalue) {
             return res.status(400).json("Coupon not found.");
         }
-        if ((couponvalue.userid == Userid) || couponvalue.userid) {
+        if ((userdetail.coupon == couponvalue)) {
             return res.status(403).json("Coupon not found.");
         }
         /// check to coupon is expire or not

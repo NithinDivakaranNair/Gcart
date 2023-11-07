@@ -966,6 +966,22 @@ const filter=async(req,res)=>{
 
 
 
+    //404 page
+//     const errorpage= async (req, res) => {
+//         try {
+//             Userlogin = true;
+//             const userdetail = req.session.userId;
+//              Username = userdetail.username;
+//              const  categoryinfo = await Categorycollection.find({});  //category collection
+//            return  res.render("User/404page",{categoryinfo,
+//                 Userlogin,
+//                 Username,})
+//             }catch(error){
+//                 return res.status(500).send("Error in 404.");
+//     }
+// }     
+    
+
 
 module.exports = {
     mainhomepage,
@@ -999,6 +1015,8 @@ module.exports = {
  
     prodectsearch,
     filter,
+    
+    // errorpage
 
 
    

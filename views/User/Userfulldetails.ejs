@@ -27,6 +27,37 @@
   <link rel="stylesheet" href="/stylesheet/userdetails.css" type="text/css">
 
   <link rel="stylesheet" href="/assets1/vendors/mdi/css/materialdesignicons.min.css">
+  <style>
+    .modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  text-align: center;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+}
+
+button {
+  margin: 5px;
+}
+
+  </style>
 
 </head>
 
@@ -433,6 +464,21 @@
 
     </div>
 
+    <section>
+
+      <button id="showModalButton">Show Modal</button>
+
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="closeModalButton">×</span>
+          <p>Do you want to proceed?</p>
+          <button id="cancelButton">Cancel</button>
+          <button id="okButton">OK</button>
+        </div>
+      </div>
+
+    </section>
+
 
     <!--footer-->
     <%- include('./partials/footer.ejs') %>
@@ -458,7 +504,32 @@
       <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
       <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
 
+<script>
+  const showModalButton = document.getElementById("showModalButton");
+const modal = document.getElementById("myModal");
+const closeModalButton = document.getElementById("closeModalButton");
+const cancelButton = document.getElementById("cancelButton");
+const okButton = document.getElementById("okButton");
 
+showModalButton.addEventListener("click", function() {
+  modal.style.display = "block";
+});
+
+closeModalButton.addEventListener("click", function() {
+  modal.style.display = "none";
+});
+
+cancelButton.addEventListener("click", function() {
+  modal.style.display = "none";
+  // Handle cancel action here
+});
+
+okButton.addEventListener("click", function() {
+  modal.style.display = "none";
+  // Handle OK action here
+});
+
+</script>
 
       <script><!---order-->
 

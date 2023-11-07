@@ -63,7 +63,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% cartinfo.forEach((data)=> { %>
+                      <% cartinfo.forEach((data,index)=> { %>
                         <tr class="each_row">
                           <td>
                             <a href="#" class="nav-link brand text-dark font-weight-bold">
@@ -111,6 +111,8 @@
                                       </span>
                                       <div class="input-group-append">
                                         <button class="incrbutton btn"
+                                          style="background-color: #00ff00; color: #ffffff;">+</button>
+                                          <button class="incrbutton2 btn"
                                           style="background-color: #00ff00; color: #ffffff;">+</button>
                                       </div>
                                     </div>
@@ -176,6 +178,7 @@
                   <h6 class="mb-3">Price Details</h6>
                   <div class="d-flex justify-content-between">
                     <p class="mb-2" style="color: black;">Total price:</p>
+                    <% console.log('totalprice',totalprice); %>
                     <p class="price_container mb-2" id="totalpricess" data-totalprice="<%= totalprice %>"
                       style="color: black; font-weight: bold;">
                       <%= totalprice %>/-
@@ -376,6 +379,8 @@ fetch(url, {
           const priceinput = product.querySelector('.total-price')
           const container = product.querySelector('.count_container')
           const Pricecontainer = product.querySelector('.price_container')
+          const secondButton = product.querySelector('.incrbutton2');
+          secondButton.style.display = 'none'
 
           const AAmount = priceinput.textContent
 
@@ -402,7 +407,7 @@ fetch(url, {
               // window.location.reload()
               if (response.status === 200) {
                 incrementbutton.style.display = 'block';
-
+                secondButton.style.display = 'none'
                 updateTotalPricem();
               }
             }
@@ -427,9 +432,11 @@ fetch(url, {
               updateTotalPrice();
             }
              else if (response.status === 400) {
+              quantityinput.value = parseInt(quantityinput.value) - 1;
               console.log('toast');
               toastr.info('Insuficent stock!');
               incrementbutton.style.display = 'none';
+              secondButton.style.display = 'block'
 
             }
           });

@@ -15,15 +15,18 @@ const cartpagedetails = async (req, res) => {
     try {
         const categoryinfo = await Categorycollection.find({});
         const cartinfo = await CartCollection.find({ UserId: userdetails._id })
+        console.log('cartinfo',cartinfo);
 
         let totalprice = 0;
         cartinfo.forEach((cartiteam) => {
+            console.log('cartitem count',cartiteam.Count);
             if (cartiteam.OfferPrice) {
-                totalprice += cartiteam.OfferPrice * cartiteam.Count;
+                totalprice += cartiteam.OfferPrice * cartiteam.Count;  
             } else {
                 totalprice += cartiteam.Price * cartiteam.Count;
             }
         })
+        console.log('tatal price backend ',totalprice);
 
 
         return res.render("User/Shoppingcartpage", { Username, Userlogin, categoryinfo, cartinfo, totalprice })
@@ -94,9 +97,9 @@ const prodect=await Prodectcollection.findOne({_id:ProdectId})
 const ProdectQuandity=prodect.Quantity;
 console.log('cartquandity:',cartquandity,'ProdectQuandity:',ProdectQuandity);
     try {
+        const existingCartItem = await CartCollection.findOne({ ProdectId });
         if(cartquandity<=ProdectQuandity){
             console.log('oneee');
-        const existingCartItem = await CartCollection.findOne({ ProdectId });
         if (existingCartItem) {
             existingCartItem.Count += 1; // You can adjust this as needed
             await existingCartItem.save();

@@ -44,20 +44,16 @@
         <div class="row gx-5">
           <!--image addind section-->
           <aside class="col-lg-6">
-            <div class="border rounded-4 mb-3 d-flex justify-content-center">
-
-              <a data-fslightbox="mygallery" class="rounded-4" target="_blank" data-type="image" href="">
-
-                <img id="mainImage" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
+            <div class="border rounded-4 mb-3 d-flex justify-content-center magnify-continer overflow-hidden">
+              <img id="mainImage" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit magnify-image"
                   src="/uploads/<%= prodectdata.Image[0] %>" data-zoom-image="/uploads/<%=prodectdata.Image[0]%>"
                   alt="'nothing" />
-              </a>
             </div>
 
-            <div class="d-flex justify-content-center mb-3">
+            <div class="d-flex justify-content-center mb-3 ">
 
 
-              <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[0] %>"
+              <img width="60" height="60" class="rounded-2 " src="/uploads/<%= prodectdata.Image[0] %>"
                 onclick="changeMainImage('/uploads/<%= prodectdata.Image[0] %>')" />
 
               <img width="60" height="60" class="rounded-2" src="/uploads/<%= prodectdata.Image[1] %>"
@@ -385,10 +381,10 @@
 
         // Function to change the main image
 
-        var active_ele = $('#mainImage');
-        active_ele.elevateZoom({
-          scrollZoom: true
-        })
+        // var active_ele = $('#mainImage');
+        // active_ele.elevateZoom({
+        //   scrollZoom: true
+        // })
 
         function changeMainImage(src) {
           console.log('src', src);
@@ -404,6 +400,28 @@
       </script>
 
 
+<!-- image zoom -->
+<script>
+  const imageContainer = document.querySelector('.magnify-continer');
+  const image = document.querySelector('.magnify-image');
+
+  imageContainer.addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX - imageContainer.getBoundingClientRect().left;
+    const mouseY = e.clientY - imageContainer.getBoundingClientRect().top;
+
+    const offsetX = (mouseX / imageContainer.offsetWidth) * 100;
+    const offsetY = (mouseY / imageContainer.offsetHeight) * 100;
+
+    image.style.transformOrigin = `${offsetX}% ${offsetY}%`;
+    image.style.transform = 'scale(2)'; //  scale factor
+  });
+
+  imageContainer.addEventListener('mouseleave', () => {
+    image.style.transform = 'scale(1)';
+  });
+</script>
+
+
       <script src="js/jquery-3.3.1.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/jquery.magnific-popup.min.js"></script>
@@ -417,6 +435,7 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 
 

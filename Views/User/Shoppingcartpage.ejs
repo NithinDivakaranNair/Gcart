@@ -96,7 +96,7 @@
                               </td>
                               <% } %>
                                 <td>
-                                  <div class="count_container" data-productid="<%= data.ProdectId %>"
+                                  <div class="count_container" data-productid="<%= data.ProdectId %>" 
                                     data-price="<%= data.OfferPrice || data.Price %>">
                                     <div class="input-group">
                                       <div class="input-group-prepend">
@@ -410,7 +410,7 @@ fetch(url, {
 
 
 
-            const response = await fetch(`/CartPluseButton/${productId}`, {
+            const response = await fetch(`/CartPluseButton/${productId}/${quantity}`, {
               method: 'get',
               headers: {
                 'Content-Type': 'application/json'

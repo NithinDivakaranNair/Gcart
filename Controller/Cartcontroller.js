@@ -89,17 +89,25 @@ const cartpage = async (req, res) => {
 
 const CartPluseButton = async (req, res) => {
     const ProdectId = req.params.prodectId;
+    const cartquandity=req.params.quantity;
 const prodect=await Prodectcollection({_id:ProdectId})
-const quandity=prodect.quandity;
+const ProdectQuandity=prodect.Quantity;
 
     try {
+        if(cartquandity<ProdectQuandity){
         const existingCartItem = await CartCollection.findOne({ ProdectId });
         if (existingCartItem) {
             existingCartItem.Count += 1; // You can adjust this as needed
             await existingCartItem.save();
             return res.status(200).json("success");
         }
-    } catch (error) {
+    
+    }else{
+        return res.status(400).json("outoff stock");
+  
+
+    } 
+   }catch (error) {
         console.log("Error due to + button click time");
         return res.status(500).send("Error due to + button click time");
     }

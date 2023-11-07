@@ -16,102 +16,14 @@ const ReferralCodecollection=require("../Model/ReferralCodeSchema")
 const nodemailer = require("nodemailer");    //Email sending module
 
 
-//login
-const login = (req, res) => {
-   
-        if (req.session.user) {
-            return res.render("User/loginpage", { msg: "Invalid username " })
-        } else if (req.session.passwordMatch) {
-            return res.render("User/loginpage", { msg: "Invalid password" })
-        } else if (req.session.verifyval) {
-            return res.render("User/loginpage", { msg: "user is not valid" })
-        }else if(req.session.block){
-            return res.render("User/loginpage", { msg: "user is blocked" })
-        }
-       return  res.render("User/loginpage")
-}
 
 
-//login
-// const login = (req, res) => {
-//     if (req.session.userId) {
-//         return res.redirect("/home")
-//     } else if (req.session.user) {
-//         return res.render("User/loginpage", { msg: "Invalid username " })
-//     } else if (req.session.passwordMatch) {
-//         return res.render("User/loginpage", { msg: "Invalid password" })
-//     } else if (req.session.verifyval) {
-//         return res.render("User/loginpage", { msg: "user is not valid" })
-//     }
-//     else {
-//         res.render("User/loginpage")
-//     }
-// }
 
 
 let Userlogin;
 let Username;
 
-//user homepage
-// const home = async (req, res) => {
-// console.log('homepage:')
-//       try {
-//            Userlogin =true;
-//             const userdetail = req.session.userId;
-//             const  Username = userdetail.username;
-//             let prodectinfo = await Prodectcollection.find({});  //prodect colleection
-//           const  categoryinfo = await Categorycollection.find({});  //category collection
-//           console.log('categoryinfo:',categoryinfo);
- 
- 
-//           //filter in prodect
-//           let queryObject = {};
-//           let sortObject = {};
-          
-//           // If brand is provided, filter by brand
-//           if (req.query.brand) {
-//               queryObject.Brand = req.query.brand;
-//           }
-          
-//           // If sort is provided, sort by the sort value
-//           if (req.query.sort) {
-//               const value = req.query.sort;
-//               if (value === '1'){
-//                   sortObject.Price = -1;
-//               }
-//               else{
-//                   sortObject.Price = 1;
-//               }
-//           }
-          
-//           // If price is provided, filter by price
-//           if (req.query.sprice && req.query.eprice) {
-//               const spriceValue = parseFloat(req.query.sprice); // Convert to a number
-//               const epriceValue = parseFloat(req.query.eprice); // Convert to a number
-//               queryObject.Price = {  $gte: spriceValue, $lte: epriceValue };
-//           }
-          
-//           prodectinfo = await Prodectcollection.find(queryObject).sort(sortObject);
 
-
-//           ///wallet creation
-//        const wallet=await Walletcollection.findOne({customerid:userdetail._id})
-//         if(!wallet){
-//         const newwallet=new Walletcollection({
-//         customerid:userdetail._id,
-//         })
-//       console.log("newwallet:",newwallet)
-//        await newwallet.save();
-//         }
-
-
-//             return res.render("User/homepage", { prodectinfo, categoryinfo, Userlogin, Username });  //Updating Prodect and Category collection
-//         }
-//         catch (error) {
-//             console.error(error);
-//             return res.status(500).send("Error fetching product information.");
-//         }
-//     }
    
 
 const home = async (req, res) => {
@@ -193,27 +105,6 @@ const home = async (req, res) => {
 
 
 
-//user homepage
-// const home = async (req, res) => {
-
-//     if (req.session.userId) {
-//         try {
-//             Userlogin = req.session.userId;;
-//             const userdetail = req.session.userId;
-//              username = userdetail.username;
-//             const prodectinfo = await Prodectcollection.find({});  //prodect colleection
-//           const  categoryinfo = await Categorycollection.find({});  //category collection
-//             return res.render("User/homepage", { prodectinfo, categoryinfo, Userlogin, username });  //Updating Prodect and Category collection
-//         }
-//         catch (error) {
-//             console.error(error);
-//             return res.status(500).send("Error fetching product information.");
-//         }
-//     }
-//     else {
-//         return res.redirect("/login")
-//     }
-// }
 
 
 
@@ -275,24 +166,6 @@ const mainhomepage = async (req, res) => {
     }
 
 
-
-//Main homepage
-// const mainhomepage = async (req, res) => {
-//     if (req.session.userId) {
-//         return res.redirect("/home")
-//     } else {
-//         Userlogin = false;
-//         try {
-//             const prodectinfo = await Prodectcollection.find({});  // updateing prodect and category in MainhomePage side
-//             const categoryinfo = await Categorycollection.find({});
-
-//             return res.render("User/Mainhomepage", { prodectinfo, categoryinfo, Userlogin, username }); // that deatils are render in Mainhome Page
-//         } catch (error) {
-//             console.error(error);
-//             return res.status(500).send("Error fetching product information.");
-//         }
-//     }
-// }
 
 
 
@@ -419,15 +292,16 @@ const signupdata = async (req, res) => {
             req.session.checkinguser = true;
             return res.redirect("/signup")
         }
-        else {
+        
+        //referalcode add to user
             function generateReferralCode(username) {
                 // Generate a unique referral code based on the username or using a random algorithm
                 return username.slice(0, 4) + Math.random().toString(36).substring(2, 6).toUpperCase();
               }
-              
-            const referralCode = generateReferralCode(username);
-            
-            const saltRounds = 10;
+               const referralCode = generateReferralCode(username);
+         ///   
+           
+         const saltRounds = 10;
             const hashedPassword = await bcrypt.hash(password, saltRounds); // Password hashing process
 
             const newUser =new signupcollection({ //Create a new document and save it to the database
@@ -442,9 +316,9 @@ const signupdata = async (req, res) => {
             req.session.Signuserverification = newUser;
             await newUser.save() // Saving in database
      
+ ///referalcode collection creation
         const id=await signupcollection.findOne({referralCode:referralCode})
-       
-     if (id) {
+       if (id) {
            const newReferraldetail = new ReferralCodecollection({
                 userId: id._id,
                 code: id.referralCode,
@@ -455,9 +329,9 @@ const signupdata = async (req, res) => {
         } else {
             console.log("User not found for referral code creation.");
         }
+    /////
 
-
-       }
+     
         return res.redirect("/EmailEnteringPage")
     }
     catch (error) {
@@ -466,62 +340,6 @@ const signupdata = async (req, res) => {
     }
 
 }
-
-
-//Login validation(Login Post methode)
-const loginpost = async (req, res) => {
-  
-    try {
-        const { lusername, lpassword, } = req.body; //decoding the data in body and destructing
-        const user = await signupcollection.findOne({ username: lusername }) //checking  username in  current user database
-        const userId = user._id;
-    
-        const VERIFYuser = user.verify;
-        req.session.VERIFYuser = user;
-
-  if (!user) { // user name validation
-            req.session.user = true;
-            return res.redirect("/login")
-        }
-        const passwordMatch = await bcrypt.compare(lpassword, user.password) //compair enter password and data base store current user password
-
-        if (!passwordMatch) {  // Password validation
-            req.session.passwordMatch = true;
-            return res.redirect("/login")
-
-        }
-        if (user.block === true) {
-            req.session.block=true;
-            return res.redirect("/login")
-        }
-        if (VERIFYuser === false) {
-            req.session.verifyval = true;
-            const DeleteProdect = await signupcollection.findByIdAndRemove(userId)
-            return res.redirect("/login")
-
-        }
-        //create session for  current User //
-        req.session.userId = user
-       return res.redirect("/login")
-        }
-    catch (error) {
-        console.error("error during login:", error)
-        return res.status(500).send("Error during login")
-    }
-
-}
-
-
-
-
-//Email entering Page
-const EmailEnteringPage = (req, res) => {
-   if(req.session.emailvalue){
-    return res.render("User/OTPEmailpage", { msg: "Invalid Email Id" })
-   }
-   return res.render("User/OTPEmailpage")
-}
-
 
 
 
@@ -534,8 +352,19 @@ const EmailEnteringPage = (req, res) => {
 // }
 
 
+
+
+//Email entering Page
+const EmailEnteringPage = (req, res) => {
+    if(req.session.emailvalue){
+     return res.render("User/OTPEmailpage", { msg: "Invalid Email Id" })
+    }
+    return res.render("User/OTPEmailpage")
+ }
+
+
  //Email Post methode
-const EmailPost = async (req, res) => {
+ const EmailPost = async (req, res) => {
 
     const emailId = req.body.Emailid;
  const checkingEmail = await signupcollection.findOne({ email: emailId }); //find email from current  User and Assign the perticular variable
@@ -593,6 +422,8 @@ const EmailPost = async (req, res) => {
         res.redirect('/EmailEnteringPage'); // Email authentication routing process
     }
 };
+
+
 
 
 
@@ -685,6 +516,93 @@ const NewpasswordPost = async (req, res) => {
 
 
 
+
+
+
+//login
+const login = (req, res) => {
+    if (req.session.user) {
+        req.session.user = false; // Reset the session variable
+        return res.render("User/loginpage", { msg: "Invalid username" });
+    } else if (req.session.passwordMatch) {
+        req.session.passwordMatch = false; // Reset the session variable
+        return res.render("User/loginpage", { msg: "Invalid password" });
+    } else if (req.session.verifyval) {
+        req.session.verifyval = false; // Reset the session variable
+        return res.render("User/loginpage", { msg: "User is not valid" });
+    } else if (req.session.block) {
+        req.session.block = false; // Reset the session variable
+        return res.render("User/loginpage", { msg: "User is blocked" });
+    } else {
+        return res.render("User/loginpage", { msg: "" }); // Render the login page with an empty message
+    }
+}
+
+
+
+
+
+
+
+
+
+//Login validation(Login Post methode)
+const loginpost = async (req, res) => {
+    try {
+        const { lusername, lpassword } = req.body; // Destructuring the data in the request body
+
+        const user = await signupcollection.findOne({ username: lusername });
+
+        // Reset all relevant session variables
+        req.session.user = false;
+        req.session.passwordMatch = false;
+        req.session.verifyval = false;
+        req.session.block = false;
+
+        if (!user) {
+            req.session.user = true; // Set user session variable for username not found
+            return res.redirect("/login");
+        }
+
+        const userId = user._id;
+        const VERIFYuser = user.verify;
+        req.session.VERIFYuser = user;
+
+        const passwordMatch = await bcrypt.compare(lpassword, user.password);
+
+        if (!passwordMatch) {
+            req.session.passwordMatch = true; // Set passwordMatch session variable for incorrect password
+            return res.redirect("/login");
+        }
+
+        if (user.block === true) {
+            req.session.block = true; // Set block session variable for blocked user
+            return res.redirect("/login");
+        }
+
+        if (!VERIFYuser) {
+            req.session.verifyval = true; // Set verifyval session variable for unverified user
+            await signupcollection.findByIdAndRemove(userId);
+            return res.redirect("/login");
+        }
+
+        // Create a session for the current user
+        req.session.userId = user;
+        return res.redirect("/login");
+    } catch (error) {
+        console.error("Error during login:", error);
+        return res.status(500).send("Error during login");
+    }
+}
+
+
+
+
+
+
+
+
+
 //category based rendering field
 const categorybasedrender = async (req, res) => {
     const Id = req.params.CategoryId;
@@ -762,24 +680,7 @@ return res.render('User/addresseditpage',{address,categoryinfo, Userlogin, Usern
   }
 }
 
-// const editAddress = async (req, res) => {
-//     try {
-//       const addressId = req.params.id;
-//       console.log("addressId:",addressId)
-//       const address = await AddressCollection.findById(addressId);
-//       console.log("Adreesss:",address)
-//       if (address) {
-//         console.log("editaddress:",address)
-//         res.json(address); // Sending address data as JSON response
-//       } else {
-//         res.status(404).json({ error: 'Address not found' });
-//       }
-//     } catch (err) {
-//       console.error(err);
-//       res.status(500).json({ error: 'Internal Server Error' });
-//     }
-//   };
-  
+
 
 
 // Route to update the address
@@ -966,21 +867,7 @@ const filter=async(req,res)=>{
 
 
 
-    //404 page
-//     const errorpage= async (req, res) => {
-//         try {
-//             Userlogin = true;
-//             const userdetail = req.session.userId;
-//              Username = userdetail.username;
-//              const  categoryinfo = await Categorycollection.find({});  //category collection
-//            return  res.render("User/404page",{categoryinfo,
-//                 Userlogin,
-//                 Username,})
-//             }catch(error){
-//                 return res.status(500).send("Error in 404.");
-//     }
-// }     
-    
+
 
 
 module.exports = {
@@ -1016,7 +903,7 @@ module.exports = {
     prodectsearch,
     filter,
     
-    // errorpage
+   
 
 
    

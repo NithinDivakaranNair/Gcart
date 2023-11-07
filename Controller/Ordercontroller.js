@@ -1,4 +1,5 @@
 require('dotenv').config()
+const signupcollection = require("../Model/UserSchema")
 const Walletcollection = require("../Model/WalletSchema")
 const Categorycollection = require("../Model/CategorySchema")
 const CartCollection = require("../Model/CartSchema")// cart schema require
@@ -23,7 +24,7 @@ const ordersucessful = async (req, res) => {
         const Userlogin = true;
         const userdetail = req.session.userId;
         const Userid = userdetail._id;
-const order= req.session.order;
+        const order = req.session.order;
         // Find the latest order for the user and decrease the  prodect quandity
         const latestOrder = await Ordercollection.findById(order._id);
 
@@ -53,39 +54,7 @@ const order= req.session.order;
 
 
 
-//order sucessfulpage post methode
-// const ordersuccessfulPOST = async (req, res) => {
 
-//     console.log("datas:", req.body)
-
-//     const addressId = req.body.address;
-//     const address = await AddressCollection.findById(addressId)
-//     const userdetails = req.session.userId;
-//     const customerId = userdetails._id;
-//     const CustomerName = userdetails.username;
-//     const paymentmode = req.body.paymentMethod;
-//     const totalAmount = req.body.totalAmount;
-
-//     try {
-//         const cartinf = await CartCollection.find({ UserId: customerId })
-//         // Save the order with the total amount to your database using the Order model
-//         const newOrder = new Ordercollection({
-//             customerId,
-//             CustomerName,
-//             totalAmount: totalAmount,
-//             address,
-//             iteams: cartinf,
-//             paymentmode
-//         });
-//         await newOrder.save();
-
-//         res.redirect("/ordersucessful");
-//         await CartCollection.deleteMany({ UserId: customerId });
-//     } catch (error) {
-//         console.log("Error due to successful page rendering error:", error);
-//         res.status(500).send("Error due to successful page rendering error");
-//     }
-// };
 
 
 //order sucessfulpage post methode
@@ -97,7 +66,7 @@ const ordersuccessfulPOST = async (req, res) => {
         { _id: Userid },
         { $set: { coupon: coupon } },
         { new: true } // This option returns the updated document
-      );
+    );
     if (req.body.razorpay_payment_id) {
         const payorderid = req.body.razorpay_payment_id
         var instance = new Razorpay({ key_id: 'rzp_test_GCcWdKrz1uFYwx', key_secret: 'wsM5ZRlx0XLkOtmq3BBMKDqv' })
@@ -210,38 +179,6 @@ const ordersuccessfulPOST = async (req, res) => {
 }
 
 
-///order cancel for userside
-// const ordercanel = async (req, res) => {
-//     // const Orderid = req.params.orderId;
-//     // console.log("Orderid;", Orderid)
-//     // try {
-//     //     const orderdetails = await Ordercollection.findById(Orderid)
-//     //     console.log(orderdetails.orderstatus)
-//     //     if (orderdetails.orderstatus == "Orderpending") {
-
-//     //         await Ordercollection.deleteMany({ _id: Orderid });
-//     //     }
-//     //     res.redirect("back")
-//     // } catch (error) {
-//     //     console.log("Error due to ordercancel time:", error);
-//     //     res.status(500).send("Error due to ordercancel time");
-//     // }
-//     const orderid = req.body.ORDERid
-//     console.log("orderid:", orderid)
-//     try {
-//         const orderid = req.body.ORDERid
-//         const Orderstatus = await Ordercollection.findById(orderid)
-//         if ((Orderstatus.orderstatus == "OrderPending") || (Orderstatus.orderstatus == "OrderShipped")) {
-//             const updateorderstatusinfo = await Ordercollection.updateOne({ _id: orderid }, { $set: { orderactionuser: false } })
-//             return res.redirect("back")
-
-//         }
-//         return res.redirect("back")
-//     } catch (error) {
-//         console.log("Error due to ordercanel time:", error);
-//         res.status(500).send("Error  due to ordercanel time");
-//     }
-// }
 
 
 ///order cancel for userside

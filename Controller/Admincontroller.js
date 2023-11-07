@@ -254,8 +254,8 @@ const prodectdata = async (req, res) => {
 const prodectdetails = async (req, res) => {
   try {
     const prodectinfo = await Prodectcollection.find({})
-    .sort({  createddate: -1 }) // Sort in descending order (latest first)
-    .exec();
+      .sort({ createddate: -1 }) // Sort in descending order (latest first)
+      .exec();
 
 
     return res.render("Admin/AdminProdectManage", { iteam: prodectinfo });
@@ -496,8 +496,9 @@ const adminhome = async (req, res) => {
     });
 
     //All return order
-    const Allreturnorder=await Ordercollection .countDocuments({
-      orderstatus: { $in: ['Order is returned'] }})
+    const Allreturnorder = await Ordercollection.countDocuments({
+      orderstatus: { $in: ['Order is returned'] }
+    })
 
     //totalsale for  pending , delivery shipping
     const Allorders = await Ordercollection.find({})
@@ -512,7 +513,7 @@ const adminhome = async (req, res) => {
     const Allorderstotal = await Ordercollection.countDocuments();
     //Allusers
     const Allusers = await signupcollection.countDocuments()
-    return res.render("Admin/Adminhomepage", { Allorderscount, totalsales, Allusers, Allcancelledorderscount, Allorderstotal,Allreturnorder })
+    return res.render("Admin/Adminhomepage", { Allorderscount, totalsales, Allusers, Allcancelledorderscount, Allorderstotal, Allreturnorder })
   } else {
     return res.redirect("/adminlogin")
   }
@@ -621,8 +622,8 @@ const userunblock = async (req, res) => {
 const OrderManagPage = async (req, res) => {
   try {
     const orderdetails = await Ordercollection.find({})
-    .sort({  createddate: -1 }) // Sort in descending order (latest first)
-    .exec();
+      .sort({ createddate: -1 }) // Sort in descending order (latest first)
+      .exec();
     return res.render("Admin/OrderManagement", { orderdetails })
   } catch (error) {
     console.log("error due to ordermangepage:", error)

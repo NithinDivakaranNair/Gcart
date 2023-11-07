@@ -32,13 +32,7 @@ const HomepageAuthentication = (req, res, next) => {
 
 
 
-//     const MainhomepageAuthentication=(req,res,next)=>{
-//         if (req.session.userId) {
-//             return res.redirect("/home")
-//         }else{
-//             next();
-//         }
-// }
+
 
 
 
@@ -57,13 +51,6 @@ const SignUpAuthentication = (req, res, next) => {
 };
 
 
-// const EmailpageAuthentication=(req,res,next)=>{
-//     if (req.session.userId) {   //user has existing
-//         return res.render("User/homepage")
-//     }else{
-//         next();
-//     }
-// }
 
 
 const otpAuthentication = (req, res, next) => {
@@ -120,9 +107,9 @@ const BlockAuthenticationHomepage = (req, res, next) => {
 module.exports = {
     LoginAuthentication,
     HomepageAuthentication,
-    // MainhomepageAuthentication,
+
     SignUpAuthentication,
-    // EmailpageAuthentication,
+
     otpAuthentication,
     NewpasswordAuthentication,
 

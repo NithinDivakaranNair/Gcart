@@ -297,78 +297,7 @@
         }) 
       </script>
 
-      <!-- <script>
-              // Get references to the HTML elements using querySelectorAll
-              const decreaseButtons = document.querySelectorAll('.decrease');
-          
-              const increaseButtons = document.querySelectorAll('.increase');
-        
-              const countElements = document.querySelectorAll('.count');
-
-// Event listener for the decrease button
-              decreaseButtons.forEach((button,i)=> {
-                  button.addEventListener('click', function() {
-                    let value = countElements[i].textContent
-                    let count=Number(value);
-                   if (count > 1) {
-                          count--;
-                          countElements[i].textContent = count;
-                     }  
-                  });
-              });
-      
-// Event listener for the increase button
-              increaseButtons.forEach((button,i)=>{
-                  button.addEventListener('click', function() {
-                    let value = countElements[i].textContent
-                  let count=Number(value);
-                      count++;
-                      countElements[i].textContent = count;
-                      });
-              });
-      
-              
-          </script> -->
-
-      <!-- <script>
- const clickElement=document.querySelectorAll(".incrbutton");
- console.log('selectElements:', clickElement)
-clickElement.forEach((selectElement) => {
-  selectElement.addEventListener("click", (eve) => {
-    const prodtId = selectElement.getAttribute("data-product-id")
-    console.log('product ejs',prodtId);
-    const prodectid = prodtId;
-    const data = `prodectid=${prodtId}`;
-console.log('dataejs is',data);
-
-const url=`/CartPluseButton?${data}`
-fetch(url, {
-              method: "GET", // Use "POST" or "GET" depending on your requirements
-             
-              headers: {
-                "Content-Type": "application/json",
-              },
-            })
-            .then((response) => {
-                if (!response.ok) {
-                  throw new Error("Network response was not ok");
-                }
-               
-            return response.json();
-              })
-              .then((data) => {
-                // Handle the response from the controller here
-
-              console.log(data);
-             return window.location.reload();
-              })
-              .catch((error) => {
-
-              });
-          });
-        })
-
-</script> -->
+     
 
       <!--count i and amount functions-->
       <script>

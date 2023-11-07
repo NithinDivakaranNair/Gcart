@@ -322,6 +322,10 @@ const signup = (req, res) => {
     else if (req.session.userId) {
         return res.redirect("/home")
     }
+    else if( req.session.email){
+        return res.render("User/signuppage", { msg: "User with the same email already exists" })
+
+    }
     else {
         return res.render("User/signuppage");
 
@@ -451,6 +455,8 @@ const signupdata = async (req, res) => {
         } else {
             console.log("User not found for referral code creation.");
         }
+
+
        }
         return res.redirect("/EmailEnteringPage")
     }

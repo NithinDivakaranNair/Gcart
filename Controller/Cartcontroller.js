@@ -168,7 +168,7 @@ const addcouponcart = async (req, res) => {
         if (!couponvalue) {
             return res.status(400).json("Coupon not found.");
         }
-        if ((userdetail.coupon == couponvalue)) {
+        if(userdetail.coupon.includes(addedcoupon)) {
             return res.status(403).json("Coupon not found.");
         }
         /// check to coupon is expire or not

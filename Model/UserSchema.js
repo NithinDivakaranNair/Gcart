@@ -10,8 +10,7 @@ const userSchema = new mongoose.Schema({
   verify: { type: Boolean, default: true },
   block: { type: Boolean, default: false },
   referralCode: String,
-  coupon:Array,
-
+  
 });
 
 

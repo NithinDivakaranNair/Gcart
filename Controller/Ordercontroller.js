@@ -62,11 +62,14 @@ const ordersuccessfulPOST = async (req, res) => {
     const userdetail = req.session.userId;
     const Userid = userdetail._id;
     const coupon = req.session.coupon;
-    const updatedUser = await signupcollection.findOneAndUpdate(
-        { _id: Userid },
-        { $push: { coupon: coupon } }, // Use $push to add 'coupon' to the 'coupons' array field
-        { new: true } // This option returns the updated document
-      );
+//   const updatedUser = await signupcollection.findOneAndUpdate(
+//   { _id: Userid },
+//   { $push: { coupons: coupon } }, // Use $push to add 'coupon' to the 'coupons' array field
+//   { new: true } // This option returns the updated document
+// );
+const couponupdate=await CouponCollection.findOneAndUpdate({CouponCode:coupon},{ $set: { userid: Userid } }, { new: true })
+    
+
     if (req.body.razorpay_payment_id) {
         const payorderid = req.body.razorpay_payment_id
         var instance = new Razorpay({ key_id: 'rzp_test_GCcWdKrz1uFYwx', key_secret: 'wsM5ZRlx0XLkOtmq3BBMKDqv' })

@@ -246,7 +246,7 @@
 
         // let totalAmount = Number(total.value)
         Botton.addEventListener("click", (eve) => {
-          console.log('total', total);
+          ;
           const data = coupon.value;
           fetch("/addcouponcart", {
             method: "POST", // Use "POST" or "GET" depending on your requirements
@@ -277,15 +277,12 @@
             }
           }).then((data) => {
 
-
-            console.log(data);
-            console.log(totalAmount);
-            if (data > totalAmount) {
+          if (data > totalAmount) {
               error1.innerText = "Coupon not allowed in this Totalamount .";
               throw new Error("Invalid coupon amount");
             } else {
               totalAmount = totalAmount - data;
-              console.log('totalAmount href', totalAmount);
+                
               checkouttotal.href = `/checkoutpage?totalAmount=${totalAmount}`<!-- value assign in url---->
               displayTotal.innerText = totalAmount;
               Botton.disabled = true;

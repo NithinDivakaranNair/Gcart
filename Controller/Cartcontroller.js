@@ -161,14 +161,11 @@ const addcouponcart = async (req, res) => {
     const Userid = userdetail._id;
     try {
         const addedcoupon = req.body.coupon;
-
-        /// check to coupon  not found
-        const couponvalue = await CouponCollection.findOne({ CouponCode: addedcoupon })
-
-        if (!couponvalue) {
+       const couponvalue = await CouponCollection.findOne({ CouponCode: addedcoupon })
+     if (!couponvalue) {
             return res.status(400).json("Coupon not found.");
         }
-        if(userdetail.coupon.includes(addedcoupon)) {
+        if (Userid==couponvalue.userid) {
             return res.status(403).json("Coupon not found.");
         }
         /// check to coupon is expire or not

@@ -187,13 +187,26 @@ const ordercanel = async (req, res) => {
     const orderid = req.body.ORDERid
     try {
         const Orderdetails = await Ordercollection.findById(orderid)
+        const orderediteams=Orderdetails.iteams;
         const orderamount = Orderdetails.totalAmount;
 
         if ((Orderdetails.orderstatus == "OrderPending") || (Orderdetails.orderstatus == "OrderShipped")) {
 
             const updateorderstatusinfo = await Ordercollection.updateOne({ _id: orderid }, { $set: { orderactionuser: false, orderstatus: "ordercancelled" } })
+const updateproducts=orderediteams.map(async(canceledproduct)=>{
+const canceledprodectid=canceledproduct.ProdectId;
+const canceledCount=canceledproduct.Count;
+const product=await Prodectcollection.findById(canceledprodectid)
+if(product){
+    product.Quantity +=canceledCount;
+    await product.save();
 
-            //wallet amount update
+    
+}
+
+})
+
+//wallet amount update
             const Walletdetails = await Walletcollection.findOne({ customerid: Orderdetails.customerId })
 
             const walletamount = Walletdetails.Amount;
@@ -206,8 +219,21 @@ const ordercanel = async (req, res) => {
 
 
         } else if (Orderdetails.orderstatus == "OrderDelivered") {
-            const updateorderstatusinfo = await Ordercollection.updateOne({ _id: orderid }, { $set: { orderactionuser: false, orderstatus: "Order is returned" } })
 
+            const updateorderstatusinfo = await Ordercollection.updateOne({ _id: orderid }, { $set: { orderactionuser: false, orderstatus: "Order is returned" } })
+            
+            const updateproducts=orderediteams.map(async(canceledproduct)=>{
+                const canceledprodectid=canceledproduct.ProdectId;
+                const canceledCount=canceledproduct.Count;
+                const product=await Prodectcollection.findById(canceledprodectid)
+                if(product){
+                    product.Quantity +=canceledCount;
+                    await product.save();
+                
+                    
+                }
+                
+                })
             //wallet amount update
             const Walletdetails = await Walletcollection.findOne({ customerid: Orderdetails.customerId })
             const walletamount = Walletdetails.Amount;

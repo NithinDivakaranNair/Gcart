@@ -501,14 +501,16 @@ const adminhome = async (req, res) => {
     })
 
     //totalsale for  pending , delivery shipping
-    const Allorders = await Ordercollection.find({})
+    const Allorders = await Ordercollection.find({
+      orderstatus: { $nin: ["ordercancelled", "Order is returned"] }
+    });
+    
     const totalsales = Allorders.reduce((total, order) => {
-      if (order.orderstatus !== 'ordercancelled') {
-        return total + order.totalAmount;
-      } else {
-        return total; // Exclude orders with 'OrderCancel' status
-      }
+      return total + order.totalAmount;
     }, 0);
+    
+
+
     //All orders for allof
     const Allorderstotal = await Ordercollection.countDocuments();
     //Allusers
@@ -526,6 +528,8 @@ const adminlogout = (req, res) => {
   req.session.destroy();
   return res.redirect("/adminlogin")
 }
+
+
 
 //Admin post
 const adminloginpost = async (req, res) => {
@@ -747,58 +751,13 @@ const couponeditpage = async (req, res) => {
 }
 
 
-///categorydatachart
-
-// const categorydatachart = async (req, res) => {
-//   try {
-//     const ALLOrdercollection = await Ordercollection.find({});
-//     const ALLcategory = await Categorycollection.find({});
-
-//     // Create a map to store category counts
-//     const categoryCounts = new Map();
-
-//     // Initialize category counts with 0
-//     ALLcategory.forEach(category => {
-//       categoryCounts.set(category._id.toString(), 0);
-//     });
-
-//     // Iterate through orders to accumulate the item counts in each category
-//     ALLOrdercollection.forEach(order => {
-//       if (order.orderstatus !== "ordercancelled") {
-//         order.iteams.forEach(item => {
-//           if (item.CategoryId) {
-//             const categoryId = item.CategoryId.toString();
-//             const categoryCount = categoryCounts.get(categoryId);
-//             const itemCount = item.Count || 0;
-//             categoryCounts.set(categoryId, categoryCount + itemCount);
-//           }
-//         });
-//       }
-//     });
-
-//     // Prepare the result data
-//     const result = Array.from(categoryCounts).map(([categoryId, totalCount]) => {
-//       const category = ALLcategory.find(cat => cat._id.toString() === categoryId);
-//       return {
-//         categoryId,
-//         name: category ? category.Category : "Unknown",
-//         totalCount,
-//       };
-//     });
-
-//     console.log('Category Counts:', result);
-
-//     res.json(result);
-//   } catch (error) {
-//     console.error('Error:', error);
-//     res.status(500).json({ error: 'An error occurred while processing your request' });
-//   }
-// };
 
 const categorydatachart = async (req, res) => {
   try {
     const { timePeriod } = req.query; // Get the time period from the request query
-    const ALLOrdercollection = await Ordercollection.find({});
+    const ALLOrdercollection = await Ordercollection.find({
+      orderstatus: { $nin: ["ordercancelled", "Order is returned"] }
+    });
     const ALLcategory = await Categorycollection.find({});
 
     // Create a map to store category counts for the selected time period
@@ -832,7 +791,7 @@ const categorydatachart = async (req, res) => {
       // Handle invalid timePeriod values
       throw new Error('Invalid time period');
     }
-
+console.log('ALLOrdercollection:',ALLOrdercollection)
     // Iterate through orders to accumulate the item counts in each category
     ALLOrdercollection.forEach(order => {
       if (order.orderstatus !== "ordercancelled" && new Date(order.date) >= startDate) {
@@ -856,7 +815,7 @@ const categorydatachart = async (req, res) => {
         totalCount,
       };
     });
-
+console.log("result:",result)
     res.json(result);
   } catch (error) {
     console.error('Error:', error);
@@ -871,7 +830,9 @@ const categorydatachart = async (req, res) => {
 const paymentdatachart = async (req, res) => {
   try {
     // Assuming you have a mongoose Ordercollection model for fetching data
-    const orderdata = await Ordercollection.find({});
+    const orderdata =  await Ordercollection.find({
+      orderstatus: { $nin: ["ordercancelled", "Order is returned"] }
+    });
 
     // Initialize an object to store payment mode counts
     const paymentCounts = {};
@@ -897,7 +858,9 @@ const paymentdatachart = async (req, res) => {
 
 const weeklysalesreportdatachart = async (req, res) => {
   try {
-    const orders = await Ordercollection.find({});
+    const orders = await Ordercollection.find({
+      orderstatus: { $nin: ["ordercancelled", "Order is returned"] }
+    });
     const currentDate = new Date();
 
     // Initialize an array to store weekly sales data

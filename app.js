@@ -37,7 +37,7 @@ app.get('*',(req,res)=>{
 
 // Connect to MongoDB
 // mongoose.connect('mongodb://0.0.0.0/miniproj', {
-mongoose.connect('mongodb+srv://nithindivakarannair92:nithin92@cluster0.vqzoeie.mongodb.net/Gcart?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://nithin92:nithin92@cluster0.cuwwibx.mongodb.net/threads?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })

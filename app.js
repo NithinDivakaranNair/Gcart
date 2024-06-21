@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 4000;
+const port = 2000;
 const path = require("path");
 const session = require("express-session")
 const { v4: uuidv4 } = require("uuid");
@@ -37,13 +37,13 @@ app.get('*',(req,res)=>{
 
 // Connect to MongoDB
 // mongoose.connect('mongodb://0.0.0.0/miniproj', {
-mongoose.connect('mongodb+srv://nithin92:nithin92@cluster0.cuwwibx.mongodb.net/threads?retryWrites=true&w=majority', {
+mongoose.connect("mongodb+srv://ecommers:ecommers123@cluster0.herfbhz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(port, () => { console.log("server started on http://localhost:4000/mainhomepage") });
+    app.listen(port, () => { console.log("server started on http://localhost:2000/mainhomepage") });
   })
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error);

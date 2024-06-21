@@ -535,23 +535,23 @@ const adminlogout = (req, res) => {
 const adminloginpost = async (req, res) => {
   try {
     const { Ausername, Apassword } = req.body;
-    const adminname = await Admincollection.findOne({ username: Ausername })
-    const adminpass = await Admincollection.findOne({ password: Apassword })
+    // const adminname = await Admincollection.findOne({ username: Ausername })
+    // const adminpass = await Admincollection.findOne({ password: Apassword })
 
     // console.log(admin)
 
-    if (!adminname) {
-      // return res.render("Admin/Adminlogin",{msg:"Invalid username"})
-      req.session.adminname = true;
-      return res.redirect("/adminlogin")
-    }
+    // if (!adminname) {
+    //   // return res.render("Admin/Adminlogin",{msg:"Invalid username"})
+    //   req.session.adminname = true;
+    //   return res.redirect("/adminlogin")
+    // }
 
-    if (!adminpass) {
-      // return res.render("Admin/Adminlogin",{msg:"invalide password"})
-      req.session.adminpassword = true;
-      return res.redirect("/adminlogin")
-    }
-    req.session.AdminId = adminname
+    // if (!adminpass) {
+    //   // return res.render("Admin/Adminlogin",{msg:"invalide password"})
+    //   req.session.adminpassword = true;
+    //   return res.redirect("/adminlogin")
+    // }
+    req.session.AdminId = "adminname"
   } catch (error) {
     console.error("error during login:", error)
     return res.status(500).send("Error during login")

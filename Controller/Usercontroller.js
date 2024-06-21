@@ -37,9 +37,9 @@ const home = async (req, res) => {
         const perPage = 9; // Number of products to display per page
         const prodectCount = await Prodectcollection.countDocuments({}); // Total number of products
         const totalPages = Math.ceil(prodectCount / perPage);
-       if (page < 1 || page > totalPages) {
-            return res.status(404).send("Page not found");
-        }
+    //    if (page < 1 || page > totalPages) {
+    //         return res.status(404).send("Page not found");
+    //     }
        const skip = (page - 1) * perPage;
 //pagination process start   
 
@@ -88,7 +88,7 @@ const home = async (req, res) => {
         }
         // wallet creation end
 
-        return res.render("User/homepage");
+        return res.render("User/homepage",{ prodectinfo, categoryinfo, Userlogin, Username,totalPages,currentPage: page, });
     } catch (error) {
         console.error(error);
         return res.status(500).send("Error fetching product information.");
